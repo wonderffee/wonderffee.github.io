@@ -9,10 +9,23 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="我无意像其它人一样写一个大而全的教程，这样的教程在网上已经有很多，你只需要参考下面任何一个教程都可以得到满意的答案。 Octopress官方文档
-象写程序一样写博客：搭建基于github的博客
-在github上搭建octopress博客
-利用Octopress在github &hellip;">
+  <meta name="description" content="Here&#8217;s Code 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event { //Using code from http:// &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +81,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/10/pass-touch-event-through-uiimageviews-transparent-area-in-ios/">iOS实现UIImageView透明区域点击事件穿透</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T22:16:00+08:00" pubdate data-updated="true">Jul 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+
+<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">pointInside:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//Using code from http://stackoverflow.com/questions/1042830/retrieving-a-pixel-alpha-value-for-a-uiimage</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">pixel</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span><span class='line'>    <span class="n">CGContextRef</span> <span class="n">context</span> <span class="o">=</span> <span class="n">CGBitmapContextCreate</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+</span><span class='line'>                                                 <span class="n">kCGImageAlphaOnly</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">image</span> <span class="nl">drawAtPoint:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="o">-</span><span class="n">point</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">point</span><span class="p">.</span><span class="n">y</span><span class="p">)];</span>
+</span><span class='line'>    <span class="n">UIGraphicsPopContext</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">CGContextRelease</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">CGFloat</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">pixel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">255.0f</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">BOOL</span> <span class="n">transparent</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mf">0.01f</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="o">!</span><span class="n">transparent</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考资料：
+<a href="http://stackoverflow.com/questions/13291919/detect-touches-only-on-non-transparent-pixels-of-uiimageview-efficiently">Detect touches only on non-transparent pixels of UIImageView, efficiently</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -251,6 +339,10 @@ Halting the installation.   <br/>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/10/pass-touch-event-through-uiimageviews-transparent-area-in-ios/">iOS实现UIImageView透明区域点击事件穿透</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/07/09/da-jian-ji-yu-githubde-octopressbo-ke/">搭建基于Github的Octopress博客</a>
