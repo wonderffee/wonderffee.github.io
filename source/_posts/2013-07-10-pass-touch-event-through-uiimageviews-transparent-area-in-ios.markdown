@@ -49,7 +49,7 @@ iOS中通常用的图片是PNG图片，这种图片有alpha通道，如果能获
 
 注意到代码中用到的坐标为(-point.x, -point.y)，为什么会是负数呢？这是因为如果context的区域大小与image一致的话，[image drawAtPoint:]就会将image全部绘制在context中，而实际上context只放得下一个像素，为了保证point点能刚好绘制在这个context上，就必须设置绘制的起始坐标为(-point.x, -point.y)。
 
-代码中的UIGraphicsPushContext容易误导人，看名字以为是将参数中指定的context push入栈，但是参数中的context明明就是刚创建的啊？其实它是将旧的context（默认的context）入栈，再切换到新的context（也就是参数中指定的）绘制，执行CGContextRelease后就会切换回旧的context，而在新的context上绘制的内容完全不影响旧context（默认context）。这与CGContextSaveGState和CGContextRestoreGState是有本质区别的。
+代码中的UIGraphicsPushContext容易误导人，看名字以为是将参数中指定的context push入栈，但是参数中的context明明就是刚创建的啊？其实它是将旧的context（默认的context）入栈，再切换到新的context（也就是参数中指定的）绘制，执行UIGraphicsPopContext后就会切换回旧的context，而在新的context上绘制的内容完全不影响旧context（默认context）。这与CGContextSaveGState和CGContextRestoreGState是有本质区别的。
 
 
 附CGBitmapContextCreate函数参数详解:   
