@@ -9,7 +9,7 @@ categories:
 
 看唐巧的[分析支付宝客户端的插件机制](http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/)一文发现他使用了抓包工具Charles，想起去年有人给我推荐过这个工具，但是当时我觉得WireShark就够用了就没尝试。这次看到又有人使用Charles我就重视起来了，Charles到底有什么好？
 
-搜了一下，发现大多数使用者都是将Charles作为移动端抓包工具使用的，这样就意味着我们可以用Charles来截取app所发出的网络请求来进行分析，[分析支付宝客户端的插件机制](http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/)一文就是这么用的。WireShark显然做不到这一点，优势一下子就体现出来了。
+搜了一下，发现大多数使用者都是将Charles作为移动端抓包工具使用的，这样就意味着我们可以用Charles来截取iPhone/iPad上app所发出的网络请求来进行分析，[分析支付宝客户端的插件机制](http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/)一文就是这么用的。WireShark显然做不到这一点，优势一下子就体现出来了。
 
 在Mac上安装Charles后，启动Charles，首先弹出一个框提示是否允许Charles有自动修改网络设置的权限，选择允许后出现Charles主界面。Charles主界面左侧有Structure和Sequence，你会发现会发现Structure这一栏里会逐步出现当前我的mac正在请求的链接，也就是说Charles一启动就自动进行抓包了。不过遗憾的是Structure栏里没有过滤选项，意味着你不能过滤特定网站。切换到Sequence栏，这个就容易懂了，按时间顺序来排列的，与WireShark一致。下方的Filter可以过滤，而是还是实时过滤的，这一点就比WireShark强多了。
 
