@@ -54,7 +54,7 @@ iOS中通常用的图片是PNG图片，这种图片有alpha通道，如果能获
 
 附CGBitmapContextCreate函数参数详解:   
 原型：
-{% codeblock lang:objc %}
+{% codeblock lang:c %}
 CGContextRef CGBitmapContextCreate (    
    void *data,   
    size_t width,    
