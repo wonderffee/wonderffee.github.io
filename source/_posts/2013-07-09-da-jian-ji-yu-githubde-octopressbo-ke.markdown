@@ -5,7 +5,6 @@ date: 2013-07-09 23:18
 comments: true
 categories: 
 ---
-
 我无意像其它人一样写一个大而全的教程，这样的教程在网上已经有很多，你只需要参考下面任何一个教程都可以得到满意的答案。
 
 *   [Octopress官方文档](http://octopress.org/docs/)           
@@ -16,6 +15,8 @@ categories:
 其中前面三个链接是我主要参考的。
 
 这里，我主要想记录我遇到的一些问题，以期望能对那些遇到类似问题的人有些许帮助。当然，如果你在操作之前先看到了这篇文章，那也不妨先看看再更有底气地动手。
+<!--more-->
+
 
 ###Github repository设置
 基于Github的博客其实是利用了Github Pages支持html上传的功能来实现的，那么怎么开通Github Pages呢？答案很简单，在你的Github上创建一个名为username.github.io的repository，然后上传html就可以了。上传hmtl就是后面提到的rake deploy命令负责的，先不用管，这里说说repository的命名。
