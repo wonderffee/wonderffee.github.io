@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-07-13T12:24:23+08:00</updated>
+  <updated>2013-07-13T12:32:27+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p><img src="/images/snail.jpg"></p>
 
 <p>很久都没有写博客了，上一次写博客还是两三年前的事，那时还在学校，那时还没有现在这么忙。工作至今，越来越觉得有必要重新拣起博客，一些技术积累，一些心得，不记下来，永远只是在脑海中昙花一现。好记性不如烂笔头，这是亘古不变的真理。平常也会用EverNote来记录一些工作技术上的心得，但这种独自享有的感觉却并不好，现在的世界是开源的世界，我曾经索取很多，现在是时候再分享一些东西了。</p>
+
+<!--more-->
+
 
 <p>原来的博客是在博客大巴上的，在这个略有文艺清新风格的博客上写一些技术博客，感觉是有点不伦不类的，也没有氛围，再继续写下去，自己也不能接受。考虑过CSDN，但自己不太喜欢它的博客风格，我还是更喜欢能自定义一些东西。也想过用WordPress搭建自己的博客，可看到VPS的价格觉得自己是承受不起的，作罢。后来有一次搜资料搜到了唐巧的博客，觉得这种类苹果的简洁风格挺不错，一查个究竟，发现居然是在Github上建的博客，当时就惊诧了，神马，Github上也能写博客？看过那篇《象写程序一样写博客：搭建基于github的博客》什么都明白了，开源再次发挥了强大的力量。这种像Hacker一样的写博客也挺合我胃口，而且还可以把它当独立博客。接着，我在上周利用周末折腾了一下将博客基本搭出来了。那真的就是一时的冲动，坦白地说，那时候Git都不怎么会用，对Git的概念也还处于懵懵懂懂的状态，折腾的过程中因为不熟悉Git没少浪费时间。不过麻烦归麻烦，好处却少不了，至少开始正儿八经地用上Git了，以后也可以号称自己会用Git了，哈哈。</p>
 

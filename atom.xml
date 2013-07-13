@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-07-13T12:24:23+08:00</updated>
+  <updated>2013-07-13T12:32:27+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>看唐巧的<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文发现他使用了抓包工具Charles，想起去年有人给我推荐过这个工具，但是当时我觉得WireShark就够用了就没尝试。这次看到又有人使用Charles我就重视起来了，Charles到底有什么好？</p>
 
 <p>搜了一下，发现大多数使用者都是将Charles作为移动端抓包工具使用的，这样就意味着我们可以用Charles来截取iPhone/iPad上app所发出的网络请求来进行分析，<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文就是这么用的。WireShark显然做不到这一点，优势一下子就体现出来了。</p>
+
+<!--more-->
+
 
 <p>在Mac上安装Charles后，启动Charles，首先弹出一个框提示是否允许Charles有自动修改网络设置的权限，选择允许后出现Charles主界面。Charles主界面左侧有Structure和Sequence，你会发现会发现Structure这一栏里会逐步出现当前我的mac正在请求的链接，也就是说Charles一启动就自动进行抓包了。不过遗憾的是Structure栏里没有过滤选项，意味着你不能过滤特定网站。切换到Sequence栏，这个就容易懂了，按时间顺序来排列的，与WireShark一致。下方的Filter可以过滤，而是还是实时过滤的，这一点就比WireShark强多了。</p>
 
@@ -69,6 +72,9 @@
 <p>最近要在iPad上实现一个很独特的功能，简单描述一下就是要显示一个带有半透明背景的弹出界面，在其上加一个不规则形状的图片，手指点击这个弹出界面的半透明区域就退出这个弹出界面。</p>
 
 <p>问题是UED/美工不会提供纯粹的不规则形状切图，实际只能给出的是以不规则形状加透明区域的矩形切图，这就带来另外一个要求：点击矩形切图的透明区域也要退出弹出界面。这就有点难办了，透明区域也是不规则形状的，该怎么判断出手指点击的点就是透明区域呢？</p>
+
+<!--more-->
+
 
 <h2>思路</h2>
 
@@ -195,6 +201,9 @@ bitmapInfo                       指定bitmap是否包含alpha通道，像素中
 
 <p>这里，我主要想记录我遇到的一些问题，以期望能对那些遇到类似问题的人有些许帮助。当然，如果你在操作之前先看到了这篇文章，那也不妨先看看再更有底气地动手。</p>
 
+<!--more-->
+
+
 <h3>Github repository设置</h3>
 
 <p>基于Github的博客其实是利用了Github Pages支持html上传的功能来实现的，那么怎么开通Github Pages呢？答案很简单，在你的Github上创建一个名为username.github.io的repository，然后上传html就可以了。上传hmtl就是后面提到的rake deploy命令负责的，先不用管，这里说说repository的命名。</p>
@@ -280,6 +289,9 @@ Halting the installation.   <br/>
     <content type="html"><![CDATA[<p><img src="http://wonderffee.github.io/images/snail.jpg"></p>
 
 <p>很久都没有写博客了，上一次写博客还是两三年前的事，那时还在学校，那时还没有现在这么忙。工作至今，越来越觉得有必要重新拣起博客，一些技术积累，一些心得，不记下来，永远只是在脑海中昙花一现。好记性不如烂笔头，这是亘古不变的真理。平常也会用EverNote来记录一些工作技术上的心得，但这种独自享有的感觉却并不好，现在的世界是开源的世界，我曾经索取很多，现在是时候再分享一些东西了。</p>
+
+<!--more-->
+
 
 <p>原来的博客是在博客大巴上的，在这个略有文艺清新风格的博客上写一些技术博客，感觉是有点不伦不类的，也没有氛围，再继续写下去，自己也不能接受。考虑过CSDN，但自己不太喜欢它的博客风格，我还是更喜欢能自定义一些东西。也想过用WordPress搭建自己的博客，可看到VPS的价格觉得自己是承受不起的，作罢。后来有一次搜资料搜到了唐巧的博客，觉得这种类苹果的简洁风格挺不错，一查个究竟，发现居然是在Github上建的博客，当时就惊诧了，神马，Github上也能写博客？看过那篇《象写程序一样写博客：搭建基于github的博客》什么都明白了，开源再次发挥了强大的力量。这种像Hacker一样的写博客也挺合我胃口，而且还可以把它当独立博客。接着，我在上周利用周末折腾了一下将博客基本搭出来了。那真的就是一时的冲动，坦白地说，那时候Git都不怎么会用，对Git的概念也还处于懵懵懂懂的状态，折腾的过程中因为不熟悉Git没少浪费时间。不过麻烦归麻烦，好处却少不了，至少开始正儿八经地用上Git了，以后也可以号称自己会用Git了，哈哈。</p>
 
