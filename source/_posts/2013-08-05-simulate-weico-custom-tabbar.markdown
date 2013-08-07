@@ -13,5 +13,7 @@ categories:
 
 weico的自定义tabbar主要特点就是tab按钮选中时有一个滑块动画效果，实现起来不是很难，基于[iDev Recipes](https://github.com/boctor/idev-recipes‎)改造一下很快就可以做出一个以假乱真的weico自定义tabbar了，废话不说，直接上代码：https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar
 
+注意这里的自定义tabbar代码完全没有使用UITabbarController，因此也就没有涉及到把原生的tabbar隐藏，省却了不少麻烦事。
+
 截图：   
 {% img /images/customTabBar.png %}
