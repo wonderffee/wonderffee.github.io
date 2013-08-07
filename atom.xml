@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-08-07T20:38:43+08:00</updated>
+  <updated>2013-08-07T23:16:59+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,175 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[objective-c的category并非不能增加新属性]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class/"/>
+    <updated>2013-08-07T22:46:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class</id>
+    <content type="html"><![CDATA[<p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">UIViewController</span> <span class="nl">(UINavigationControllerItem)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationItem</span> <span class="o">*</span><span class="n">navigationItem</span><span class="p">;</span> <span class="c1">// Created on-demand so that a view controller may customize its navigation appearance.</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">hidesBottomBarWhenPushed</span><span class="p">;</span> <span class="c1">// If YES, then when this view controller is pushed into a controller hierarchy with a bottom bar (like a tab bar), the bottom bar will slide out. Default is NO.</span>
+</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationController</span> <span class="o">*</span><span class="n">navigationController</span><span class="p">;</span> <span class="c1">// If this view controller has been pushed onto a navigation controller, return it.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>category是一个很棒的objective-c特性，可以为已经存在的类增加方法，而不需要增加一个子类。不过你也许会模糊地记得category是不能给一个类增加属性的(除非借助associative)，是不是对这里的category能给一个类增加新的属性非常奇怪呢？</p>
+
+<p>其实不是这样的，objective-c中的category只是不能增加实例变量，这里添加的hidesBottomBarWhenPushed属性只是添加了setter和getter方法的声明，在对应的m文件中应该是实现了这两个方法并调用了其它的private变量或利用了runtime机制，相关讨论可以见这里：<a href="http://www.cocoachina.com/bbs/read.php?tid=132558">类别不是应该只能添加方法吗？类别现在能直接添加属性了？</a>。用category添加了属性如何实现对应的set、get方法可以参考这个：<a href="http://www.cnblogs.com/wupher/archive/2013/01/05/2845338.html">让Category支持添加属性与成员变量</a></p>
+
+<p>有一个很意思的问题，从xcode4.5开始只要声明了property就可以自动生成实例变量，但是如果是在一个类的category类别中添加新的property，会自动生成对应的实例变量吗，有兴趣的可以自己动手试试。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[自定义Tabbar实现push动画隐藏效果]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push/"/>
+    <updated>2013-08-07T22:45:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push</id>
+    <content type="html"><![CDATA[<p>在之前的一篇文章(<a href="http://wonderffee.github.io/blog/2013/08/05/simulate-weico-custom-tabbar/">链接</a>)中我写到了没有用UITabbarController来实现一个自定义Tabbar，当然功能也简陋了点。注意到在Weico或微信中的自定义tabbar有一个这样的功能：push到下一个页面时tabbar会被自动隐藏，下面我就来说说如何使我前面做的自定义tabbar也能实现隐藏。</p>
+
+<!--more-->
+
+
+<p>如果是原生的tabbar，这个功能实现很容易。在iOS中，每个UIViewController都有一个属性hidesBottomBarWhenPushed，每次push一个viewController时，设置viewController. hidesBottomBarWhenPushed=YES就可以自动实现前面所说的隐藏功能。但是前提是必须使用UITabbarController，我这里实现的自定义tab bar完全没有使用UITabbarController，那就要多费点心。</p>
+
+<p>如果要实现自定义tabbar在每次push viewController时隐藏，很显然我们需要push时有事件能够通知自定义tab bar隐藏。如果你熟悉UINavigationController的push流程的话，应该就知道我们可以让UINavigationController执行
+push时调用navigationController: willShowViewController:方法来触发通知，前提是要遵守UINavigationControllerDelegate协议。
+由于hidesBottomBarWhenPushed是每个UIViewController都有的属性，我们姑且还是把它用上。代码如下：</p>
+
+<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">navigationController:</span><span class="p">(</span><span class="n">UINavigationController</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationController</span>
+</span><span class='line'>  <span class="nf">willShowViewController:</span><span class="p">(</span><span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span>
+</span><span class='line'>                <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">viewController</span><span class="p">.</span><span class="n">hidesBottomBarWhenPushed</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tabBar</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">tabBar</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样的实现是比较简单的。对比weico或微信iPhone应用的自定义tab bar push隐藏行为，你就会发现它们有一个自然的过滤动画来实现隐藏，而且与viewController的push动画同步，这是上面的代码做不到的。如果要实现这个动画，就需要对self.tabbar设置frame的过渡动画，代码如下：</p>
+
+<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">navigationController:</span><span class="p">(</span><span class="n">UINavigationController</span> <span class="o">*</span><span class="p">)</span><span class="nv">navController</span> <span class="nf">willShowViewController:</span><span class="p">(</span><span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">viewController</span><span class="p">.</span><span class="n">hidesBottomBarWhenPushed</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">hideTabBar</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="p">[</span><span class="n">self</span> <span class="n">showTabBar</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hideTabBar</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tabBarIsShow</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span> <span class="c1">//already hidden</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">0.35</span>
+</span><span class='line'>                     <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                         <span class="n">CGRect</span> <span class="n">tabFrame</span> <span class="o">=</span> <span class="n">tabBar</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>                         <span class="n">tabFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">tabFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
+</span><span class='line'>                         <span class="n">tabBar</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">tabFrame</span><span class="p">;</span>
+</span><span class='line'>                     <span class="p">}];</span>
+</span><span class='line'>    <span class="n">tabBarIsShow</span> <span class="o">=</span> <span class="n">NO</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">showTabBar</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">tabBarIsShow</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span> <span class="c1">// already showing</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">UIView</span> <span class="nl">animateWithDuration:</span><span class="mf">0.35</span>
+</span><span class='line'>                     <span class="nl">animations:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>                         <span class="n">CGRect</span> <span class="n">tabFrame</span> <span class="o">=</span> <span class="n">tabBar</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>                         <span class="n">tabFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">CGRectGetWidth</span><span class="p">(</span><span class="n">tabFrame</span><span class="p">)</span> <span class="o">+</span> <span class="n">CGRectGetMinX</span><span class="p">(</span><span class="n">tabFrame</span><span class="p">);</span>
+</span><span class='line'>                         <span class="n">tabBar</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">tabFrame</span><span class="p">;</span>
+</span><span class='line'>                     <span class="p">}];</span>
+</span><span class='line'>    <span class="n">tabBarIsShow</span> <span class="o">=</span> <span class="n">YES</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码中的0.35秒这个时间保证了与tabbar的隐藏动画与viewController的push动画同步，基本上可以实现以假乱真的效果。</p>
+
+<p>代码链接：<a href="https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar">https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar
+</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS6下UITextField退格变清空问题的解决方法]]></title>
