@@ -42,15 +42,21 @@
         <loc>
             http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class/
         </loc>
-        <lastmod>2013-08-07T23:16:42+08:00</lastmod>
+        <lastmod>2013-08-07T23:17:34+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://wonderffee.github.io/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/
+        </loc>
+        <lastmod>2013-08-14T22:20:30+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/archives/</loc>
-        <lastmod>2013-08-07T23:16:42+08:00</lastmod>
+        <lastmod>2013-08-14T22:20:30+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/</loc>
-        <lastmod>2013-08-07T23:16:42+08:00</lastmod>
+        <lastmod>2013-08-14T22:20:30+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/robots.txt</loc>

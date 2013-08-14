@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>objective-c的category并非不能增加新属性 - Wonderffee's Blog</title>
+  <title>别用symbolicatecrash来解析crash log了 - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下： &hellip;">
+  <meta name="description" content="今天突然发现了一个解析iOS crash log的好方法，忍不住来分享一下。 相信每个做iOS开发的TX都应该不会对symbolicatecrash陌生，我们第一次遇到真机上产生的崩溃日志时，在网上搜到的大部分教程都告诉我们说要用symbolicatecrash来解析crash log，我信了， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Objective-c的category并非不能增加新属性</h1>
+      <h1 class="entry-title">别用symbolicatecrash来解析crash Log了</h1>
     
     
       <p class="meta">
@@ -84,43 +84,42 @@
   
 
 
-<time datetime="2013-08-07T22:46:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+<time datetime="2013-08-14T22:18:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
+<div class="entry-content"><p>今天突然发现了一个解析iOS crash log的好方法，忍不住来分享一下。</p>
+
+<p>相信每个做iOS开发的TX都应该不会对symbolicatecrash陌生，我们第一次遇到真机上产生的崩溃日志时，在网上搜到的大部分教程都告诉我们说要用symbolicatecrash来解析crash log，我信了，所以相当长一段时间内，我都是用这个工具来解析crash log的。</p>
 
 <!--more-->
 
 
+<p>每次都去敲命令来解析crash log本身就是一件很蛋疼的事情，但这还不是麻烦的，最麻烦的是用symbolicatecrash还经常遇到问题：怎么crash log又解析失败了？怎么批量解析crash log？</p>
 
+<p>问题出在方法上，实际上我们完全用不着symbolicatecrash的，因为Xcode中自带的organizer就是很好的解析crash log工具了。</p>
 
-<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">UIViewController</span> <span class="nl">(UINavigationControllerItem)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationItem</span> <span class="o">*</span><span class="n">navigationItem</span><span class="p">;</span> <span class="c1">// Created on-demand so that a view controller may customize its navigation appearance.</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">hidesBottomBarWhenPushed</span><span class="p">;</span> <span class="c1">// If YES, then when this view controller is pushed into a controller hierarchy with a bottom bar (like a tab bar), the bottom bar will slide out. Default is NO.</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationController</span> <span class="o">*</span><span class="n">navigationController</span><span class="p">;</span> <span class="c1">// If this view controller has been pushed onto a navigation controller, return it.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>举个例子，如果我们的应用是在自己的机器上编译生成的，把应用装在真机上如果有崩溃产生，把真机通过数据线连接到Mac电脑上，打开Xcode菜单上的Window——Organizer，找到设备的device logs项中的crash log，稍等片刻，你就会发现这里的crash log已经被自动解析过了（大部分情况会自动解析，如果不行请右键点击选择Re-Sysbomlicate）。</p>
 
+<p>但是如果应用不是在自己的编译上生成的，你会发现organizer不会自动解析crash log（除了系统函数）。怎么在这种情况下也让organizer也能自动解析crash log呢？</p>
 
-<p>category是一个很棒的objective-c特性，可以为已经存在的类增加方法，而不需要增加一个子类。不过你也许会模糊地记得category是不能给一个类增加属性的(除非借助associative)，是不是对这里的category能给一个类增加新的属性非常奇怪呢？</p>
+<p>其实之前的organizer之所以能自动解析你设备上的crash log，是因为它能根据spotlight的索引来找到对应的.app和dSYM文件，对于这一点，我的猜测是在自己的Mac电脑上编译生成应用时，系统自动对其进行了索引。这个索引应该是根据app uuid来索引的。这个uuid可以执行下面的命令得到：</p>
 
-<p>其实不是这样的，objective-c中的category只是不能增加实例变量，这里添加的hidesBottomBarWhenPushed属性只是添加了setter和getter方法的声明，在对应的m文件中应该是实现了这两个方法并调用了其它的private变量或利用了runtime机制，相关讨论可以见这里：<a href="http://www.cocoachina.com/bbs/read.php?tid=132558">类别不是应该只能添加方法吗？类别现在能直接添加属性了？</a>。用category添加了属性如何实现对应的set、get方法可以参考这个：<a href="http://www.cnblogs.com/wupher/archive/2013/01/05/2845338.html">让Category支持添加属性与成员变量</a>。</p>
+<p>dwarfdump &mdash;uuid YourApp.app/YourApp   <br/>
+dwarfdump &mdash;uuid YourApp.app.dSYM</p>
 
-<p>有一个很意思的问题，从xcode4.5开始只要声明了property就可以自动生成实例变量，但是如果是在一个类的category类别中添加新的property，会自动生成对应的实例变量吗，有兴趣的可以自己动手试试。</p>
+<p>如果要能解析出crash log，crash log中携带的uuid与dSYM文件的uuid必须与app uuid一致。</p>
+
+<p>既然spotlight能自动进行索引，那是不是也可以手动进行索引呢？答案是能，这正是自动解析的关键。手动索引的命令是mdimport。比如，把iOS应用的.app和.dSYM文件放到一个文件夹中，执行命令mdimport foldername就可以。命令执行完成后再用刚才的organizer去查看crash log，你会发现也能自动解析了。</p>
+
+<p>这意味着什么呢？意味着你把应用所有版本的.app和.dSYM文件放入一个专门的文件夹中，只要mdimpor这个文件夹，以后的organizer就能自动解析出你所有的crash log。</p>
+
+<p>好处不仅仅是这一点。organizer还有一个import功能，借助这个功能，我们可以把其它Mac电脑上的crash log导入到自己电脑中的organizer，然后就可以自动解析。更好的是，用这个功能可以批量导入收集到的crash log，然后我们就可以批量解析所有的crash log。</p>
+
+<p>比起用symbolicatecrash，这种方法简便了许多，从现在起，你可以抛弃symbolicatecrash了。但其实这还不是最好的方法，目前先进的方法是用crash report管理系统来管理所有的crash，比如使用QuincyKit, Crashlytics, Flurry等来进行管理，有时间自己也研究研究。</p>
 </div>
 
 
@@ -143,7 +142,7 @@
   
 
 
-<time datetime="2013-08-07T22:46:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+<time datetime="2013-08-14T22:18:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
       
 
 
@@ -195,10 +194,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push/" title="Previous Post: 自定义Tabbar实现push动画隐藏效果">&laquo; 自定义Tabbar实现push动画隐藏效果</a>
+        <a class="basic-alignment left" href="/blog/2013/08/07/use-category-add-property-for-a-class/" title="Previous Post: objective-c的category并非不能增加新属性">&laquo; objective-c的category并非不能增加新属性</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/" title="Next Post: 别用symbolicatecrash来解析crash log了">别用symbolicatecrash来解析crash log了 &raquo;</a>
       
     </p>
   </footer>
