@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS抓包利器Charles - Wonderffee's Blog</title>
+  <title>解决终端输命令换行覆盖问题 - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="看唐巧的分析支付宝客户端的插件机制一文发现他使用了抓包工具Charles，想起去年有人给我推荐过这个工具，但是当时我觉得WireShark就够用了就没尝试。这次看到又有人使用Charles我就重视起来了，Charles到底有什么好？ 搜了一下， &hellip;">
+  <meta name="description" content="发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
+之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置： 1
+PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/07/13/best-packet-capture-tool-charles-in-ios">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/08/15/solve-new-line-problem-in-terminal">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -68,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS抓包利器Charles</h1>
+      <h1 class="entry-title">解决终端输命令换行覆盖问题</h1>
     
     
       <p class="meta">
@@ -84,54 +86,48 @@
   
 
 
-<time datetime="2013-07-13T11:21:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time>
+<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>看唐巧的<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文发现他使用了抓包工具Charles，想起去年有人给我推荐过这个工具，但是当时我觉得WireShark就够用了就没尝试。这次看到又有人使用Charles我就重视起来了，Charles到底有什么好？</p>
+<div class="entry-content"><p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
+之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
 
-<p>搜了一下，发现大多数使用者都是将Charles作为移动端抓包工具使用的，这样就意味着我们可以用Charles来截取iPhone/iPad上app所发出的网络请求来进行分析，<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文就是这么用的。WireShark显然做不到这一点，优势一下子就体现出来了。</p>
-
-<!--more-->
-
-
-<p>在Mac上安装Charles后，启动Charles，首先弹出一个框提示是否允许Charles有自动修改网络设置的权限，选择允许后出现Charles主界面。Charles主界面左侧有Structure和Sequence，你会发现会发现Structure这一栏里会逐步出现当前我的mac正在请求的链接，也就是说Charles一启动就自动进行抓包了。不过遗憾的是Structure栏里没有过滤选项，意味着你不能过滤特定网站。切换到Sequence栏，这个就容易懂了，按时间顺序来排列的，与WireShark一致。下方的Filter可以过滤，而是还是实时过滤的，这一点就比WireShark强多了。</p>
-
-<p> <img src="/images/Structure.png"></p>
-
-<p> <img src="/images/Sequence.png"></p>
-
-<p>如何在Mac上用Charles远程抓iPhone上app的网络请求呢？方法相当简单，下面就提供了HTTP和HTTPS抓包的操作步骤，简单几步就搞定了。</p>
-
-<h3>HTTP抓包</h3>
-
-<ul>
-<li>打开Charles程序</li>
-<li>查看Mac电脑的IP地址，如192.168.1.7</li>
-<li>打开iOS设置，进入当前wifi连接，设置HTTP代理Group，将服务器填为上一步中获得的IP，即192.168.1.7，端口填8888</li>
-<li>iOS设备打开你要抓包的app进行网络操作</li>
-<li>Charles弹出确认框，点击Allow按钮即可</li>
-</ul>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>HTTPS抓包</h3>
+<p>正是这个设置导致命令换行出问题。</p>
 
-<ul>
-<li>下载Charles证书<a href="http://www.charlesproxy.com/ssl.zip">http://www.charlesproxy.com/ssl.zip</a>，解压后导入到iOS设备中（将crt文件作为邮件附件发给自己，再在iOS设备中点击附件即可安装；也可上传至dropbox之类的网盘，通过safari下载安装）</li>
-<li>在Charles的工具栏上点击设置按钮，选择Proxy Settings…</li>
-<li>切换到SSL选项卡，选中Enable SSL Proxying，别急，选完先别关掉，还有下一步</li>
-<li>这一步跟Fiddler不同，Fiddler安装证书后就可以抓HTTPS网址的包了，Charles则麻烦一些，需要在上一步的SSL选项卡的Locations表单填写要抓包的域名和端口，点击Add按钮，在弹出的表单中Host填写域名，比如填api.instagram.com，Port填443</li>
-</ul>
+<p>对比了一下别人正确的设置，发现我的PS1里多了一对\[和\]，也就是中间的那一对\[和\]要删掉才行（貌似变成[和]也木有问题）。\[和\]是用于把非打印字符括起来的（颜色应该是非打印字符吧），别人出的换行问题都是没用\[和\]把非打印字符的缘故，我这里却是把不该括的打印字符括了起来也有问题，真是多也不行少也不行。纠正的设置为：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \u@\h \W\$ \[\e[m\] &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>我简单试用了一下Charles的远程抓包功能，发现Charles比WireShark还有一个优势是能对JSON数据(在JSON Text栏)进行解析，从而让我们可以更直观地查看JSON串信息(在JSON 栏)。此外Charles对中文支持比较好，JSON串中的中文信息一般会显示为一长串的\ug开头的字符，解析之后就能显示出中文了。平常总头痛Wireshark对中文支持不好，用Charles就完全没有这个问题了。</p>
+<p>顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：</p>
 
-<p>参考资料： <br/>
-<a href="http://larryhou.github.io/blog/2012/11/05/remote-debug-with-charles-proxy/">使用Charles远程调试iOS移动应用</a>   <br/>
-<a href="http://ju.outofmemory.cn/entry/32837">mac下的抓包工具Charles</a></p>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">OLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
+</span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span><span class="s2">&quot;\[\e[0m\]&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
+</span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span><span class="s2">&quot;--color=auto&quot;</span>
+</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;\[\e[01;33m\]\u@\h \W\$\[\e[m\] &#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考： <br/>
+<a href="http://lnote.blogbus.com/logs/106241420.html">终端提示符设置</a>  <br/>
+<a href="http://linux.fatduck.org/2012/03/bash.html">Bash长行换行问题</a></p>
 </div>
 
 
@@ -154,8 +150,14 @@
   
 
 
-<time datetime="2013-07-13T11:21:00+08:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time>
+<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/terminal/'>terminal</a>
+  
+</span>
 
 
     </p>
@@ -206,10 +208,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/07/10/pass-touch-event-through-uiimageviews-transparent-area-in-ios/" title="Previous Post: iOS实现UIImageView透明区域点击事件穿透">&laquo; iOS实现UIImageView透明区域点击事件穿透</a>
+        <a class="basic-alignment left" href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/" title="Previous Post: 别用symbolicatecrash来解析crash log了">&laquo; 别用symbolicatecrash来解析crash log了</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/08/05/simulate-weico-custom-tabbar/" title="Next Post: 仿Weico iPhone客户端自定义tabbar">仿Weico iPhone客户端自定义tabbar &raquo;</a>
       
     </p>
   </footer>

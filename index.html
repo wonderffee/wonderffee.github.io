@@ -9,7 +9,9 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="今天突然发现了一个解析iOS crash log的好方法，忍不住来分享一下。 相信每个做iOS开发的TX都应该不会对symbolicatecrash陌生，我们第一次遇到真机上产生的崩溃日志时，在网上搜到的大部分教程都告诉我们说要用symbolicatecrash来解析crash log，我信了， &hellip;">
+  <meta name="description" content="发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
+之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置： 1
+PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +67,76 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
+之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>正是这个设置导致命令换行出问题。</p>
+
+<p>对比了一下别人正确的设置，发现我的PS1里多了一对\[和\]，也就是中间的那一对\[和\]要删掉才行（貌似变成[和]也木有问题）。\[和\]是用于把非打印字符括起来的（颜色应该是非打印字符吧），别人出的换行问题都是没用\[和\]把非打印字符的缘故，我这里却是把不该括的打印字符括了起来也有问题，真是多也不行少也不行。纠正的设置为：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \u@\h \W\$ \[\e[m\] &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">OLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
+</span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span><span class="s2">&quot;\[\e[0m\]&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
+</span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span><span class="s2">&quot;--color=auto&quot;</span>
+</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;\[\e[01;33m\]\u@\h \W\$\[\e[m\] &#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考： <br/>
+<a href="http://lnote.blogbus.com/logs/106241420.html">终端提示符设置</a>  <br/>
+<a href="http://linux.fatduck.org/2012/03/bash.html">Bash长行换行问题</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -470,6 +542,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">别用symbolicatecrash来解析crash Log了</a>
