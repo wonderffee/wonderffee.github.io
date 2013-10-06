@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>解决终端输命令换行覆盖问题 - Wonderffee's Blog</title>
+  <title>推荐Git可视化比较工具P4Merge - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
-之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置： 1
-PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
+  <meta name="description" content="一向对命令行下的文本比较工具无爱，用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI 比较工具P4Merge，免费的，支持中文，还不错，推荐一下 配置P4Merge时主要参考了这篇文章Git、P4merge 和 OS X，只是留的坑太多了，好不容易才让我搞定。 关于下载: 打开这个链接 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/08/15/solve-new-line-problem-in-terminal">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -70,7 +68,7 @@ PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   
   <header>
     
-      <h1 class="entry-title">解决终端输命令换行覆盖问题</h1>
+      <h1 class="entry-title">推荐Git可视化比较工具P4Merge</h1>
     
     
       <p class="meta">
@@ -86,53 +84,72 @@ PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   
 
 
-<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
+<time datetime="2013-10-06T10:17:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
-之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
+<div class="entry-content"><p>一向对命令行下的文本比较工具无爱，用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI 比较工具P4Merge，免费的，支持中文，还不错，推荐一下</p>
+
+<p>配置P4Merge时主要参考了这篇文章<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>，只是留的坑太多了，好不容易才让我搞定。</p>
 
 <!--more-->
 
 
+<p>关于下载:    <br/>
+打开这个链接: <a href="http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools">perforce-visual-merge-and-diff-tools</a>，点左上角的“FREE DOWNLOAD P4Merge”, 找到Perforce Clients中的&#8221;P4Merge: Visual Merge Tool&#8221;项，在右边的第二行选择Mac OS 10.6+ (64bit），点下面橙色的“Accept and Download”，选择跳过Skip Registration，就会开始下载了。</p>
 
+<p>下载到P4V.dmg文件后，双击打开，拖动P4Merge到Application文件夹上就可以完成安装了。</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] &quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>正是这个设置导致命令换行出问题。</p>
-
-<p>对比了一下别人正确的设置，发现我的PS1里多了一对\[和\]，也就是中间的那一对\[和\]要删掉才行（貌似变成[和]也木有问题）。\[和\]是用于把非打印字符括起来的（颜色应该是非打印字符吧），别人出的换行问题都是没用\[和\]把非打印字符括起来的缘故，我这里却是把不该括的打印字符括了起来也有问题，真是多也不行少也不行。纠正的设置为：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \u@\h \W\$ \[\e[m\] &quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：</p>
+<p>下面开始配置，这个原文留下的坑就太多了：</p>
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">OLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
-</span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span><span class="s2">&quot;\[\e[0m\]&quot;</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
-</span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span><span class="s2">&quot;--color=auto&quot;</span>
-</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;\[\e[01;33m\]\u@\h \W\$\[\e[m\] &#39;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config --global diff.tool p4merge
+</span><span class='line'>git config --global difftool.p4merge.cmd /Applications/p4merge.app/Contents/MacOS/p4merge
+</span><span class='line'>git config --global difftool.p4merge.cmd <span class="s2">&quot;/Applications/p4merge.app/Contents/Resources/launchp4merge \$LOCAL \$REMOTE&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>参考： <br/>
-<a href="http://lnote.blogbus.com/logs/106241420.html">终端提示符设置</a>  <br/>
-<a href="http://linux.fatduck.org/2012/03/bash.html">Bash长行换行问题</a></p>
+<p>如果直接复制原文的代码，运行上面的代码时会提示：    <br/>
+error: key does not contain a section: -global    <br/>
+跟别人的命令比较一下，就会发现应该是&mdash;global（要两个短横连在一起的），原文的短横线有问题</p>
+
+<p>现在敲git difftool命令执行时，会提示：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/libexec/git-core/mergetools/p4merge: line 2: p4merge: <span class="nb">command </span>not found
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原因是路径还需要再配置一下，如下，蛋疼。。。</p>
+
+<figure class='code'><figcaption><span>ang:bash </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global difftool.p4merge.path "/Applications/p4merge.app/Contents/Resources/launchp4merge"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>自己还尝试过用软链接来解决这问题，如下：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s /Applications/p4merge.app/Contents/MacOS/p4merge /usr/local/bin/p4merge
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果报了一个error loading resource file问题，这个就不要使用了。</p>
+
+<p>以后想要比较Git中的代码时，敲git difftool filepath 就行了</p>
+
+<p>P4Merge除了有比较功能，还有合并功能，怎么配置可以借鉴下面给出的参考链接。另外还有一个可视化比较工具meld，据说也不错，有时间试试</p>
+
+<p>主要参考：   <br/>
+<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>   <br/>
+<a href="http://blog.csdn.net/ccf0703/article/details/7661789">Mac os x下git merge工具P4Merge的安装与配置</a>   <br/>
+<a href="http://nieyong.github.io/wiki_ny/git%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html">git用户信息</a>   <br/>
+<a href="https://gist.github.com/tony4d/3454372">Setup p4merge as a visual diff and merge tool for git</a></p>
 </div>
 
 
@@ -155,12 +172,12 @@ PS1=&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] & &hellip;">
   
 
 
-<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
+<time datetime="2013-10-06T10:17:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/terminal/'>terminal</a>
+    <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -213,10 +230,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/" title="Previous Post: 别用symbolicatecrash来解析crash log了">&laquo; 别用symbolicatecrash来解析crash log了</a>
+        <a class="basic-alignment left" href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/" title="Previous Post: 推荐MacOS下一款漂亮的终端主题">&laquo; 推荐MacOS下一款漂亮的终端主题</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/" title="Next Post: 推荐MacOS下一款漂亮的终端主题">推荐MacOS下一款漂亮的终端主题 &raquo;</a>
       
     </p>
   </footer>
