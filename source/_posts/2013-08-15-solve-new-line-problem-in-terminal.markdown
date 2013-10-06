@@ -22,7 +22,7 @@ PS1="\[\e[0;31m\] \u@\h \W\$ \[\e[m\] "
 
 顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：
 {% codeblock lang:bash %}
-OLOR_BOLD="\[\e[1m\]"
+COLOR_BOLD="\[\e[1m\]"
 COLOR_DEFAULT="\[\e[0m\]"
 export CLICOLOR=1
 export GREP_OPTIONS="--color=auto"
