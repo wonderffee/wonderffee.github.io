@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS | Wonderffee's Blog]]></title>
+  <link href="http://wonderffee.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://wonderffee.github.io/"/>
+  <updated>2013-10-06T11:38:31+08:00</updated>
+  <id>http://wonderffee.github.io/</id>
+  <author>
+    <name><![CDATA[wonderffee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[升级iOS7后利用rvictl和wireshark抓包失效?]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/"/>
+    <updated>2013-10-06T11:31:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7</id>
+    <content type="html"><![CDATA[<p>最近把一台设备升级到iOS7后，利用rvictl和wireshark抓包发现抓不了，无意中发现在装有xcode5的机器上可以抓包，看来rvictl与xcode是绑定的，升级到最新的iOS7后，必须要装上最新的xcode5版本才能抓包。</p>
+
+<p>使用rvictl有一个前提是要获取设备的UDID，看网上不少教程都是从xcode中获取UDID，步骤相当繁琐，快速获取UDID用命令行才是王道，果然不出所料，很快就找到了三种命令行快速得到iOS设备的UDID方法，如下：</p>
+
+<!--more-->
+
+
+<p>方法1：速度最快
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n &amp;rsquo;s/.&lt;em&gt;USB Serial Number<span class="o">[</span>^0-9a-z<span class="o">]</span>&lt;/em&gt;<span class="o">([</span>0-9a-z<span class="o">]</span>&lt;em&gt;<span class="o">)</span>.&lt;/em&gt;/<span class="se">\1</span>/p<span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>方法2：不知道为什么不起作用了，因为iOS7的缘故？
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>system_profiler SPUSBDataType | sed -n -e &amp;lsquo;/iPhone/,/Serial/p&amp;rsquo; | grep &amp;ldquo;Serial Number:&amp;rdquo; | awk -F &amp;ldquo;: &amp;rdquo; &amp;lsquo;<span class="o">{</span>print <span class="nv">$2</span><span class="o">}</span>&amp;rsquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>方法3:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>system_profiler SPUSBDataType | grep &amp;ldquo;Serial Number:.&lt;em&gt;&amp;rdquo; | sed s#&amp;ldquo;.&lt;/em&gt;Serial Number: &amp;rdquo;##
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>不过注意的是，用上面的命令得到的UDID并不一定是唯一的，比如我在MacBook Pro上就得不到唯一的UDID。</p>
+
+<p>以下转载一下用rvictl和wireshark进行抓包的方法：</p>
+
+<p>RVI(Remote Virtual Interface）是在iOS5中开始添加的，利用这个工具，在不需要开代理，也不需要越狱的情况下就可以抓到iOS设备上所有的包，所需要的一台装有Mac OS X的电脑以及USB数据线。我发现Android还没有类似的工具，iOS在这方面就方便多了。</p>
+
+<p>基本的方法就是把设备通过USB连上mac上。然后为这台设备安装RVI，这个虚拟的在Mac上的网卡，就代表这台ios设备的使用网卡。然后在mac上跑抓包的工具，定位到这个虚拟的网卡上，来抓包。</p>
+
+<p>(1)安装RVI，需要使用rvictl工具，以下步骤在mac的终端中操作：  <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="c"># First get the current list of interfaces.</span>
+</span><span class='line'><span class="nv">$ </span>ifconfig -l
+</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
+</span><span class='line'><span class="nv">$ </span><span class="c"># Then run the tool with the UDID of the device.&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
+</span><span class='line'>Starting device 74bd53c647548234ddcef0ee3abee616005051ed <span class="o">[</span>SUCCEEDED<span class="o">]</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="c"># Get the list of interfaces again, and you can see the new virtual</span>
+</span><span class='line'><span class="nv">$ </span><span class="c"># network interface, rvi0, added by the previous command.</span>
+</span><span class='line'><span class="nv">$ </span>ifconfig -l
+</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>(2)安装成功后，此时其实可以用任何抓包工具来抓取。包括wireshark等。因为这时就会看到一个rvi0的网卡。不过今天我们介绍的是通过tcpdump来搞。</p>
+
+<p>在终端中输入如下命令：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo tcpdump -i rvi0 -n -s 0 -w dump.pcap tcp
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>解释一下上面重要参数的含义：</p>
+
+<p>-i rvi0 选择需要抓取的接口为rvi0（远程虚拟接口）  <br/>
+-s 0 抓取全部数据包  <br/>
+-w dump.pcap 设置保存的文件名称  <br/>
+tcp 只抓取tcp包</p>
+
+<p>当tcpdump运行之后，你可以在iOS设备上开始浏览你想抓取的App，期间产生的数据包均会保存到dump.pcap文件中，当想结束抓取时直接终止tcpdump即可。然后在mac中找到dump.pcap文件。用wireshark打开就ok。</p>
+
+<p>(3)去掉RVI这个虚拟网卡，使用下面的命令： <br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rvictl -x 74bd53c647548234ddcef0ee3abee616005051ed  &lt;br/&gt;
+</span><span class='line'>Stopping device 74bd53c647548234ddcef0ee3abee616005051ed <span class="o">[</span>SUCCEEDED<span class="o">]</span> &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>整个流程就是这样的。自己动手操作一下吧。。</p>
+
+<p>再详细的细节，请找一下苹果官方的资料：Technical Q&amp;A QA1176。</p>
+
+<p>参考链接：  <br/>
+<a href="http://blog.csdn.net/hursing/article/details/8688868">Mac上命令行获取iPhone/iPad的Identifier（UUID） 的方法</a>  <br/>
+<a href="http://b.imi.im/post/121">一行命令 得到iOS设备的UDID</a>  <br/>
+<a href="http://fanliugen.com/?p=351">未越狱ios设备的抓包方法</a></p>
+]]></content>
+  </entry>
+  
+</feed>
