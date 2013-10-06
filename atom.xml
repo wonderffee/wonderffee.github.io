@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-06T10:33:34+08:00</updated>
+  <updated>2013-10-06T10:38:56+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -18,7 +18,7 @@
     <link href="http://wonderffee.github.io/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos/"/>
     <updated>2013-10-06T10:17:00+08:00</updated>
     <id>http://wonderffee.github.io/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos</id>
-    <content type="html"><![CDATA[<p>一向对命令行下的文本比较工具无爱，用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI 比较工具P4Merge，免费的，支持中文，还不错，推荐一下</p>
+    <content type="html"><![CDATA[<p>一向对命令行下的文本比较工具无爱，在MacOS下用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI比较工具P4Merge，免费的，支持中文，还不错，推荐一下</p>
 
 <p>配置P4Merge时主要参考了这篇文章<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>，只是留的坑太多了，好不容易才让我搞定。</p>
 
@@ -70,7 +70,7 @@ error: key does not contain a section: -global    <br/>
 
 <p>以后想要比较Git中的代码时，敲git difftool filepath 就行了</p>
 
-<p>P4Merge除了有比较功能，还有合并功能，怎么配置可以借鉴下面给出的参考链接。另外还有一个可视化比较工具meld，据说也不错，有时间试试</p>
+<p>Linux、Windows下也都可以使用这个工具进行比较代码，只是需要另行配置了。P4Merge除了有比较功能，还有合并功能，怎么配置可以借鉴下面给出的参考链接。另外还有一个可视化比较工具meld，据说也不错，有时间试试</p>
 
 <p>主要参考：   <br/>
 <a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>   <br/>
