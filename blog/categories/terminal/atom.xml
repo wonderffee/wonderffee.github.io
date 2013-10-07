@@ -4,7 +4,7 @@
   <title><![CDATA[Category: terminal | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/terminal/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-06T11:38:31+08:00</updated>
+  <updated>2013-10-07T08:56:25+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -41,7 +41,7 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">OLOR_BOLD</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>1m<span class="o">]</span>&amp;rdquo;
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">COLOR_BOLD</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>1m<span class="o">]</span>&amp;rdquo;
 </span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>0m<span class="o">]</span>&amp;rdquo;
 </span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
 </span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span>&amp;ldquo;&amp;mdash;color<span class="o">=</span>auto&amp;rdquo;

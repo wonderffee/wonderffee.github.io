@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-06T11:38:31+08:00</updated>
+  <updated>2013-10-07T08:56:25+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[一些MacOS技巧]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/10/07/some-macos-tips/"/>
+    <updated>2013-10-07T08:48:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/10/07/some-macos-tips</id>
+    <content type="html"><![CDATA[<p>早早就醒了，天气又不好，无事可做，整理一下自己在使用Mac过程中用到的一些技巧吧，比较杂乱，以后不定期更新。</p>
+
+<h3>如何在命令行中使用Sublime Text</h3>
+
+<p>终端中输入下面的命令回车即可，之后就可以使用subl filename打开文件了。</p>
+
+<!--more-->
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo ln -s /Applications/Sublime<span class="se">\ </span>Text<span class="se">\ </span>2.app/Contents/SharedSupport/bin/subl /usr/bin/subl
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何查看当前dns设置</h3>
+
+<p>cat /etc/resolv.conf</p>
+
+<h3>如何在命令行中快速修改DNS</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo networksetup -setdnsservers Wi-Fi 199.91.73.222 178.79.131.110
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何在命令行中快速得到iOS设备的UDID</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n <span class="s1">&#39;s/.*USB Serial Number[^0-9a-z]*\([0-9a-z]*\).*/\1/p&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何快速创建HTTP服务器用于文件共享</h3>
+
+<p>一行命令即可，在命令行输入“python -m SimpleHTTPServer 8888”，就可以创建以当前python命令运行的目录为根目录的HTTP服务器了。在浏览器打上<a href="http://xx.xx.xx.xx:8888/">http://xx.xx.xx.xx:8888/</a> 就能访问到python所运行的当前目录了，下载文件很方便。  <br/>
+——<strong>在微博上看到的这个技巧，高端大气上档次！</strong></p>
+
+<h3>如何解决iTunes下载时出现&#8221;无法完成您的itunes store的请求,发生未知错误(-50)&ldquo;问题</h3>
+
+<p>打开iTunes &mdash; 编辑 &mdash; 偏好设置 &mdash; 家长控制 &mdash; iTunes Store这一项勾选（把 允许访问iTunes U 这一项也勾选）&mdash; 确定。 这时iTunes Store会自动访问iTunes U，关闭iTunes。 重开iTunes，回到家长控制把之前勾选的两项取消，回iTunes Store重新登录，-50问题就解决了！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[升级iOS7后利用rvictl和wireshark抓包失效?]]></title>
@@ -256,7 +306,7 @@ error: key does not contain a section: -global    <br/>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">OLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">COLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
 </span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span><span class="s2">&quot;\[\e[0m\]&quot;</span>
 </span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
 </span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span><span class="s2">&quot;--color=auto&quot;</span>
