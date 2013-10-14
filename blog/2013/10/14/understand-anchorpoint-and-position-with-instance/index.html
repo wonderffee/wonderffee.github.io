@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Wonderffee's Blog</title>
+  <title>通过实例来理解position与anchorPoint - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/10/14/understand-anchorpoint-and-position-with-instance">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -64,15 +64,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/14/understand-anchorpoint-and-position-with-instance/">通过实例来理解position与anchorPoint</a></h1>
+      <h1 class="entry-title">通过实例来理解position与anchorPoint</h1>
     
     
       <p class="meta">
@@ -95,7 +92,7 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://wonderffee.github.io/blog/2013/10/13/understand-anchorpoint-and-position/">上一篇文章</a>写了一些对position与anchorPoint的理解，这次就拿一些实例来加深印象。文中的例子来自别人的一篇<a href="http://www.cnblogs.com/yyh123/p/3345097.html">博文</a>，例子是不错的，但是自己刚开始也没完全搞明白，现在完全弄懂了，在这里借用一下并加以扩展，希望对看到的人有所帮助。</p>
+<div class="entry-content"><p><a href="http://wonderffee.github.io/blog/2013/10/13/understand-anchorpoint-and-position/">上一篇文章</a>写了一些对position与anchorPoint的理解，这次就拿一些实例来加深印象。文中的例子来自别人的一篇<a href="http://www.cnblogs.com/yyh123/p/3345097.html">博文</a>，例子是不错的，但是自己刚开始也没完全搞明白，现在完全弄懂了，在这里借用一下并加以扩展，希望对看到的人有所帮助。</p>
 
 <p>先把之前的结论贴出来：<br/>
 1、position是layer中的anchorPoint在superLayer中的位置坐标。<br/>
@@ -245,68 +242,16 @@
 </ul>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/13/understand-anchorpoint-and-position/">彻底理解position与anchorPoint</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">wonderffee</span></span>
 
-<time datetime="2013-10-13T11:10:00+08:00" pubdate data-updated="true">Oct 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>引言</h3>
-
-<p>相信初接触到CALayer的人都会遇到以下几个问题： <br/>
-为什么修改anchorPoint会移动layer的位置？<br/>
-CALayer的position点是哪一点呢?<br/>
-anchorPoint与position有什么关系？</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/13/understand-anchorpoint-and-position/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/07/some-macos-tips/">一些MacOS技巧</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -318,338 +263,67 @@ anchorPoint与position有什么关系？</p>
   
 
 
-<time datetime="2013-10-07T08:48:00+08:00" pubdate data-updated="true">Oct 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>早早就醒了，天气又不好，无事可做，整理一下自己在使用Mac过程中用到的一些技巧吧，比较杂乱，以后不定期更新。</p>
-
-<h3>如何在命令行中使用Sublime Text</h3>
-
-<p>终端中输入下面的命令回车即可，之后就可以使用subl filename打开文件了。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/07/some-macos-tips/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-10-14T22:58:00+08:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
       
-  <header>
+
+
+    </p>
+    <p class="meta">
+      原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/">升级iOS7后利用rvictl和wireshark抓包失效?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
+      <div class="sharing">
   
-
-
-<time datetime="2013-10-06T11:31:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
-        
-      </p>
+  
+  
     
-  </header>
+        
+<style>
+    .flash-video{display:none;}
+</style>
 
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a class="jiathis_button_qzone">QQ空间</a>
 
-  <div class="entry-content"><p>最近把一台设备升级到iOS7后，利用rvictl和wireshark抓包发现抓不了，无意中发现在装有xcode5的机器上可以抓包，看来rvictl与xcode是绑定的，升级到最新的iOS7后，必须要装上最新的xcode5版本才能抓包。</p>
-
-<p>使用rvictl有一个前提是要获取设备的UDID，看网上不少教程都是从xcode中获取UDID，步骤相当繁琐，快速获取UDID用命令行才是王道，果然不出所料，很快就找到了三种命令行快速得到iOS设备的UDID方法，如下：</p>
-
+	<a href="http://www.jiathis.com/share?uid=1810566" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/">继续阅读 &rarr;</a>
-    </footer>
-  
+<script type="text/javascript">
+var jiathis_config = {
+	data_track_clickback:'true'
+	sm:"tsina,tqq,renren,douban,qzone",
+    summary:"",
+    hideMore:false
+};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354334309126428" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1810566" async=""></script>
+<!-- UY END -->
+          
+</div>
 
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos/">推荐Git可视化比较工具P4Merge</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-06T10:17:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>一向对命令行下的文本比较工具无爱，在MacOS下用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI比较工具P4Merge，免费的，支持中文，还不错，推荐一下</p>
-
-<p>配置P4Merge时主要参考了这篇文章<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>，只是留的坑太多了，好不容易才让我搞定。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2013/10/13/understand-anchorpoint-and-position/" title="Previous Post: 彻底理解position与anchorPoint">&laquo; 彻底理解position与anchorPoint</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/">推荐MacOS下一款漂亮的终端主题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-06T08:51:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Mac下的软件向来给人赏心悦目的感觉，但自带的终端就显得比较朴素了，抽空找到了一款漂亮的终端主题，给大家推荐一下。</p>
-
-<p>这款主题名为PEPPERMINT，下载地址点这里: <a href="http://noahfrederick.com/blog/2011/lion-terminal-theme-peppermint/">MAC OS X LION TERMINAL THEME: PEPPERMINT</a></p>
-
-<p>下载之后选择终端菜单的偏好设置——设置，在左下角点一个有下拉标志的设置按钮，选择导入，就可以把这个主题导入到Terminal的主题列表中，设置默认后每次启动后就可以用这个主题了。</p>
-
-<p>怎么漂亮就不说了，上图才是王道：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
-之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">继续阅读 &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">别用symbolicatecrash来解析crash Log了</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-14T22:18:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天突然发现了一个解析iOS crash log的好方法，忍不住来分享一下。</p>
-
-<p>相信每个做iOS开发的TX都应该不会对symbolicatecrash陌生，我们第一次遇到真机上产生的崩溃日志时，在网上搜到的大部分教程都告诉我们说要用symbolicatecrash来解析crash log，我信了，所以相当长一段时间内，我都是用这个工具来解析crash log的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/07/use-category-add-property-for-a-class/">Objective-c的category并非不能增加新属性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-07T22:46:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/07/use-category-add-property-for-a-class/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push/">自定义Tabbar实现push动画隐藏效果</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-07T22:45:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在之前的一篇文章(<a href="http://wonderffee.github.io/blog/2013/08/05/simulate-weico-custom-tabbar/">链接</a>)中我写到了没有用UITabbarController来实现一个自定义Tabbar，当然功能也简陋了点。注意到在Weico或微信中的自定义tabbar有一个这样的功能：push到下一个页面时tabbar会被自动隐藏，下面我就来说说如何使我前面做的自定义tabbar也能实现隐藏。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -701,6 +375,7 @@ anchorPoint与position有什么关系？</p>
 
   
 </aside>
+
 
     </div>
   </div>
