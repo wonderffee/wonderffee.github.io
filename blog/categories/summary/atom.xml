@@ -4,7 +4,7 @@
   <title><![CDATA[Category: summary | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/summary/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-14T23:08:52+08:00</updated>
+  <updated>2013-10-16T20:42:54+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -18,7 +18,7 @@
     <link href="http://wonderffee.github.io/blog/2013/07/06/a-new-begin/"/>
     <updated>2013-07-06T22:24:00+08:00</updated>
     <id>http://wonderffee.github.io/blog/2013/07/06/a-new-begin</id>
-    <content type="html"><![CDATA[<p><img src="/images/snail.jpg"></p>
+    <content type="html"><![CDATA[<p>{% img /images/snail.jpg %}</p>
 
 <p>很久都没有写博客了，上一次写博客还是两三年前的事，那时还在学校，那时还没有现在这么忙。工作至今，越来越觉得有必要重新拣起博客，一些技术积累，一些心得，不记下来，永远只是在脑海中昙花一现。好记性不如烂笔头，这是亘古不变的真理。平常也会用EverNote来记录一些工作技术上的心得，但这种独自享有的感觉却并不好，现在的世界是开源的世界，我曾经索取很多，现在是时候再分享一些东西了。</p>
 
