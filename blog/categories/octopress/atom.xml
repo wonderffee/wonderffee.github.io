@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | Wonderffee's Blog]]></title>
+  <link href="http://wonderffee.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://wonderffee.github.io/"/>
+  <updated>2013-10-17T21:54:01+08:00</updated>
+  <id>http://wonderffee.github.io/</id>
+  <author>
+    <name><![CDATA[wonderffee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[解决Octopress博客Build Failed问题]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/"/>
+    <updated>2013-10-17T21:11:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog</id>
+    <content type="html"><![CDATA[<p>用了一段时间的Octopress博客，感觉良好，可这毕竟是for程序员的博客，折腾免不了，这不就遇到了一次Build Failed的问题: 执行rake preview命令预览时出现了下面的提示：</p>
+
+<!--more-->
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>regeneration: 1 files changed
+</span><span class='line'>Liquid Exception: undefined method &lt;code&gt;[]&#39; for nil:NilClass in atom.xml
+</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/pygments_code.rb:14:in&lt;/code&gt;highlight&#39;
+</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/code_block.rb:82:in &lt;code&gt;render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:94:in&lt;/code&gt;block in render_all&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in &lt;code&gt;collect&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in&lt;/code&gt;render_all&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:82:in &lt;code&gt;render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:124:in&lt;/code&gt;render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:132:in &lt;code&gt;render!&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/convertible.rb:79:in&lt;/code&gt;do_layout&#39;
+</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/post_filters.rb:167:in &lt;code&gt;do_layout&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/page.rb:100:in&lt;/code&gt;render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:204:in &lt;code&gt;block in render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in&lt;/code&gt;each&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in &lt;code&gt;render&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:41:in&lt;/code&gt;process&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/bin/jekyll:253:in &lt;code&gt;block in &amp;lt;top (required)&amp;gt;&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in&lt;/code&gt;call&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in &lt;code&gt;block in notify_observers&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in&lt;/code&gt;each&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in &lt;code&gt;notify_observers&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:334:in&lt;/code&gt;block in initialize&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in &lt;code&gt;call&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in&lt;/code&gt;notify&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:102:in &lt;code&gt;run_once&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:150:in&lt;/code&gt;run_loop&#39;
+</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:45:in `block in start&#39;
+</span><span class='line'>Build Failed
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>好大一坨文字，看着就头疼，尝试rake generate也是这样的提示。。这段提示看上去像是ruby的出错堆栈信息，自己不懂ruby， 自然不知如何下手，习惯性地在google上搜索了一下，没找到答案，只好自力更生了。</p>
+
+<p>堆栈信息的第一行说明了问题出现在pygments_code.rb文件中，搜索了一下pygment发现是基于python的代码高亮插件，那就说明代码高亮出了问题，最近更新的一篇文章刚好使用了代码高亮，便有思路了。</p>
+
+<p>先用排除法，找到这篇文章，把其中的代码去掉，再执行rake preview预览，发现没有出现build failed问题，基本可以确定是代码导致的build failed问题。继续用排除法找到导致问题的代码，发现代码行的末尾出现了中文分号+空格，莫非是中文符号的问题？把中文分号+空格替换成英文分号，重试，问题解决！</p>
+]]></content>
+  </entry>
+  
+</feed>
