@@ -7,14 +7,13 @@ categories: iOS
 ---
 [上一篇文章](http://wonderffee.github.io/blog/2013/10/13/understand-anchorpoint-and-position/)写了一些对position与anchorPoint的理解，这次就拿一些实例来加深印象。文中的例子来自别人的一篇[博文](http://www.cnblogs.com/yyh123/p/3345097.html)，例子是不错的，但是自己刚开始也没完全搞明白，现在完全弄懂了，在这里借用一下并加以扩展，希望对看到的人有所帮助。
 <!--more-->
-
 先把之前的结论贴出来：  
 1、position是layer中的anchorPoint在superLayer中的位置坐标。  
 2、互不影响原则：单独修改position与anchorPoint中任何一个属性都不影响另一个属性。  
 3、frame、position与anchorPoint有以下关系：  
 {% codeblock lang:objc %}
-frame.origin.x = position.x - anchorPoint.x * bounds.size.width；  
-frame.origin.y = position.y - anchorPoint.y * bounds.size.height；  
+frame.origin.x = position.x - anchorPoint.x * bounds.size.width;
+frame.origin.y = position.y - anchorPoint.y * bounds.size.height;
 {% endcodeblock %}
 
 ###1.创建一个CALayer，添加到控制器的view的layer中
