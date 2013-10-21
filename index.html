@@ -9,7 +9,7 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="用了一段时间的Octopress博客，感觉良好，可这毕竟是for程序员的博客，折腾免不了，这不就遇到了一次Build Failed的问题: 执行rake preview命令预览时出现了下面的提示： ">
+  <meta name="description" content="引言 这篇文章的主要内容来自于CocoaChina论坛上的一篇文章，只不过原文在有些地方介绍得不是很详细，我这里增加了一些解析，也算是自己做笔记，原文和代码均可以在这个链接里找到：IOS 3D UI &mdash;&ndash; CALayer的transform扩展。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,92 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-19T17:44:00+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>引言</h3>
+
+<p>这篇文章的主要内容来自于CocoaChina论坛上的一篇文章，只不过原文在有些地方介绍得不是很详细，我这里增加了一些解析，也算是自己做笔记，原文和代码均可以在这个链接里找到：<a href="http://www.cocoachina.com/bbs/read.php?tid=117061&amp;page=1">IOS 3D UI &mdash;&ndash; CALayer的transform扩展</a>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">判断三维坐标系旋转正方向的简单方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T22:26:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>引言</h3>
+
+<p>做iOS开发，不免要接触到一些特效，其中不乏3D特效，这时候就要对iOS所使用的坐标系了解才行。若不限于iOS开发，还有MacOS开发，若不知道它们所使用坐标系的不同，初学者会很容易陷于混乱，</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -414,90 +500,6 @@ anchorPoint与position有什么关系？</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">别用symbolicatecrash来解析crash Log了</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-14T22:18:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天突然发现了一个解析iOS crash log的好方法，忍不住来分享一下。</p>
-
-<p>相信每个做iOS开发的TX都应该不会对symbolicatecrash陌生，我们第一次遇到真机上产生的崩溃日志时，在网上搜到的大部分教程都告诉我们说要用symbolicatecrash来解析crash log，我信了，所以相当长一段时间内，我都是用这个工具来解析crash log的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/07/use-category-add-property-for-a-class/">Objective-c的category并非不能增加新属性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-07T22:46:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/07/use-category-add-property-for-a-class/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -511,6 +513,14 @@ anchorPoint与position有什么关系？</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">判断三维坐标系旋转正方向的简单方法</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/">解决Octopress博客Build Failed问题</a>
@@ -542,14 +552,6 @@ anchorPoint与position有什么关系？</p>
     
       <li class="post">
         <a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/">别用symbolicatecrash来解析crash Log了</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/07/use-category-add-property-for-a-class/">Objective-c的category并非不能增加新属性</a>
       </li>
     
   </ul>

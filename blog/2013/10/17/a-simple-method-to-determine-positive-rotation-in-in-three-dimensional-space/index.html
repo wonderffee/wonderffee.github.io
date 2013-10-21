@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>判断三维坐标系旋转正方向的简单方法 - Wonderffee's Blog</title>
+  <meta name="author" content="wonderffee">
+
+  
+  <meta name="description" content="引言 做iOS开发，不免要接触到一些特效，其中不乏3D特效，这时候就要对iOS所使用的坐标系了解才行。若不限于iOS开发，还有MacOS开发，若不知道它们所使用坐标系的不同，初学者会很容易陷于混乱， 三维坐标系 做3D特效，就要用到三维坐标系，这是后人在笛卡尔的平面坐标系的基础上发明的。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wonderffee's Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wonderffee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">判断三维坐标系旋转正方向的简单方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T22:26:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>引言</h3>
+
+<p>做iOS开发，不免要接触到一些特效，其中不乏3D特效，这时候就要对iOS所使用的坐标系了解才行。若不限于iOS开发，还有MacOS开发，若不知道它们所使用坐标系的不同，初学者会很容易陷于混乱，</p>
+
+<!--more-->
+
+
+<h3>三维坐标系</h3>
+
+<p>做3D特效，就要用到三维坐标系，这是后人在笛卡尔的平面坐标系的基础上发明的。三维坐标系分两种，左手坐标系和右手坐标系，为什么用左手和右手来区分呢？这是因为当确定了x轴，y轴方向之后,z轴的方向的两种，它可以通过左手或右手来确定。下面就是这两个坐标系的规则示意图（图中固定了x轴的正方向向右，y轴的正方向向上）：</p>
+
+<p><img src="/images/3d-coordinate-system/coordinate-system1.jpg" alt="左手坐标系与右手坐标系" /></p>
+
+<p>相信大多数人对图中的右手坐标系很眼熟，没错，这就是初高中数学教材用到的三维坐标系，只是我们不一定知道它叫右手坐标系。</p>
+
+<p>左手坐标系我们之前很少接触，但是在计算机图形学中这种坐标系非常重要，比如iOS的UIView使用的坐标系就是左手坐标系。有人可能会说，不对吧，UIView的坐标系是原点在左上角，y轴正方向向下，图中的不是这样啊，其实没错啦，把图中的左手坐标系沿x轴旋转180度就是原点在左上角的左手坐标系，区别就是旋转的角度不同而已。这是因为左手坐标系或者右手坐标系整体旋转后性质是不变的。</p>
+
+<p>对坐标系使用左手与右手的命名，有一个作用就是用来方便判断旋转的正方向，这就是左手法则和右手法则。例如对左手坐标系，确定一个旋转轴后，左手握住拳头，拇指指向旋转轴的正方向，四指弯曲的方向为旋转的正方向。相应地，右手坐标系就用右手来判定。确定了旋转的正方向后，在公式计算中就很容易知道是该使用正角度还是负角度了。下图就是右手的例子：</p>
+
+<p><img src="/images/3d-coordinate-system/coordinate-system2.jpg" alt="右手法则" /></p>
+
+<p>但是，这个判断旋转正方向的方法还是不够快。给定任意一个旋转角度的三维坐标系，如果按上面的方法判断旋转正方向，首先，你得确定这个坐标系是左手坐标系还是右手坐标系，这时你会先拿出一只手来，像上图一样摆好三根手指的姿势来比对给定坐标系的x、y、z轴正方向看是否一致。然后根据旋转轴的正方向，用相应的手来判断旋转正方向。</p>
+
+<p>其实，完全没有必要这么麻烦。怎么更方便地判断，且看我慢慢道来。</p>
+
+<p>先看第一个图的两个坐标系，左边的为左手坐标系，右边的为右手坐标系，两坐标系的x轴和y轴正方向保持一致，z轴正方向相反。分别用左手法则与右手法则去判断它们各自绕z轴旋转的正方向，那么从我们眼睛看屏幕的角度来看，它们绕z轴旋转的正方向都是逆时针，这当然不会是巧合。观察这两个坐标系，就会发现这个逆时针方向与x轴正方向箭头顶点指向y轴正方向箭头顶点的方向一致，这说明绕z轴旋转的正方向与x轴正方向箭头顶端指向y轴正方向箭头顶端的方向有关联吗？我想是的。</p>
+
+<p>然后再尝试判断两坐标系绕x轴旋转的正方向，它与y轴正方向顶端指向z轴正方向顶端的方向一致；而绕y轴旋转的正方向，与z轴正方向顶端指向x轴正方向顶端的方向一致。</p>
+
+<h3>结论一</h3>
+
+<p>据此，我觉得可以得出一个结论：对于任意旋转角度的三维坐标系，绕某一坐标轴旋转的正方向，与另外两个坐标轴的正方向顶端按X&mdash;>Y&mdash;>Z&mdash;>X的顺序进行指向的方向一致。</p>
+
+<p>这就意味着，判断三维坐标系绕某一坐标轴旋转的正方向，不用事先知晓这个坐标系是左手坐标系还是右手坐标系，完全不需要你用手去比划.</p>
+
+<p>反过来，既然判断旋转正方向这么容易，我们也可以利用它来快速判断一个坐标系是左手坐标系和右手坐标系：使用上述结论确定坐标系绕某一某旋转的正方向，然后逆用左手法则与右手法则，大拇指指向该轴的正方向，如果左手四指弯曲的方向与旋转的正方向一致，该坐标系就是左手坐标系，反之就是右手坐标系。</p>
+
+<p>不过这还是复杂，还是需要用手比划。我突然想到了一个更好的方法：<br/>
+想象y轴是一面墙，你面朝前方斜靠在墙上，可以假设你的头部为y轴正方向顶点，脚为x轴正方向顶点，那么z轴在你的左侧时就是左手坐标系，在右侧时就是右手坐标系。这个时候，人体的生长方向也刚好是绕x轴旋转的正方向。</p>
+
+<h3>结论二</h3>
+
+<p>再扩展一下就是：对于任意旋转角度的三维坐标系，想象你的脚踩在一个坐标轴正方向的顶点，头倚靠在其邻高坐标轴的正方向顶点，面朝背离原点的方向，那么，第三轴正方向顶点在你的左手边时，这个坐标系就是左手坐标系，在右手边时就是右手坐标系，而人体此时的生长方向就是绕第三轴旋转的正方向。<br/>
+（注：这里的邻高坐标轴是我自己定义的一个概念，X轴的邻高坐标轴为Y轴，Y轴的邻高坐标轴为Z轴，Z轴的邻高坐标轴为X轴.）</p>
+
+<p>在这个方法里，坐标系属性与绕坐标轴旋转正方向的判断达到了统一，从此可以抛弃左手法则与右手法则，也可以抛弃手指比划的方式来判断左右手坐标系，是不是会觉得很简单？</p>
+
+<h4>参考链接：</h4>
+
+<p><a href="http://geeklu.com/2012/06/3d-coordinate-system/">Mac，iOS界面中的三维坐标系</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wonderffee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-17T22:26:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
+  
+</span>
+
+
+    </p>
+    <p class="meta">
+      原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+    
+        
+<style>
+    .flash-video{display:none;}
+</style>
+
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a class="jiathis_button_qzone">QQ空间</a>
+
+	<a href="http://www.jiathis.com/share?uid=1810566" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {
+	data_track_clickback:'true'
+	sm:"tsina,tqq,renren,douban,qzone",
+    summary:"",
+    hideMore:false
+};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354334309126428" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1810566" async=""></script>
+<!-- UY END -->
+          
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/" title="Previous Post: 解决Octopress博客Build Failed问题">&laquo; 解决Octopress博客Build Failed问题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/" title="Next Post: iOS 3D UI——CALayer的transform扩展解析">iOS 3D UI——CALayer的transform扩展解析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">判断三维坐标系旋转正方向的简单方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/">解决Octopress博客Build Failed问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/14/understand-anchorpoint-and-position-with-instance/">通过实例来理解position与anchorPoint</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/13/understand-anchorpoint-and-position/">彻底理解position与anchorPoint</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/07/some-macos-tips/">一些MacOS技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/">升级iOS7后利用rvictl和wireshark抓包失效?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos/">推荐Git可视化比较工具P4Merge</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/">推荐MacOS下一款漂亮的终端主题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - wonderffee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
