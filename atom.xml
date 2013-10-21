@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-21T22:53:32+08:00</updated>
+  <updated>2013-10-21T23:00:58+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -171,9 +171,12 @@
 
 <h4>参考链接</h4>
 
-<p><a href="http://www.cocoachina.com/bbs/read.php?tid=117061&amp;page=1">IOS 3D UI &mdash;&ndash; CALayer的transform扩展</a>
-<a href="http://geeklu.com/2012/07/ios-3d-perspective/">iOS的三维透视投影</a>
-<a href="http://www.cnblogs.com/healerkx/archive/2012/01/09/2317579.html">学习笔记5（CATransform3D-Cube）</a></p>
+<ul>
+<li><a href="http://www.cocoachina.com/bbs/read.php?tid=117061&amp;page=1">IOS 3D UI &mdash;&ndash; CALayer的transform扩展</a></li>
+<li><a href="http://geeklu.com/2012/07/ios-3d-perspective/">iOS的三维透视投影</a></li>
+<li><a href="http://www.cnblogs.com/healerkx/archive/2012/01/09/2317579.html">学习笔记5（CATransform3D-Cube）</a></li>
+</ul>
+
 ]]></content>
   </entry>
   

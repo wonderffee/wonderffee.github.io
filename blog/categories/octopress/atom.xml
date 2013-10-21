@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-21T22:53:32+08:00</updated>
+  <updated>2013-10-21T23:22:29+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -23,65 +23,37 @@
 <!--more-->
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>regeneration: 1 files changed
-</span><span class='line'>Liquid Exception: undefined method &lt;code&gt;[]&#39; for nil:NilClass in atom.xml
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/pygments_code.rb:14:in&lt;/code&gt;highlight&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/code_block.rb:82:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:94:in&lt;/code&gt;block in render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in &lt;code&gt;collect&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in&lt;/code&gt;render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:82:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:124:in&lt;/code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:132:in &lt;code&gt;render!&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/convertible.rb:79:in&lt;/code&gt;do_layout&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/post_filters.rb:167:in &lt;code&gt;do_layout&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/page.rb:100:in&lt;/code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:204:in &lt;code&gt;block in render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in&lt;/code&gt;each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:41:in&lt;/code&gt;process&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/bin/jekyll:253:in &lt;code&gt;block in &amp;lt;top (required)&amp;gt;&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in&lt;/code&gt;call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in &lt;code&gt;block in notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in&lt;/code&gt;each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in &lt;code&gt;notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:334:in&lt;/code&gt;block in initialize&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in &lt;code&gt;call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in&lt;/code&gt;notify&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:102:in &lt;code&gt;run_once&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:150:in&lt;/code&gt;run_loop&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:45:in `block in start&#39;
-</span><span class='line'>Build Failed
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:text %}
+regeneration: 1 files changed
+Liquid Exception: undefined method <code>[]' for nil:NilClass in atom.xml
+/Users/admin/iOSCode/codeGitHub/octopress/plugins/pygments_code.rb:14:in</code>highlight'
+/Users/admin/iOSCode/codeGitHub/octopress/plugins/code_block.rb:82:in <code>render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:94:in</code>block in render_all'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in <code>collect'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in</code>render_all'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:82:in <code>render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:124:in</code>render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:132:in <code>render!'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/convertible.rb:79:in</code>do_layout'
+/Users/admin/iOSCode/codeGitHub/octopress/plugins/post_filters.rb:167:in <code>do_layout'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/page.rb:100:in</code>render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:204:in <code>block in render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in</code>each'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in <code>render'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:41:in</code>process'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/bin/jekyll:253:in <code>block in &lt;top (required)&gt;'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in</code>call'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in <code>block in notify_observers'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in</code>each'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in <code>notify_observers'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:334:in</code>block in initialize'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in <code>call'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in</code>notify'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:102:in <code>run_once'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:150:in</code>run_loop'
+/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:45:in `block in start'
+Build Failed
+{% endcodeblock %}</p>
 
 <p>好大一坨文字，看着就头疼，尝试rake generate也是这样的提示。。这段提示看上去像是ruby的出错堆栈信息，自己不懂ruby， 自然不知如何下手，习惯性地在google上搜索了一下，没找到答案，只好自力更生了。</p>
 

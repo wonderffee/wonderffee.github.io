@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tools | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-21T22:53:32+08:00</updated>
+  <updated>2013-10-21T23:22:29+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -31,32 +31,30 @@
 <p>下载到P4V.dmg文件后，双击打开，拖动P4Merge到Application文件夹上就可以完成安装了。</p>
 
 <p>下面开始配置，这个原文留下的坑就太多了：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config &amp;mdash;global diff.tool p4merge
-</span><span class='line'>git config &amp;mdash;global difftool.p4merge.cmd /Applications/p4merge.app/Contents/MacOS/p4merge
-</span><span class='line'>git config &amp;mdash;global difftool.p4merge.cmd &amp;ldquo;/Applications/p4merge.app/Contents/Resources/launchp4merge <span class="se">\$</span>LOCAL <span class="se">\$</span>REMOTE&amp;rdquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:bash %}
+git config &mdash;global diff.tool p4merge
+git config &mdash;global difftool.p4merge.cmd /Applications/p4merge.app/Contents/MacOS/p4merge
+git config &mdash;global difftool.p4merge.cmd &ldquo;/Applications/p4merge.app/Contents/Resources/launchp4merge \$LOCAL \$REMOTE&rdquo;
+{% endcodeblock %}</p>
 
 <p>如果直接复制原文的代码，运行上面的代码时会提示：    <br/>
 error: key does not contain a section: -global    <br/>
 跟别人的命令比较一下，就会发现应该是&mdash;global（要两个短横连在一起的），原文的短横线有问题</p>
 
 <p>现在敲git difftool命令执行时，会提示：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/libexec/git-core/mergetools/p4merge: line 2: p4merge: <span class="nb">command </span>not found
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:bash %}
+/usr/libexec/git-core/mergetools/p4merge: line 2: p4merge: command not found
+{% endcodeblock %}</p>
 
 <p>原因是路径还需要再配置一下，如下，蛋疼。。。
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ang:bash </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config &mdash;global difftool.p4merge.path &ldquo;/Applications/p4merge.app/Contents/Resources/launchp4merge&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock ang:bash %}
+git config &mdash;global difftool.p4merge.path &ldquo;/Applications/p4merge.app/Contents/Resources/launchp4merge&rdquo;
+{% endcodeblock %}</p>
 
 <p>自己还尝试过用软链接来解决这问题，如下：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s /Applications/p4merge.app/Contents/MacOS/p4merge /usr/local/bin/p4merge
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:bash %}
+ln -s /Applications/p4merge.app/Contents/MacOS/p4merge /usr/local/bin/p4merge
+{% endcodeblock %}</p>
 
 <p>结果报了一个error loading resource file问题，这个就不要使用了。</p>
 
