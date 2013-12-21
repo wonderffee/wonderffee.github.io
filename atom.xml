@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-21T23:00:58+08:00</updated>
+  <updated>2013-12-21T22:07:30+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[update CocoaPods问题小记]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/12/21/update-cocoapods/"/>
+    <updated>2013-12-21T21:51:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/12/21/update-cocoapods</id>
+    <content type="html"><![CDATA[<p>执行pod install时出错，提示如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>The version of CocoaPods used to generate the lockfile is higher that the one of the current executable. Incompatibility issues might arise.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题原因：CocoaPods版本低了</p>
+
+<p>解决办法：执行gem update cocoapod更新CocoaPods</p>
+
+<p>可以通过gem list来查看本机上所有已经安装的gem包</p>
+
+<!--more-->
+
+
+<p>粗心执行了gem update，导致更新了全部的gem包，执行rake new_post[&ldquo;title&rdquo;]带来了新的问题：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.1, but your Gemfile requires rake 0.9.2.2. Using bundle <span class="nb">exec </span>may solve this.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题原因：gem update更新了rake到10.1.1，而Octopress的Gemfile中要求的rake版本为0.9</p>
+
+<p>解决方法：修改Octopress的Gemfile，将gem &lsquo;rake&rsquo;, &lsquo;~> 0.9&#8217;改为gem &#8216;rake&rsquo;, &lsquo;~> 10.1.1&#8217;，重新执行rake new_post[&ldquo;title&rdquo;]就没有问题了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 3D UI——CALayer的transform扩展解析]]></title>

@@ -9,7 +9,8 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="引言 这篇文章的主要内容来自于CocoaChina论坛上的一篇文章，只不过原文在有些地方介绍得不是很详细，我这里增加了一些解析，也算是自己做笔记，原文和代码均可以在这个链接里找到：IOS 3D UI &mdash;&ndash; CALayer的transform扩展。 ">
+  <meta name="description" content="执行pod install时出错，提示如下： 1
+The version of CocoaPods used to generate the lockfile is higher that the one of the current executable. Incompatibility &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/21/update-cocoapods/">Update CocoaPods问题小记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-21T21:51:00+08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>执行pod install时出错，提示如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>The version of CocoaPods used to generate the lockfile is higher that the one of the current executable. Incompatibility issues might arise.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题原因：CocoaPods版本低了</p>
+
+<p>解决办法：执行gem update cocoapod更新CocoaPods</p>
+
+<p>可以通过gem list来查看本机上所有已经安装的gem包</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/21/update-cocoapods/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -458,48 +511,6 @@ anchorPoint与position有什么关系？</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-15T22:24:00+08:00" pubdate data-updated="true">Aug 15<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
-之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -513,6 +524,10 @@ anchorPoint与position有什么关系？</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/update-cocoapods/">Update CocoaPods问题小记</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a>
@@ -548,10 +563,6 @@ anchorPoint与position有什么关系？</p>
     
       <li class="post">
         <a href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/">推荐MacOS下一款漂亮的终端主题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/15/solve-new-line-problem-in-terminal/">解决终端输命令换行覆盖问题</a>
       </li>
     
   </ul>

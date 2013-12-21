@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>仿Weico iPhone客户端自定义tabbar - Wonderffee's Blog</title>
+  <title>update CocoaPods问题小记 - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="无意中看到有人推荐用weico看新浪微博，试用了一下就没回得头了，无论是UI、交互还是功能，weico都比新浪的官方微博客户端好太多了，也难怪weico这么流行。看到有人说weico火是因为遇到了猪一样的队友，这话也不过分啊，不过了解到新浪官方微博客户端和weico都是同一家公司做的，我只能说呵呵 &hellip;">
+  <meta name="description" content="执行pod install时出错，提示如下： 1
+The version of CocoaPods used to generate the lockfile is higher that the one of the current executable. Incompatibility &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/08/05/simulate-weico-custom-tabbar">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/12/21/update-cocoapods">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">仿Weico iPhone客户端自定义tabbar</h1>
+      <h1 class="entry-title">Update CocoaPods问题小记</h1>
     
     
       <p class="meta">
@@ -84,26 +85,41 @@
   
 
 
-<time datetime="2013-08-05T22:28:00+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2013</time>
+<time datetime="2013-12-21T21:51:00+08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>无意中看到有人推荐用weico看新浪微博，试用了一下就没回得头了，无论是UI、交互还是功能，weico都比新浪的官方微博客户端好太多了，也难怪weico这么流行。看到有人说weico火是因为遇到了猪一样的队友，这话也不过分啊，不过了解到新浪官方微博客户端和weico都是同一家公司做的，我只能说呵呵。。。</p>
+<div class="entry-content"><p>执行pod install时出错，提示如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>The version of CocoaPods used to generate the lockfile is higher that the one of the current executable. Incompatibility issues might arise.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题原因：CocoaPods版本低了</p>
+
+<p>解决办法：执行gem update cocoapod更新CocoaPods</p>
+
+<p>可以通过gem list来查看本机上所有已经安装的gem包</p>
 
 <!--more-->
 
 
-<p>用就用吧，但有时候就是手痒，想模仿weico做一个微博客户端，一来练练手，二来挑战一下自己。先从简单的做起，就拿weico客户端底部的自定义tabbar入手吧。</p>
+<p>粗心执行了gem update，导致更新了全部的gem包，执行rake new_post[&ldquo;title&rdquo;]带来了新的问题：</p>
 
-<p>weico的自定义tabbar主要特点就是tab按钮选中时有一个滑块动画效果，实现起来不是很难，基于<a href="https://github.com/boctor/idev-recipes%E2%80%8E">iDev Recipes</a>改造一下很快就可以做出一个以假乱真的weico自定义tabbar了，废话不说，直接上代码：<a href="https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar">https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar</a></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake aborted!
+</span><span class='line'>You have already activated rake 10.1.1, but your Gemfile requires rake 0.9.2.2. Using bundle <span class="nb">exec </span>may solve this.
+</span></code></pre></td></tr></table></div></figure>
 
-<p>注意这里的自定义tabbar代码完全没有使用UITabbarController，因此也就没有涉及到把原生的tabbar隐藏，省却了不少麻烦事。</p>
 
-<p>截图： <br/>
-<img src="/images/customTabBar.png"></p>
+<p>问题原因：gem update更新了rake到10.1.1，而Octopress的Gemfile中要求的rake版本为0.9</p>
+
+<p>解决方法：修改Octopress的Gemfile，将gem &lsquo;rake&rsquo;, &lsquo;~> 0.9&#8217;改为gem &#8216;rake&rsquo;, &lsquo;~> 10.1.1&#8217;，重新执行rake new_post[&ldquo;title&rdquo;]就没有问题了。</p>
 </div>
 
 
@@ -126,8 +142,14 @@
   
 
 
-<time datetime="2013-08-05T22:28:00+08:00" pubdate data-updated="true">Aug 5<span>th</span>, 2013</time>
+<time datetime="2013-12-21T21:51:00+08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tools/'>tools</a>
+  
+</span>
 
 
     </p>
@@ -178,10 +200,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/07/13/best-packet-capture-tool-charles-in-ios/" title="Previous Post: iOS抓包利器Charles">&laquo; iOS抓包利器Charles</a>
+        <a class="basic-alignment left" href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/" title="Previous Post: iOS 3D UI——CALayer的transform扩展解析">&laquo; iOS 3D UI——CALayer的transform扩展解析</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6/" title="Next Post: iOS6下UITextField退格变清空问题的解决方法">iOS6下UITextField退格变清空问题的解决方法 &raquo;</a>
       
     </p>
   </footer>

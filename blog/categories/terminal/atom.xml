@@ -4,7 +4,7 @@
   <title><![CDATA[Category: terminal | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/terminal/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-10-21T23:22:29+08:00</updated>
+  <updated>2013-12-21T22:07:30+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -24,25 +24,29 @@
 <!--more-->
 
 
-<p>{% codeblock lang:bash %}
-PS1=&ldquo;[\e[0;31m] [\u@\h \W]\$ [\e[m] &rdquo;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>0;31m<span class="o">]</span> <span class="o">[</span><span class="se">\u</span>@<span class="se">\h</span> <span class="se">\W</span><span class="o">]</span><span class="se">\$</span> <span class="o">[</span><span class="se">\e</span><span class="o">[</span>m<span class="o">]</span> &amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>正是这个设置导致命令换行出问题。</p>
 
 <p>对比了一下别人正确的设置，发现我的PS1里多了一对\[和\]，也就是中间的那一对\[和\]要删掉才行（貌似变成[和]也木有问题）。\[和\]是用于把非打印字符括起来的（颜色应该是非打印字符吧），别人出的换行问题都是没用\[和\]把非打印字符括起来的缘故，我这里却是把不该括的打印字符括了起来也有问题，真是多也不行少也不行。纠正的设置为：
-{% codeblock lang:bash %}
-PS1=&ldquo;[\e[0;31m] \u@\h \W\$ [\e[m] &rdquo;
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>0;31m<span class="o">]</span> <span class="se">\u</span>@<span class="se">\h</span> <span class="se">\W\$</span> <span class="o">[</span><span class="se">\e</span><span class="o">[</span>m<span class="o">]</span> &amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：
-{% codeblock lang:bash %}
-COLOR_BOLD=&ldquo;[\e[1m]&rdquo;
-COLOR_DEFAULT=&ldquo;[\e[0m]&rdquo;
-export CLICOLOR=1
-export GREP_OPTIONS=&ldquo;&mdash;color=auto&rdquo;
-PS1=&lsquo;[\e[01;33m]\u@\h \W\$[\e[m] &rsquo;
-{% endcodeblock %}</p>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">COLOR_BOLD</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>1m<span class="o">]</span>&amp;rdquo;
+</span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span>&amp;ldquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>0m<span class="o">]</span>&amp;rdquo;
+</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
+</span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span>&amp;ldquo;&amp;mdash;color<span class="o">=</span>auto&amp;rdquo;
+</span><span class='line'><span class="nv">PS1</span><span class="o">=</span>&amp;lsquo;<span class="o">[</span><span class="se">\e</span><span class="o">[</span>01;33m<span class="o">]</span><span class="se">\u</span>@<span class="se">\h</span> <span class="se">\W\$</span><span class="o">[</span><span class="se">\e</span><span class="o">[</span>m<span class="o">]</span> &amp;rsquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>参考： <br/>
 <a href="http://lnote.blogbus.com/logs/106241420.html">终端提示符设置</a>  <br/>
