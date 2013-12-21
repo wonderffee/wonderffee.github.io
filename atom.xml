@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-12-21T22:07:30+08:00</updated>
+  <updated>2013-12-21T22:59:19+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[capturing on interface rvi0 fails after upgrding to Mavericks ]]></title>
+    <link href="http://wonderffee.github.io/blog/2013/12/21/capturing-on-interface-rvi0-fails-after-upgrding-to-mavericks/"/>
+    <updated>2013-12-21T22:27:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2013/12/21/capturing-on-interface-rvi0-fails-after-upgrding-to-mavericks</id>
+    <content type="html"><![CDATA[<p>MacBook Pro升级至Mavericks后，用Wireshark在rvi0上抓取iOS设备的流量包就出了问题，抓包不能正常显示，白茫茫的一片，没有有效抓包信息。</p>
+
+<p>google了一下，有人遇到同样的问题，看来是Mavericks修改了一些东西。</p>
+
+<!--more-->
+
+
+<p>找到了不完全解决办法：</p>
+
+<p>1、在Wireshark的Edit菜单中打开Preferences->Protocols->DLT_USER</p>
+
+<p>2、选择Edit——New——User 2(DLS=149), payload protocol项输入eth, Header size项输入108， 点击OK保存。</p>
+
+<p>再重新抓包就可以了。</p>
+
+<p>之所以说不完全，是因为抓包不能设置端口过滤，一旦设置端口过滤（比如增加port 8000过滤）的时候wireshark会自动退出，真是奇哉怪也。</p>
+
+<p>测试了一下，是在Link-layer heaer为Pocket Tap（rvi0的默认设置）时增加端口过滤会闪退，而修改为Raw IP不会闪退，但这样修改的话又完全抓不了包,囧里个囧。。。。</p>
+
+<p>实在不行可以用tcpdump抓包：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo tcpdump -i rvi0 -n -s 0 -w capture.pcap port 8000
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：   <br/>
+<a href="http://ask.wireshark.org/questions/26524/mavericks-can-not-capture-from-iphone-using-rvi">Mavericks &ndash; can not capture from iPhone using RVI</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[update CocoaPods问题小记]]></title>
@@ -259,11 +295,11 @@
 <p>反过来，既然判断旋转正方向这么容易，我们也可以利用它来快速判断一个坐标系是左手坐标系和右手坐标系：使用上述结论确定坐标系绕某一某旋转的正方向，然后逆用左手法则与右手法则，大拇指指向该轴的正方向，如果左手四指弯曲的方向与旋转的正方向一致，该坐标系就是左手坐标系，反之就是右手坐标系。</p>
 
 <p>不过这还是复杂，还是需要用手比划。我突然想到了一个更好的方法：<br/>
-想象y轴是一面墙，你面朝前方斜靠在墙上，可以假设你的头部为y轴正方向顶点，脚为x轴正方向顶点，那么z轴在你的左侧时就是左手坐标系，在右侧时就是右手坐标系。这个时候，人体的生长方向也刚好是绕x轴旋转的正方向。</p>
+想象y轴是一面墙，你面朝前方斜靠在墙上，可以假设你的头部为y轴正方向顶点，脚为x轴正方向顶点，那么z轴在你的左侧时就是左手坐标系，在右侧时就是右手坐标系。这个时候，人体的生长方向也刚好是绕z轴旋转的正方向。</p>
 
 <h3>结论二</h3>
 
-<p>再扩展一下就是：对于任意旋转角度的三维坐标系，想象你的脚踩在一个坐标轴正方向的顶点，头倚靠在其邻高坐标轴的正方向顶点，面朝背离原点的方向，那么，第三轴正方向顶点在你的左手边时，这个坐标系就是左手坐标系，在右手边时就是右手坐标系，而人体此时的生长方向就是绕第三轴旋转的正方向。<br/>
+<p>再扩展一下就是：对于任意旋转角度的三维坐标系，想象你的脚踩在一个坐标轴（如x轴）正方向的顶点，头倚靠在其邻高坐标轴（如y轴）的正方向顶点，面朝背离原点的方向，那么，第三轴正方向顶点在你的左手边时，这个坐标系就是左手坐标系，在右手边时就是右手坐标系，而人体此时的生长方向就是绕第三轴(如z轴)旋转的正方向。<br/>
 （注：这里的邻高坐标轴是我自己定义的一个概念，X轴的邻高坐标轴为Y轴，Y轴的邻高坐标轴为Z轴，Z轴的邻高坐标轴为X轴.）</p>
 
 <p>在这个方法里，坐标系属性与绕坐标轴旋转正方向的判断达到了统一，从此可以抛弃左手法则与右手法则，也可以抛弃手指比划的方式来判断左右手坐标系，是不是会觉得很简单？</p>
@@ -1598,30 +1634,6 @@ Halting the installation.   <br/>
 
 
 <p>相对于其它博客，搭建这样的博客还是有点折腾的，费了我不少时间，还好对于我来说不是多大的问题。对于普通用户而言，恐怕就没那么简单了，技术门槛摆在那里是个问题。这种门槛也并非是坏事，至少将一些别有用心的人挡在了Github外面，SourceForge是前车之鉴啊。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[新的开始]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/07/06/a-new-begin/"/>
-    <updated>2013-07-06T22:24:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/07/06/a-new-begin</id>
-    <content type="html"><![CDATA[<p><img src="http://wonderffee.github.io/images/snail.jpg"></p>
-
-<p>很久都没有写博客了，上一次写博客还是两三年前的事，那时还在学校，那时还没有现在这么忙。工作至今，越来越觉得有必要重新拣起博客，一些技术积累，一些心得，不记下来，永远只是在脑海中昙花一现。好记性不如烂笔头，这是亘古不变的真理。平常也会用EverNote来记录一些工作技术上的心得，但这种独自享有的感觉却并不好，现在的世界是开源的世界，我曾经索取很多，现在是时候再分享一些东西了。</p>
-
-<!--more-->
-
-
-<p>原来的博客是在博客大巴上的，在这个略有文艺清新风格的博客上写一些技术博客，感觉是有点不伦不类的，也没有氛围，再继续写下去，自己也不能接受。考虑过CSDN，但自己不太喜欢它的博客风格，我还是更喜欢能自定义一些东西。也想过用WordPress搭建自己的博客，可看到VPS的价格觉得自己是承受不起的，作罢。后来有一次搜资料搜到了唐巧的博客，觉得这种类苹果的简洁风格挺不错，一查个究竟，发现居然是在Github上建的博客，当时就惊诧了，神马，Github上也能写博客？看过那篇《象写程序一样写博客：搭建基于github的博客》什么都明白了，开源再次发挥了强大的力量。这种像Hacker一样的写博客也挺合我胃口，而且还可以把它当独立博客。接着，我在上周利用周末折腾了一下将博客基本搭出来了。那真的就是一时的冲动，坦白地说，那时候Git都不怎么会用，对Git的概念也还处于懵懵懂懂的状态，折腾的过程中因为不熟悉Git没少浪费时间。不过麻烦归麻烦，好处却少不了，至少开始正儿八经地用上Git了，以后也可以号称自己会用Git了，哈哈。</p>
-
-<p>博客折腾完了，得开始给这个博客加点内容了。本人iOS攻城狮一枚，因此可以负责任说，这个博客以后的文章主打iOS开发技术了，当然也不排除写一些MLinux、Windows上的东西。本来自己一开始也不是做iOS开发的，后来机缘巧合才做起了这个。我工作一开始是用Linux C，做这个不到一年后因项目变动不得不从零起步做起了iOS开发，开始了天天与Mac、iPhone，iPad打交道的日子，看上去很让人羡慕，其实也不然。时间倒退几年，苹果的产品对我还是很遥远的东西，听闻Mac很漂亮，iPod很流行，iPhone更是风靡全球，但价格也是高高在上，当时还是学生的我也甭指望能用到苹果的任何东东了，当然，也没机会接触。因为工作的关系，我的系统使用完成了Windows&mdash;>Linux&mdash;>MacOS的大转变，第一次看到MacOS系统时，心里顿生一种惊艳的感觉，这直接导致我在接触iOS不到一年后就自己买了一台Mac Mini做为自己的主力用机，现在的这篇博客就是在这台小巧玲珑的东东上敲出来的。现在除了一些不可替代的软件，基本上都不用Windows了，自己的Windows笔记本也经常性地蒙上一尘灰。用Mac就基本上不用担心Windows上一些流氓软件了，杀毒软件也免了，跟Linux同源又比Linux漂亮，能有的软件也都有了，因此如果不是非Windows不可以及经济允许的话，我建议每个人都可以尝试一下Mac电脑，入门级，首选Mac Mini。貌似扯得有点远了。</p>
-
-<p>其实，还是因为做iOS的缘故，让我认识了Github，很多iOS开源代码就放在Github上，不用还真不行，但用就是对的。iOS完全被苹果掌控，每年都会更新换代，这就意味着每一个iOS开发人员都得跟得上苹果的步伐才不至于落后，除了苹果的英文资料与网上的博客，Github上的代码就是最好的学习范例。就目前看来，Github上提供了世界最完美的编程社交平台，参与其中，必会有一些收获。打算以后，也要在Github上多多贡献自己一些代码了，要不然还真愧对于自己一直以来只求索取的行为了。</p>
-
-<p>无论怎样，不管是用Github写博客还是在Github上贡献代码，对于自己来说都是新的尝试。自己需要做的，就是像一只蜗牛一样，缓缓前行，一步一步留下自己的印记！</p>
-
-<p>本文图片来源：<a href="http://share.9ikblog.com/archives/30-tips-to-improve-your-ios-design-workflow-in-photoshop.html">PHOTOSHOP中改进IOS设计流程的30个诀窍</a></p>
 ]]></content>
   </entry>
   
