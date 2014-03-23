@@ -97,7 +97,7 @@ positionNew.y = positionOld.y + (anchorPointNew.y - anchorPointOld.y)  * bounds.
 但是在实际使用没必要这么麻烦。修改anchorPoint而不想移动layer，在修改anchorPoint后再重新设置一遍frame就可以达到目的，这时position就会自动进行相应的改变。写成函数就是下面这样的：
 {% codeblock lang:objc %}
 - (void) setAnchorPoint:(CGPoint)anchorpoint forView:(UIView *)view{
-	CGRect oldFrame = view;
+	CGRect oldFrame = view.frame;
 	view.layer.anchorPoint = anchorpoint;
 	view.frame = oldFrame;
 }
