@@ -115,6 +115,11 @@ frame.origin.y = position.y - anchorPoint.y * bounds.size.height；
 
 第2条的互不影响原则还可以这样理解：position与anchorPoint是处于不同坐标空间中的重合点，修改重合点在一个坐标空间的位置不影响该重合点在另一个坐标空间中的位置。
 
+###后记
+20140323：关于修改anchorPoint为什么会移动layer的位置，在刚才回复finder的评论时想到了一个更好的解释：    
+还是以桌子与白纸为例，如果固定图钉在桌上的位置，也就是positon不变，这个时候图钉处在白纸的不同地方就是不同的anchorPoint，相应地也就是不同的frame。     
+另一方面，如果固定图钉在白纸上的位置（没订在桌子上），不管怎么平移白纸，anchorPoint肯定是不变的，但frame肯定是随之变化的
+
 ####参考
 * [Core Animation Programming Guide](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW15)  
 * [Changing my CALayer's anchorPoint moves the view](http://stackoverflow.com/questions/1968017/changing-my-calayers-anchorpoint-moves-the-view)   
