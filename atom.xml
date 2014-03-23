@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2013-12-21T22:59:19+08:00</updated>
+  <updated>2014-03-23T17:34:08+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[解决IE不能上网问题小记]]></title>
+    <link href="http://wonderffee.github.io/blog/2014/03/23/solve-ie-cannot-surf-internet-problem/"/>
+    <updated>2014-03-23T17:22:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2014/03/23/solve-ie-cannot-surf-internet-problem</id>
+    <content type="html"><![CDATA[<p>虽然平常主要用Mac OS X，有时候还是不得不用XP来做一点事，却是总会遇到一些恼火的事情。比如，这一个周末的下午，都在纠缠IE不能上网，关机总是卡在“正在保存设置”，每次都得硬关机才行.</p>
+
+<p>关于这个问题，我怀疑与一周前解决流氓hao123主页锁定问题有关。</p>
+
+<!--more-->
+
+
+<p>XP系统在一周前被hao123恶鬼上身，主页总是被锁定为hao123的某个推广账号的网址；</p>
+
+<p>搜索注册表，把所有带hao123的注册项都修改为about:blank，重启还是老样子；</p>
+
+<p>不得已，祭起360清理流氓插件，无果；用360锁定主页为空白页，重启过后还是无效；</p>
+
+<p>打开360上的电脑专家，搜索“主页 hao123”，找到排在第一的“IE主页被篡改为hao123”解决方案，点立即修复，hao123主页锁定的问题就解决了。</p>
+
+<p>估计就是从此落下了病根，这一周电脑启动都会出现打开IE不能上网，但是chrome却能打开网页，怀疑是杀hao123病毒将某些系统关键文件给误删了还是什么的。</p>
+
+<p>用360修复过上网问题，重启是没问题了，但是再重启第二次问题依旧</p>
+
+<p>甚至这个不能上网问题还能导致360卡死。。。</p>
+
+<p>这个IE不能上网的问题我做了各种尝试，总结起来有以下几个现象：   <br/>
+1. IE打不开网页，chrome上网却没有问题   <br/>
+2. 在IE的Internet选项中打不开连接选项卡，一点就卡死，点关闭按钮IE闪退  <br/>
+3. 桌面右下角系统托盘处的本地连接消失   <br/>
+4. 桌面“网络邻居”右键点属性，鼠标指针显示忙碌，然后什么都没有打开   <br/>
+5. 不能正常关机，关机时一直显示“正在保存设置”  <br/>
+6. 不能远程</p>
+
+<p>在网上搜索怀疑是Winsock劫持问题，尝试用过下面的方法，但是也是第一次重启是变正常了，IE上网和关机都好了，第二次重启问题却依旧。</p>
+
+<blockquote><p>开始-运行-输入CMD-确定-输入netsh winsock reset，按Enter确定。然后重启。 如果提示需要管理员身份： 那是因为你没有管理员权限，win7系统打开C:\Windows\System32。 找到cmd.exe，右键以管理员运行就可以了，xp也是类似的方法</p></blockquote>
+
+<p>google了不知道多少遍都没找到一个此问题的标准答案。最后找到一个似乎解决问题的方法：重新安装TCP/IP协议，有一个简单的命令可以达到这样的效果：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>netsh int ip reset c:resetlog.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行了这个命令后，我试过重启三次托盘本地连接都能正常显示了，IE也能正常上网，但不排除是其它命令起了作用。</p>
+
+<p>浪费了一个宝贵的周末下午时间，我只能说，QNMD hao123，QNMD baidu</p>
+
+<p>记录下在Windows中命令行设置DNS的命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>netsh
+</span><span class='line'>int ip
+</span><span class='line'>set dns name="无线网络连接" source=static addr=114.114.114.114 register=PRIMARY</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[capturing on interface rvi0 fails after upgrding to Mavericks ]]></title>
@@ -1535,105 +1595,6 @@ bitmapInfo                       指定bitmap是否包含alpha通道，像素中
 <li><a href="http://stackoverflow.com/questions/13291919/detect-touches-only-on-non-transparent-pixels-of-uiimageview-efficiently">Detect touches only on non-transparent pixels of UIImageView, efficiently</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[搭建基于Github的Octopress博客]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/07/09/da-jian-ji-yu-githubde-octopressbo-ke/"/>
-    <updated>2013-07-09T23:18:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/07/09/da-jian-ji-yu-githubde-octopressbo-ke</id>
-    <content type="html"><![CDATA[<p>我无意像其它人一样写一个大而全的教程，这样的教程在网上已经有很多，你只需要参考下面任何一个教程都可以得到满意的答案。</p>
-
-<ul>
-<li><a href="http://octopress.org/docs/">Octopress官方文档</a></li>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">象写程序一样写博客：搭建基于github的博客</a></li>
-<li><a href="http://biaobiaoqi.me/blog/2013/03/21/building-octopress-in-github-mac/">在github上搭建octopress博客</a></li>
-<li><a href="http://easypi.github.io/blog/2013/01/05/using-octopress-to-setup-blog-on-github/">利用Octopress在github Pages上搭建个人博客</a></li>
-<li><a href="http://ishalou.com/blog/2012/10/15/how-to-use-octopress/">使用Octopress + Github管理blog</a>    <br/>
-其中前面三个链接是我主要参考的。</li>
-</ul>
-
-
-<p>这里，我主要想记录我遇到的一些问题，以期望能对那些遇到类似问题的人有些许帮助。当然，如果你在操作之前先看到了这篇文章，那也不妨先看看再更有底气地动手。</p>
-
-<!--more-->
-
-
-<h3>Github repository设置</h3>
-
-<p>基于Github的博客其实是利用了Github Pages支持html上传的功能来实现的，那么怎么开通Github Pages呢？答案很简单，在你的Github上创建一个名为username.github.io的repository，然后上传html就可以了。上传hmtl就是后面提到的rake deploy命令负责的，先不用管，这里说说repository的命名。</p>
-
-<p>多数教程建议在GitHub上建立名为username.Github.com的repository（其中username要替换成Github真实用户名），但是我根据Octopress教程操作时，发现要求提供的Git地址是git@github.com:username/username.github.io.git，当时我就迷惑了，到底是.com还是.io？之后才发现.com这个后缀是Github早期推荐使用的，现在推荐使用.io格式，为了兼容起见，Github还是让username.github.com能够访问，不过是让它自动指向username.github.io而已。因此为了避免疑惑，对初次使用者还是建议使用username.github.io来命名自己的repository.</p>
-
-<p>如果你还是一位Git初学者，在建repositionary时最好不要勾选生成README.md文件，说来惭愧，由于本人对Git还停留在准入门阶段，一时手贱结果让这个东东在后面给我造成了一些麻烦。如果你是Git初学者就信我这一回，不要勾选。</p>
-
-<h3>Ruby安装失败问题</h3>
-
-<p>准备条件中有一条要有ruby 1.9.3环境，我的MacOS系统(10.8.1)原生自带ruby，就是版本是1.8.7低了一点，需要通过rvm来升级到1.9.3版本。需要注意的是ruby现在已经是2.0版本了，不确定用最新版本的ruby能否安装成功，因此不要贸然尝试将ruby更新到最新版本。</p>
-
-<p>我下载rvm后安装ruby 1.9.3，执行命令：rvm install 1.9.3，遇到下面的问题 <br/>
-There was an error while trying to resolve rubygems version for &lsquo;latest&rsquo;.   <br/>
-Halting the installation.   <br/>
-不明原因，解决方法是重试：rvm reinstall 1.9.3   <br/>
-参考：<a href="http://misheska.com/blog/2013/06/16/using-rvm-to-manage-multiple-versions-of-ruby/">http://misheska.com/blog/2013/06/16/using-rvm-to-manage-multiple-versions-of-ruby/</a></p>
-
-<h3>Github SSH key</h3>
-
-<p>Octopress博客的创建过程中需要用到Github SSH key，生成Github SSH key的方法可以参考Github官方的<a href="https://help.github.com/articles/generating-ssh-keys">Generating SSH Keys</a>教程</p>
-
-<h3>访问博客时显示404的问题</h3>
-
-<p>我按照别人博客教程里提供的方法弄完了，去看我的博客，发现给了一个404的页面。有人说要等十几分钟才会正常，结果我等了一个多小时还是原样。是怎么回事呢，最后才发现我漏输了一个&#8221;rake deploy&#8221;命令，导致我的本地博客根本就没有发布到Github上去，真是大意。</p>
-
-<p>这还得从名为username.github.io的repository的构成说起，每个在Github上发布成功的博客，在username.github.io这个repository里都会有两个分支，分别为master和source。其中master分支存放博客正常显示所需要的静态文件（也就是rake generate生成的），source分支下是整个博客的全部源码。&#8221;rake deploy&#8221;命令的主要作用就是把本地的_deploy目录下面的内容push到远程的master分支，如果忘记执行这条命令，master分支下就没有内容，访问博客自然也就会出现404错误了。</p>
-
-<h3>关于博客配置与MarkDown学习</h3>
-
-<p>Github博客的配置主要在_config.yml这个文件中进行，各个教程也都做了简短介绍，比如去掉一些不用的侧边栏，增加分享与评论功能，但仅限于此。</p>
-
-<p>在Github上写博客，MarkDown是必须的技能。基本上每个提供搭建Github博客教程都会让你去看MarkDown的语法教程或的网上介绍文章，比如<a href="http://daringfireball.net/projects/markdown/">这个</a>，还有<a href="http://wowubuntu.com/markdown/index.html">这个</a>。</p>
-
-<p>但是我想说最好的教程就是各位大牛自己的博客，怎么说呢，基于Github建立的博客源码都是托管在Github上面的，我们完全可以找到每篇博客的源码。如果你想看看别人的博客是怎么配置的，可以去看他的博客源码souce分支下的_config.yml文件，如果想看别人的博客用MarkDown怎么写的，可以看source分支source目录下的_posts路径下的MarkDown文件，这比看各种各样的教程与介绍直观多了，而且很快能找到自己想要的。比如可以参考<a href="http://blog.devtang.com/">唐巧的博客</a>与对应的<a href="https://github.com/tangqiaoboy/tangqiaoboy.github.com">源码托管处</a>，看看他的博客怎么配置的、文章是怎么用MarkDown写出来的，然后自己照葫芦画瓢就行了。</p>
-
-<p>编辑md文件我是用Sublime Text2的，供参考。</p>
-
-<h3>发表博文常用命令：</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>#创建一篇博文
-</span><span class='line'>rake new_post["post title"] #将在工作目录的source/_post/目录下生成相应的markdown文件。然后可以使用mou工具去修改编辑内容。
-</span><span class='line'>
-</span><span class='line'>#生成预览
-</span><span class='line'>rake preview #可以在浏览器中访问localhost:4000在本机实时观察最新的编辑效果。
-</span><span class='line'>
-</span><span class='line'>#在线发布
-</span><span class='line'>rake deploy  #这一步将最新的内容push到Github上的master分支，完成部署。成功后，即可在线访问。
-</span><span class='line'>
-</span><span class='line'>#向github提交源文件更新
-</span><span class='line'>git add .
-</span><span class='line'>git commit -m "提交内容"
-</span><span class='line'>git push origin source
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>相对于其它博客，搭建这样的博客还是有点折腾的，费了我不少时间，还好对于我来说不是多大的问题。对于普通用户而言，恐怕就没那么简单了，技术门槛摆在那里是个问题。这种门槛也并非是坏事，至少将一些别有用心的人挡在了Github外面，SourceForge是前车之鉴啊。</p>
 ]]></content>
   </entry>
   
