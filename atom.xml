@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-03-23T18:50:21+08:00</updated>
+  <updated>2014-03-23T19:07:24+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -733,7 +733,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setAnchorPoint:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">anchorpoint</span> <span class="nf">forView:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nv">view</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">CGRect</span> <span class="n">oldFrame</span> <span class="o">=</span> <span class="n">view</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CGRect</span> <span class="n">oldFrame</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
 </span><span class='line'>  <span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">anchorpoint</span><span class="p">;</span>
 </span><span class='line'>  <span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">oldFrame</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>

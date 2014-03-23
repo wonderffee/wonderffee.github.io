@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-03-23T18:50:21+08:00</updated>
+  <updated>2014-03-23T19:07:24+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -459,7 +459,7 @@ positionNew.y = positionOld.y + (anchorPointNew.y - anchorPointOld.y)  * bounds.
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="o">&amp;</span><span class="n">ndash</span><span class="p">;</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">setAnchorPoint:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">anchorpoint</span> <span class="nl">forView:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">CGRect</span> <span class="n">oldFrame</span> <span class="o">=</span> <span class="n">view</span><span class="p">;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">CGRect</span> <span class="n">oldFrame</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
 </span><span class='line'><span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">anchorpoint</span><span class="p">;</span>
 </span><span class='line'><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">oldFrame</span><span class="p">;</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
