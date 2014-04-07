@@ -120,6 +120,19 @@ The version of CocoaPods used to generate the lockfile is higher that the one of
 <p>问题原因：gem update更新了rake到10.1.1，而Octopress的Gemfile中要求的rake版本为0.9</p>
 
 <p>解决方法：修改Octopress的Gemfile，将gem &lsquo;rake&rsquo;, &lsquo;~> 0.9&#8217;改为gem &#8216;rake&rsquo;, &lsquo;~> 10.1.1&#8217;，重新执行rake new_post[&ldquo;title&rdquo;]就没有问题了。</p>
+
+<h3>20140407 CocoaPods更新慢的问题</h3>
+
+<p>最近可能由于出国节点的问题，无论是执行pod install还是pod update都卡在Analyzing dependencies不动了，慢到无以复加的地步，无法忍受。</p>
+
+<p>其实原因在于以上两个命令执行时会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pod install --verbose --no-repo-update
+</span><span class='line'>pod update --verbose --no-repo-update
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
