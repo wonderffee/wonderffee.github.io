@@ -27,3 +27,13 @@ You have already activated rake 10.1.1, but your Gemfile requires rake 0.9.2.2. 
 问题原因：gem update更新了rake到10.1.1，而Octopress的Gemfile中要求的rake版本为0.9
 
 解决方法：修改Octopress的Gemfile，将gem 'rake', '~> 0.9'改为gem 'rake', '~> 10.1.1'，重新执行rake new_post["title"]就没有问题了。
+
+###20140407 CocoaPods更新慢的问题
+
+最近可能由于出国节点的问题，无论是执行pod install还是pod update都卡在Analyzing dependencies不动了，慢到无以复加的地步，无法忍受。
+
+其实原因在于以上两个命令执行时会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：
+```
+pod install --verbose --no-repo-update
+pod update --verbose --no-repo-update
+```
