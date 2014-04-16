@@ -2,136 +2,140 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://wonderffee.github.io/blog/2013/07/06/a-new-begin/</loc>
-        <lastmod>2013-07-13T12:27:00+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/07/09/da-jian-ji-yu-githubde-octopressbo-ke/
         </loc>
-        <lastmod>2013-07-13T12:30:42+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/07/10/pass-touch-event-through-uiimageviews-transparent-area-in-ios/
         </loc>
-        <lastmod>2013-07-13T12:31:07+08:00</lastmod>
+        <lastmod>2014-04-16T22:07:13+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/07/13/best-packet-capture-tool-charles-in-ios/
         </loc>
-        <lastmod>2013-07-13T12:28:13+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/2013/08/05/simulate-weico-custom-tabbar/</loc>
-        <lastmod>2013-08-07T20:38:30+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6/
         </loc>
-        <lastmod>2013-08-07T19:54:01+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/08/07/hide-custom-tab-bar-with-animation-when-push/
         </loc>
-        <lastmod>2013-08-07T23:13:53+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class/
         </loc>
-        <lastmod>2013-08-07T23:17:34+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/08/14/dont-use-symbolicatecrash-to-symbolicate-the-crash-log/
         </loc>
-        <lastmod>2013-08-14T22:20:30+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/2013/08/15/solve-new-line-problem-in-terminal/</loc>
-        <lastmod>2013-10-06T11:41:46+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/
         </loc>
-        <lastmod>2013-10-06T09:55:42+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos/
         </loc>
-        <lastmod>2013-10-06T10:38:42+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/
         </loc>
-        <lastmod>2013-10-06T11:38:30+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/2013/10/07/some-macos-tips/</loc>
-        <lastmod>2013-10-07T08:56:24+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/13/understand-anchorpoint-and-position/
         </loc>
-        <lastmod>2014-03-23T20:24:51+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/14/understand-anchorpoint-and-position-with-instance/
         </loc>
-        <lastmod>2013-10-16T23:47:53+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/
         </loc>
-        <lastmod>2013-10-17T21:54:01+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/
         </loc>
-        <lastmod>2013-12-21T22:15:38+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/
         </loc>
-        <lastmod>2013-10-21T23:22:30+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/2013/12/21/update-cocoapods/</loc>
-        <lastmod>2014-04-07T09:59:53+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2013/12/21/capturing-on-interface-rvi0-fails-after-upgrding-to-mavericks/
         </loc>
-        <lastmod>2013-12-21T22:59:18+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://wonderffee.github.io/blog/2014/03/23/solve-ie-cannot-surf-internet-problem/
         </loc>
-        <lastmod>2014-03-23T17:34:07+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wonderffee.github.io/blog/2014/04/16/hello-i-am-yoyowinwin/</loc>
+        <lastmod>2014-04-16T21:49:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/blog/archives/</loc>
-        <lastmod>2014-04-07T09:59:53+08:00</lastmod>
+        <lastmod>2014-04-16T22:07:13+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/</loc>
-        <lastmod>2014-04-07T09:59:53+08:00</lastmod>
+        <lastmod>2014-04-16T22:07:13+08:00</lastmod>
     </url>
     <url>
         <loc>http://wonderffee.github.io/robots.txt</loc>
-        <lastmod>2013-06-30T15:21:34+08:00</lastmod>
+        <lastmod>2014-04-16T21:42:57+08:00</lastmod>
     </url>
 </urlset>
