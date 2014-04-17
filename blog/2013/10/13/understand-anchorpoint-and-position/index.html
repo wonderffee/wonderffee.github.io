@@ -157,7 +157,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>position.y = frame.origin.y + anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<blockquote></blockquote>
 
 <p>下面再来看另外两个问题，如果单方面修改layer的position位置，会对anchorPoint有什么影响呢？修改anchorPoint又如何影响position呢？  <br/>
 根据代码测试，两者互不影响，受影响的只会是frame.origin，也就是layer坐标原点相对superLayer会有所改变。换句话说，frame.origin由position和anchorPoint共同决定，上面的公式可以变换成下面这样的：</p>
@@ -388,10 +388,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 
 </body>
 </html>
-</span>
-</p>
-
-</footer>
+/footer>
   
 
 
