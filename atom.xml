@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-04-17T22:47:22+08:00</updated>
+  <updated>2014-04-17T23:01:09+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[如何用另一个身份发表文章]]></title>
+    <title type="html"><![CDATA[如何让朋友在你的博客上发表文章]]></title>
     <link href="http://wonderffee.github.io/blog/2014/04/16/hello-i-am-yoyowinwin/"/>
     <updated>2014-04-16T21:45:00+08:00</updated>
     <id>http://wonderffee.github.io/blog/2014/04/16/hello-i-am-yoyowinwin</id>
@@ -22,17 +22,19 @@
 
 <hr />
 
-<p>大家好，我是<a href="http://yoyowinwin.github.io/">wayne</a>.我把wonderffee的博客clone下来了，然后写了这些文字。</p>
+<p>大家好，我是<a href="http://yoyowinwin.github.io/">yoyowinwin</a>.wonderffee这货的博客的权限是wiki类型的，所以人人可以编辑。</p>
 
 <!--more-->
 
 
-<p><img src="http://yoyowinwin.github.io/images/puffin.jpeg" alt="yoyowinwin" /> <br/>
-并留下我的身份，方法就是在文章开头加一个author：</p>
+<p>如果是协作类型的话，他需要把我添加进协作者我才能编辑。具体操作在后台。<br/>
+<img src="http://yoyowinwin.github.io/images/puffin.jpeg" alt="yoyowinwin" /><br/>
+然后呢，还需要对特定的文章指定作者名字，不然署名就会取自_config.yml里的author值。<br/>
+在此，我添加了<code>author: yoyowinwin</code></p>
 
 <pre><code>---
 layout: post
-title: "如何用另一个身份发表文章"
+title: "如何让朋友在你的博客上发表文章"
 author: yoyowinwin
 date: 2014-04-16 21:45
 comments: true
@@ -733,7 +735,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>frame.origin.y = position.y - anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>这就解释了为什么修改anchorPoint会移动layer，因为position不受影响，只能是frame.origin做相应的改变，因而会移动layer。</p>
 
@@ -765,7 +767,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>positionNew.y = positionOld.y + (anchorPointNew.y - anchorPointOld.y)  * bounds.size.height</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>但是在实际使用没必要这么麻烦。修改anchorPoint而不想移动layer，在修改anchorPoint后再重新设置一遍frame就可以达到目的，这时position就会自动进行相应的改变。写成函数就是下面这样的：</p>
 
@@ -794,7 +796,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>frame.origin.y = position.y - anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>第2条的互不影响原则还可以这样理解：position与anchorPoint是处于不同坐标空间中的重合点，修改重合点在一个坐标空间的位置不影响该重合点在另一个坐标空间中的位置。</p>
 
