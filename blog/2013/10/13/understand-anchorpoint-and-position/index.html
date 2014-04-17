@@ -168,7 +168,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>frame.origin.y = position.y - anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<blockquote></blockquote>
 
 <p>这就解释了为什么修改anchorPoint会移动layer，因为position不受影响，只能是frame.origin做相应的改变，因而会移动layer。</p>
 
@@ -200,7 +200,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>positionNew.y = positionOld.y + (anchorPointNew.y - anchorPointOld.y)  * bounds.size.height</span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<blockquote></blockquote>
 
 <p>但是在实际使用没必要这么麻烦。修改anchorPoint而不想移动layer，在修改anchorPoint后再重新设置一遍frame就可以达到目的，这时position就会自动进行相应的改变。写成函数就是下面这样的：</p>
 
@@ -229,7 +229,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>frame.origin.y = position.y - anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<blockquote></blockquote>
 
 <p>第2条的互不影响原则还可以这样理解：position与anchorPoint是处于不同坐标空间中的重合点，修改重合点在一个坐标空间的位置不影响该重合点在另一个坐标空间中的位置。</p>
 
@@ -310,7 +310,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/04/16/hello-i-am-yoyowinwin/">我不是wonderffee,我是yoyowinwin</a>
+        <a href="/blog/2014/04/16/hello-i-am-yoyowinwin/">如何用另一个身份发表文章</a>
       </li>
     
       <li class="post">
