@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-05-17T12:30:30+08:00</updated>
+  <updated>2014-05-17T13:24:09+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[unrecognized selector sent to instance问题之诱敌深入关门打狗解决办法]]></title>
+    <link href="http://wonderffee.github.io/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem/"/>
+    <updated>2014-05-17T11:03:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem</id>
+    <content type="html"><![CDATA[<p>前不久在微博上看到一篇文章，<a href="http://blog.objcc.com/unrecognized-selector-sent-to-instance/">《UNRECOGNIZED SELECTOR SENT TO INSTANCE 问题快速定位的方法》</a> 其中讲了iOS unrecognized selector sent to instance问题的快速定位方法，方法是不错的，但是实际测试发现文中的方法并非万能，从我自身的经历以及文中的评论看都有不能解决的情况。</p>
+
+<!--more-->
+
+
+<p>出现unrecognized selector sent to instance问题，大部分是因为对象被提前释放，指针变成野指针，还有一种情况是本身就是野指针，如声明一个局部对象，没有初始化就直接调用。定位难的原因是你知道这个野指针指到哪个类了，但是不知道是哪里产生了野指针。如果一个正常的对象调用一个不存在的方法，也会给出这个提示，不过这种情况下Xcode会直接给出crash的代码行，不存在定位难的问题。</p>
+
+<p>我遇到这个问题的情况是这样的：写的代码一直在iOS7下进行调试，运行得好好的，最近想测试一下iOS6的兼容性，结果登录成功后就会产生crash，提示[NewsViewController size] unrecognized selector sent to instance，看到这个问题当时真是相当莫名其妙，NewsViewController无论如何都不可能有size这个方法，是什么让NewsViewController调用这个方法呢？</p>
+
+<p>在Xcode中用size关键词搜索所有调用size的地方一个个排除？别逗了，代码里多的是。想象一下，你在iOS7下写好了全部代码，然后在iOS6下测试兼容性时出现此问题，面对茫茫如海的代码，足够让你望洋兴叹了，一个个去找，费不起那功夫。</p>
+
+<p>想起来上面那篇文章中的方法，结果是毫无帮助，下断点无效。</p>
+
+<p>只得再另想办法。要快速定位问题代码行，主要思路还是得下断点，还有没有别的办法下断点呢？这个时候可就要在“unrecognized selector sent to instance”的提示上做文章了，这个提示的实际意义是某个对象调用了不存在的方法。不妨逆向思考一下，既然它没有，我如果给它加上一个呢？这不下断点的机会就来了——所谓诱敌深入，关门打狗，不过如此。</p>
+
+<p>于是，我就在NewsViewController中加了一个这样的方法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="n">CGSize</span><span class="p">)</span><span class="nf">size</span><span class="p">{</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;test&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="n">CGSizeZero</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在其中的NSLog行加上断点，运行工程，果然就找到了调用该方法的代码行，问题迎刃而解。</p>
+
+<p>出错的代码也贴一下吧，简化一下大概就是下面这样的:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span><span class="p">{</span>
+</span><span class='line'><span class="n">UIImage</span> <span class="o">*</span><span class="n">imgNormal</span><span class="p">,</span> <span class="o">*</span><span class="n">imgSelected</span><span class="p">;</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;imagNormal width is %f&quot;</span><span class="p">,</span> <span class="n">imgNormal</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>问题出在NSLog的那一行，很显然，这就是没有初始化的局部对象在实际访问时出错，系统认为它是NewsViewController对象， 不再属于UIImage类了。</p>
+
+<p>需要注意的是，上面的代码你拿过去并不一定能复现同样的问题，可能就不会发生crash了。这里只是提供另一种解决思路，希望对遇到此问题的人有所帮助。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何让朋友在你的博客上发表文章]]></title>
@@ -1476,55 +1530,6 @@ push时调用navigationController: willShowViewController:方法来触发通知�
 
 <p>截图： <br/>
 <img src="http://wonderffee.github.io/images/customTabBar.png"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS抓包利器Charles]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/07/13/best-packet-capture-tool-charles-in-ios/"/>
-    <updated>2013-07-13T11:21:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/07/13/best-packet-capture-tool-charles-in-ios</id>
-    <content type="html"><![CDATA[<p>看唐巧的<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文发现他使用了抓包工具Charles，想起去年有人给我推荐过这个工具，但是当时我觉得WireShark就够用了就没尝试。这次看到又有人使用Charles我就重视起来了，Charles到底有什么好？</p>
-
-<p>搜了一下，发现大多数使用者都是将Charles作为移动端抓包工具使用的，这样就意味着我们可以用Charles来截取iPhone/iPad上app所发出的网络请求来进行分析，<a href="http://blog.devtang.com/blog/2013/06/23/alipay-plugin-mechanism/">分析支付宝客户端的插件机制</a>一文就是这么用的。WireShark显然做不到这一点，优势一下子就体现出来了。</p>
-
-<!--more-->
-
-
-<p>在Mac上安装Charles后，启动Charles，首先弹出一个框提示是否允许Charles有自动修改网络设置的权限，选择允许后出现Charles主界面。Charles主界面左侧有Structure和Sequence，你会发现会发现Structure这一栏里会逐步出现当前我的mac正在请求的链接，也就是说Charles一启动就自动进行抓包了。不过遗憾的是Structure栏里没有过滤选项，意味着你不能过滤特定网站。切换到Sequence栏，这个就容易懂了，按时间顺序来排列的，与WireShark一致。下方的Filter可以过滤，而是还是实时过滤的，这一点就比WireShark强多了。</p>
-
-<p> <img src="http://wonderffee.github.io/images/Structure.png"></p>
-
-<p> <img src="http://wonderffee.github.io/images/Sequence.png"></p>
-
-<p>如何在Mac上用Charles远程抓iPhone上app的网络请求呢？方法相当简单，下面就提供了HTTP和HTTPS抓包的操作步骤，简单几步就搞定了。</p>
-
-<h3>HTTP抓包</h3>
-
-<ul>
-<li>打开Charles程序</li>
-<li>查看Mac电脑的IP地址，如192.168.1.7</li>
-<li>打开iOS设置，进入当前wifi连接，设置HTTP代理Group，将服务器填为上一步中获得的IP，即192.168.1.7，端口填8888</li>
-<li>iOS设备打开你要抓包的app进行网络操作</li>
-<li>Charles弹出确认框，点击Allow按钮即可</li>
-</ul>
-
-
-<h3>HTTPS抓包</h3>
-
-<ul>
-<li>下载Charles证书<a href="http://www.charlesproxy.com/ssl.zip">http://www.charlesproxy.com/ssl.zip</a>，解压后导入到iOS设备中（将crt文件作为邮件附件发给自己，再在iOS设备中点击附件即可安装；也可上传至dropbox之类的网盘，通过safari下载安装）</li>
-<li>在Charles的工具栏上点击设置按钮，选择Proxy Settings…</li>
-<li>切换到SSL选项卡，选中Enable SSL Proxying，别急，选完先别关掉，还有下一步</li>
-<li>这一步跟Fiddler不同，Fiddler安装证书后就可以抓HTTPS网址的包了，Charles则麻烦一些，需要在上一步的SSL选项卡的Locations表单填写要抓包的域名和端口，点击Add按钮，在弹出的表单中Host填写域名，比如填api.instagram.com，Port填443</li>
-</ul>
-
-
-<p>我简单试用了一下Charles的远程抓包功能，发现Charles比WireShark还有一个优势是能对JSON数据(在JSON Text栏)进行解析，从而让我们可以更直观地查看JSON串信息(在JSON 栏)。此外Charles对中文支持比较好，JSON串中的中文信息一般会显示为一长串的\ug开头的字符，解析之后就能显示出中文了。平常总头痛Wireshark对中文支持不好，用Charles就完全没有这个问题了。</p>
-
-<p>参考资料： <br/>
-<a href="http://larryhou.github.io/blog/2012/11/05/remote-debug-with-charles-proxy/">使用Charles远程调试iOS移动应用</a>   <br/>
-<a href="http://ju.outofmemory.cn/entry/32837">mac下的抓包工具Charles</a></p>
 ]]></content>
   </entry>
   

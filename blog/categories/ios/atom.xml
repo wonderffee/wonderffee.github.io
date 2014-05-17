@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-05-17T12:30:30+08:00</updated>
+  <updated>2014-05-17T13:24:09+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[unrecognized selector sent to instance问题之诱敌深入关门打狗解决办法]]></title>
+    <link href="http://wonderffee.github.io/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem/"/>
+    <updated>2014-05-17T11:03:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem</id>
+    <content type="html"><![CDATA[<p>前不久在微博上看到一篇文章，<a href="http://blog.objcc.com/unrecognized-selector-sent-to-instance/">《UNRECOGNIZED SELECTOR SENT TO INSTANCE 问题快速定位的方法》</a> 其中讲了iOS unrecognized selector sent to instance问题的快速定位方法，方法是不错的，但是实际测试发现文中的方法并非万能，从我自身的经历以及文中的评论看都有不能解决的情况。</p>
+
+<!--more-->
+
+
+<p>出现unrecognized selector sent to instance问题，大部分是因为对象被提前释放，指针变成野指针，还有一种情况是本身就是野指针，如声明一个局部对象，没有初始化就直接调用。定位难的原因是你知道这个野指针指到哪个类了，但是不知道是哪里产生了野指针。如果一个正常的对象调用一个不存在的方法，也会给出这个提示，不过这种情况下Xcode会直接给出crash的代码行，不存在定位难的问题。</p>
+
+<p>我遇到这个问题的情况是这样的：写的代码一直在iOS7下进行调试，运行得好好的，最近想测试一下iOS6的兼容性，结果登录成功后就会产生crash，提示[NewsViewController size] unrecognized selector sent to instance，看到这个问题当时真是相当莫名其妙，NewsViewController无论如何都不可能有size这个方法，是什么让NewsViewController调用这个方法呢？</p>
+
+<p>在Xcode中用size关键词搜索所有调用size的地方一个个排除？别逗了，代码里多的是。想象一下，你在iOS7下写好了全部代码，然后在iOS6下测试兼容性时出现此问题，面对茫茫如海的代码，足够让你望洋兴叹了，一个个去找，费不起那功夫。</p>
+
+<p>想起来上面那篇文章中的方法，结果是毫无帮助，下断点无效。</p>
+
+<p>只得再另想办法。要快速定位问题代码行，主要思路还是得下断点，还有没有别的办法下断点呢？这个时候可就要在“unrecognized selector sent to instance”的提示上做文章了，这个提示的实际意义是某个对象调用了不存在的方法。不妨逆向思考一下，既然它没有，我如果给它加上一个呢？这不下断点的机会就来了——所谓诱敌深入，关门打狗，不过如此。</p>
+
+<p>于是，我就在NewsViewController中加了一个这样的方法：
+<code>objc
+- (CGSize)size{
+NSLog(@"test");
+return CGSizeZero;
+}
+</code>
+在其中的NSLog行加上断点，运行工程，果然就找到了调用该方法的代码行，问题迎刃而解。</p>
+
+<p>出错的代码也贴一下吧，简化一下大概就是下面这样的:
+<code>objc
+- (void)test{
+UIImage *imgNormal, *imgSelected;
+NSLog(@"imagNormal width is %f", imgNormal.size.width);
+}
+</code></p>
+
+<p>问题出在NSLog的那一行，很显然，这就是没有初始化的局部对象在实际访问时出错，系统认为它是NewsViewController对象， 不再属于UIImage类了。</p>
+
+<p>需要注意的是，上面的代码你拿过去并不一定能复现同样的问题，可能就不会发生crash了。这里只是提供另一种解决思路，希望对遇到此问题的人有所帮助。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 3D UI——CALayer的transform扩展解析]]></title>
@@ -495,102 +538,6 @@ frame.origin.y = position.y - anchorPoint.y * bounds.size.height；
 <li><a href="http://www.dreamingwish.com/dream-2012/coreanimation-programming-guide-c-the-geometric-transformation.html">CoreAnimation编程指南(三)几何变换</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[升级iOS7后利用rvictl和wireshark抓包失效?]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/"/>
-    <updated>2013-10-06T11:31:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7</id>
-    <content type="html"><![CDATA[<p>最近把一台设备升级到iOS7后，利用rvictl和wireshark抓包发现抓不了，无意中发现在装有xcode5的机器上可以抓包，看来rvictl与xcode是绑定的，升级到最新的iOS7后，必须要装上最新的xcode5版本才能抓包。</p>
-
-<p>使用rvictl有一个前提是要获取设备的UDID，看网上不少教程都是从xcode中获取UDID，步骤相当繁琐，快速获取UDID用命令行才是王道，果然不出所料，很快就找到了三种命令行快速得到iOS设备的UDID方法，如下：</p>
-
-<!--more-->
-
-
-<p>方法1：速度最快
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ioreg -w 0 -rc IOUSBDevice -k SupportsIPhoneOS | sed -n &amp;rsquo;s/.&lt;em&gt;USB Serial Number<span class="o">[</span>^0-9a-z<span class="o">]</span>&lt;/em&gt;<span class="o">([</span>0-9a-z<span class="o">]</span>&lt;em&gt;<span class="o">)</span>.&lt;/em&gt;/<span class="se">\1</span>/p<span class="err">&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>方法2：不知道为什么不起作用了，因为iOS7的缘故？
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>system_profiler SPUSBDataType | sed -n -e &amp;lsquo;/iPhone/,/Serial/p&amp;rsquo; | grep &amp;ldquo;Serial Number:&amp;rdquo; | awk -F &amp;ldquo;: &amp;rdquo; &amp;lsquo;<span class="o">{</span>print <span class="nv">$2</span><span class="o">}</span>&amp;rsquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>方法3:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>system_profiler SPUSBDataType | grep &amp;ldquo;Serial Number:.&lt;em&gt;&amp;rdquo; | sed s#&amp;ldquo;.&lt;/em&gt;Serial Number: &amp;rdquo;##
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>不过注意的是，用上面的命令得到的UDID并不一定是唯一的，比如我在MacBook Pro上就得不到唯一的UDID。</p>
-
-<p>以下转载一下用rvictl和wireshark进行抓包的方法：</p>
-
-<p>RVI(Remote Virtual Interface）是在iOS5中开始添加的，利用这个工具，在不需要开代理，也不需要越狱的情况下就可以抓到iOS设备上所有的包，所需要的一台装有Mac OS X的电脑以及USB数据线。我发现Android还没有类似的工具，iOS在这方面就方便多了。</p>
-
-<p>基本的方法就是把设备通过USB连上mac上。然后为这台设备安装RVI，这个虚拟的在Mac上的网卡，就代表这台ios设备的使用网卡。然后在mac上跑抓包的工具，定位到这个虚拟的网卡上，来抓包。</p>
-
-<p>(1)安装RVI，需要使用rvictl工具，以下步骤在mac的终端中操作：  <br/>
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="c"># First get the current list of interfaces.</span>
-</span><span class='line'><span class="nv">$ </span>ifconfig -l
-</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0
-</span><span class='line'><span class="nv">$ </span><span class="c"># Then run the tool with the UDID of the device.&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rvictl -s 74bd53c647548234ddcef0ee3abee616005051ed
-</span><span class='line'>Starting device 74bd53c647548234ddcef0ee3abee616005051ed <span class="o">[</span>SUCCEEDED<span class="o">]</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="c"># Get the list of interfaces again, and you can see the new virtual</span>
-</span><span class='line'><span class="nv">$ </span><span class="c"># network interface, rvi0, added by the previous command.</span>
-</span><span class='line'><span class="nv">$ </span>ifconfig -l
-</span><span class='line'>lo0 gif0 stf0 en0 en1 p2p0 fw0 ppp0 utun0 rvi0
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>(2)安装成功后，此时其实可以用任何抓包工具来抓取。包括wireshark等。因为这时就会看到一个rvi0的网卡。不过今天我们介绍的是通过tcpdump来搞。</p>
-
-<p>在终端中输入如下命令：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo tcpdump -i rvi0 -n -s 0 -w dump.pcap tcp
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>解释一下上面重要参数的含义：</p>
-
-<p>-i rvi0 选择需要抓取的接口为rvi0（远程虚拟接口）  <br/>
--s 0 抓取全部数据包  <br/>
--w dump.pcap 设置保存的文件名称  <br/>
-tcp 只抓取tcp包</p>
-
-<p>当tcpdump运行之后，你可以在iOS设备上开始浏览你想抓取的App，期间产生的数据包均会保存到dump.pcap文件中，当想结束抓取时直接终止tcpdump即可。然后在mac中找到dump.pcap文件。用wireshark打开就ok。</p>
-
-<p>(3)去掉RVI这个虚拟网卡，使用下面的命令： <br/>
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rvictl -x 74bd53c647548234ddcef0ee3abee616005051ed  &lt;br/&gt;
-</span><span class='line'>Stopping device 74bd53c647548234ddcef0ee3abee616005051ed <span class="o">[</span>SUCCEEDED<span class="o">]</span> &lt;br/&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>整个流程就是这样的。自己动手操作一下吧。。</p>
-
-<p>再详细的细节，请找一下苹果官方的资料：Technical Q&amp;A QA1176。</p>
-
-<p>参考链接：  <br/>
-<a href="http://blog.csdn.net/hursing/article/details/8688868">Mac上命令行获取iPhone/iPad的Identifier（UUID） 的方法</a>  <br/>
-<a href="http://b.imi.im/post/121">一行命令 得到iOS设备的UDID</a>  <br/>
-<a href="http://fanliugen.com/?p=351">未越狱ios设备的抓包方法</a></p>
 ]]></content>
   </entry>
   
