@@ -157,7 +157,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>position.y = frame.origin.y + anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>下面再来看另外两个问题，如果单方面修改layer的position位置，会对anchorPoint有什么影响呢？修改anchorPoint又如何影响position呢？  <br/>
 根据代码测试，两者互不影响，受影响的只会是frame.origin，也就是layer坐标原点相对superLayer会有所改变。换句话说，frame.origin由position和anchorPoint共同决定，上面的公式可以变换成下面这样的：</p>
@@ -168,7 +168,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>frame.origin.y = position.y - anchorPoint.y * bounds.size.height；</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>这就解释了为什么修改anchorPoint会移动layer，因为position不受影响，只能是frame.origin做相应的改变，因而会移动layer。</p>
 
@@ -200,7 +200,7 @@ The layer’s position in its superlayer’s coordinate space。<br/>
 </span><span class='line'>positionNew.y = positionOld.y + (anchorPointNew.y - anchorPointOld.y)  * bounds.size.height</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote></blockquote>
+<p></p>
 
 <p>但是在实际使用没必要这么麻烦。修改anchorPoint而不想移动layer，在修改anchorPoint后再重新设置一遍frame就可以达到目的，这时position就会自动进行相应的改变。写成函数就是下面这样的：</p>
 
