@@ -11,13 +11,13 @@ categories: iOS
 ###前言
 我们知道，iOS bug定位是极看重crash log的，目前网上提供了不少crash log收集与管理服务，较有名的有Crashlytics, Flurry, 友盟，可能大部分人也就是使用这个。我这里要说的QuincyKit + KSCrash是一对开源组合，可能没有前者各种高大上的功能，基本功能还是有的，但更偏重于以下使用场合：
 
-1）访问外网不太方便，大部分情况下在内网测试    
+1）访问外网不太方便，或者大部分情况下在内网测试    
 2）对出现的crash问题要求快速响应，快速定位     
 3）需要自己掌控Crash Report，而不是交给别人     
 
 显而易见，第1条就足以把Crashlytics, Flurry, 友盟诸如此类的排除在外了；    		
 关于第2条，我所知道的Flurry显示crash report延迟比较大，至少为6小时，Crashlytics稍微好一些，但是它们的服务器在国外，网页打开也比较慢。这里要额外说的是比较讨厌Crashlytics在程序每次编译时都会上传app binary与dSYM文件，在网络情况较差或app比较大的情况下相当费时。
-还有我经历的另一种情况，就是开发与测试人员相隔比较远，比如开发的在5楼，测试的在1楼，在最原始的阶段测试人员发现了崩溃问题，会将测试设备送到4楼让开发人员用Mac解析，想想这效率，不言自明了吧。     
+还有我经历的另一种情况，就是开发与测试人员相隔比较远，比如开发的在5楼，测试的在1楼，在最原始的阶段测试人员发现了崩溃问题，会将测试设备送到5楼让开发人员用Mac解析，想想这效率，不言自明了吧。     
 第3点其实比较勉强，crash log又没多少机密可言。
 
 ###QuincyKit
@@ -26,9 +26,9 @@ categories: iOS
 
 QuincyKit，简而言之，是一个为iOS和Mac OS X提供的程序崩溃报告管理解决方案。关于QuincyKit的介绍大家看Nico的文章就了解得差不多了，它对测试期的应用来说确实是很方便的，不需要提前注册APP Key，不管你有多少个应用，App中集成了QuincyKit的Client端后，只管向Server端发送crash log就行，Server端会自动根据App ID来分类管理。
 
-QuincyKit分Server端和Client端。它的Server端是用php编写的，用一个支持php5.2以上，还有Mysql、Apache的服务器就可以搭建起一个完整的环境，Mac/Linux/Windows系统上应该都可以完成。看似简单，实际上对从没搭建过服务器环境的初学者可能有点麻烦，不用担心，还有XAMPP这个神器来解决大部分麻烦。当初我图简单省事，就是用XAMPP来搭建基本环境的，不过相关的笔记找不到了，这里就没办法贴上了。
+QuincyKit分Server端和Client端。它的Server端是用php编写的，用一个支持PHP5.2以上，还有Mysql、Apache的服务器就可以搭建起一个完整的环境，Mac/Linux/Windows系统上应该都可以完成。看似简单，实际上对从没搭建过服务器环境的初学者可能有点麻烦，不用担心，还有XAMPP这个神器来解决大部分麻烦。当初我图简单省事，就是用XAMPP来搭建基本环境的，不过相关的笔记找不到了，这里就没办法贴上了。
 
-另外要说明一下，QuincyKit Server端的Web管理界面比较简陋，比如连按时间排序的功能都没有，不过既然是开源的，就不要要求太高，会PHP的完全可以自己订制更高级的功能。
+另外要说明一下，QuincyKit Server端的Web管理界面比较简陋，比如连按时间排序的功能都没有，不过既然是开源的，就不能要求太高，会PHP的完全可以尝试为自己订制更高级的功能。
 
 
 ###KSCrash
@@ -41,7 +41,23 @@ QuincyKit分Server端和Client端。它的Server端是用php编写的，用一�
 
 最关键是第1点，我想会不会有人因为这放弃使用了QuincyKit。
 
-根据KSCrash的官网上的说明，它能处理以下几种类型的crash：
+需要注意的是，KSCrash只是一个Client端，本身是没有Server端的。但这也是它的灵活之处，因为它能对接免费的QuincyKit，收费的Hockey、Victory等Server端，也能将生成的crash log通过Email的方式发送。这只是KSCrash的特性之一，更多KSCrash的关键特性你可以看下面列举出来的，相信你能看到惊喜：
+
+- 支持设备上解析与离线重新解析
+- 生成的报告格式完全兼容iOS原生crash报告格式
+- 支持32位和64位模式（实验性质）
+- 能处理mach level下的错误，例如堆栈溢出
+- 侦测未能捕捉的C++异常的真实原因
+- 侦测访问僵尸(zombie or deallocated)对象的行为
+- 恢复僵尸对象或内存覆盖情况下NSException的异常信息
+- 提取对象异常调用的有效信息（比如发生unrecognized selector sent to instance 0xa26d9a0异常的情况）
+- 支持多种Server端，提供方便的API接口
+- 显示堆栈内容
+- 诊断崩溃原因
+- 记录比Apple原生crash报告更多的信息，使用JSON格式储存
+- 支持显示用户自定义的额外数据
+
+KSCrash能处理的crash分以下几种：
 
 - Mach kernel 异常    
 - Fatal signals    
@@ -50,15 +66,15 @@ QuincyKit分Server端和Client端。它的Server端是用php编写的，用一�
 - 主线程死锁 (实验性质)    
 - 自定义崩溃（脚本语言）    
 
-KSCrash只有一个client端，它能对接Hockey、QuincyKit、Victory等Server端，也能将生成的crash log通过Email的方式发送。
+
 
 经过我的测试，使用KSCrash目前主要有以下两个问题：      
 1) 在部分情况下会造成死锁（deadlock）crash，这通常是应用在做比较耗时的操作时出现的，如果发生这样的问题，你应该尽量优化你的APP，避免耗时操作（可能是我打开了死锁检测的功能，目前这个功能是Unstable Features）     
 2) 如果发生crash后重启应用时收集crash报告的服务器不可达，则之前的crash报告就会被废弃，即使重新恢复网络，仍然不会重新发送。     
 
-如果有人介意这些问题，因KSCrash是开源的，可以自行修改。
+如果有人介意这些问题，可以尝试自行修改KSCrash的开源代码达到自己的目的。
 
-App发布时，还是建议大家使用Flurry、Crashlytics或者友盟，毕竟你面对的可能是数以万计甚至更多的用户。你可以在你的应用中增加一个开关，测试期打开开关使用KSCrash上报crash log，发布前关闭开关，使用Crashlytics或其它在线crash report工具。万万要记得在自己的checklist里加上一条开关核对，以免忘记。
+需要说明的是，App发布时，还是建议大家使用Flurry、Crashlytics或者友盟，毕竟你面对的可能是数以万计甚至更多的用户。你可以在你的应用中增加一个开关，测试期打开开关使用KSCrash上报crash log，发布前关闭开关，使用Crashlytics或其它在线crash report工具。万万要记得在自己的checklist里加上一条开关状态核对，以免忘记。
 
 
 ###Crash Log自动解析
