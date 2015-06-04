@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2014-08-30T21:12:09+08:00</updated>
+  <updated>2015-06-04T23:32:40+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[用AppleScript增加Mac下Evernote的编辑能力]]></title>
+    <link href="http://wonderffee.github.io/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/"/>
+    <updated>2015-06-04T23:30:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac</id>
+    <content type="html"><![CDATA[<h2>由来</h2>
+
+<p>上午想在Evernote中对一篇文章的子标题进行加红操作，没有格式刷只能一遍又一遍地选中文字，再打开调色板，选中颜色，关闭调色板，真是无以吐槽。</p>
+
+<p>搜索了一下相关增强Evernote编辑能力的文章，发现了知乎上的一篇<a href="http://www.zhihu.com/question/19926379/answer/28118317">分享</a>，以及v2ex上的这个<a href="http://www.v2ex.com/t/186506">帖子</a>，都是Windows下借助Autohotkey来实现增加Evernote编辑能力的。想起以前在Windows下用Autohotkey那可真是得心应手啊，可惜Mac下没有。</p>
+
+<!--more-->
+
+
+<p>想起了之前用AppleScript来实现一些快捷操作，在Mac下是否能用AppleScript脚本来简化上面繁琐的加红操作呢？</p>
+
+<p>简单看了一下上面的Autohotkey脚本代码，发现只需要把选中文字转换成html格式然后粘贴就行。然而AppleScript并没有像Autohotkey那样简单的SetHTML命令。</p>
+
+<h2>突破</h2>
+
+<p>几经折腾，终于折腾出了下面的可行代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">set</span> <span class="nv">appName</span> <span class="k">to</span> <span class="s2">&quot;Evernote&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">-- if application appName is running then</span>
+</span><span class='line'><span class="k">tell</span> <span class="nb">application</span> <span class="na">id</span> <span class="p">(</span><span class="na">id</span> <span class="k">of</span> <span class="nb">application</span> <span class="nv">appName</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">activate</span>
+</span><span class='line'>  <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>      <span class="nv">keystroke</span> <span class="s2">&quot;c&quot;</span> <span class="nv">using</span> <span class="nv">command</span> <span class="nv">down</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">selectedText</span> <span class="k">to</span> <span class="nb">the clipboard</span> <span class="k">as</span> «<span class="nb">class utf8</span>»
+</span><span class='line'>  <span class="c">-- the clipboard as &quot;HTML&quot;</span>
+</span><span class='line'>  <span class="nb">set the clipboard to</span> <span class="s2">&quot;&lt;span style=\&quot;color:red;\&quot;&gt;&quot;</span> <span class="o">&amp;</span> <span class="nv">selectedText</span> <span class="o">&amp;</span> <span class="s2">&quot;&lt;/span&gt;&quot;</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>      <span class="nb">beep</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>          <span class="nv">keystroke</span> <span class="s2">&quot;v&quot;</span> <span class="nv">using</span> <span class="p">{</span><span class="nv">command</span> <span class="nv">down</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'><span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'><span class="c">-- end if</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原理就是复制选中的文字，加上html颜色的标签，然后变成html格式内容，粘贴即可。</p>
+
+<p>比如选中的文字为“Hello”，上面的代码会先把它变成<code>&lt;span style="color:red;"&gt;Hello&lt;/span&gt;</code>，然后在Evernote中粘贴就变成了红色字体的&#8221;Hello&#8221;</p>
+
+<p>其中的难点在于把html源码变成剪贴板认可的html富文本格式内容，这个借助了shell中的hexdump命令以及用剪贴板作为中介。突破了这个难点之后，你就可以任意自定义html格式了。</p>
+
+<h2>Automator自动化</h2>
+
+<p>要与Evernote集成，就要借助于Automator工具了。
+Automator 是 Mac 自带的神奇小机器人，这次我们就要用它的 Workflow 功能来将脚本绑定到系统快捷键上。
+先来设置 Automator，Automator 可以在 Spotlight 里快速启动。</p>
+
+<pre><code>1、菜单里选”新建“，选取文稿类型“服务”;
+2、在出来的窗口右侧顶部设置“服务”收到选定的“文本”，位于”Evernote“，不要勾选”用输出内容替换选中文本“
+3、在左侧选取“运行AppleScript”，双击或直接拖到右侧区域内;
+4、在出现的 AppleScript 编辑窗口里输入代码，之后保存为你喜欢的名字;
+5、此时在系统左上角 Automator 的下拉菜单里“服务”一栏就已经有刚才你保存的服务啦！现在点击刚刚保存的服务的名称运行一次看看~~（一定要运行一次哦）
+</code></pre>
+
+<p>在Automator中的脚本可以更简单：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">on</span> <span class="nb">run</span> <span class="p">{</span><span class="nv">input</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">}</span>
+</span><span class='line'>  <span class="c">-- the clipboard as &quot;HTML&quot;</span>
+</span><span class='line'>  <span class="nb">set the clipboard to</span> <span class="s2">&quot;&lt;span style=\&quot;color:red;\&quot;&gt;&quot;</span> <span class="o">&amp;</span> <span class="nv">input</span> <span class="o">&amp;</span> <span class="s2">&quot;&lt;/span&gt;&quot;</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>      <span class="nb">beep</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="c">-- set input to the clipboard</span>
+</span><span class='line'>      <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>          <span class="nv">keystroke</span> <span class="s2">&quot;v&quot;</span> <span class="nv">using</span> <span class="p">{</span><span class="nv">command</span> <span class="nv">down</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c">--display dialog (the clipboard)</span>
+</span><span class='line'>  <span class="c">-- return input</span>
+</span><span class='line'><span class="k">end</span> <span class="nb">run</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存的位置在/Users/yourusername/Library/Services/</p>
+
+<p>现在开始设置快捷键。</p>
+
+<pre><code>1、点击 Automator 下拉菜单中“服务-&gt;服务偏好设置”;
+2、在弹出的服务偏好设置窗口右侧，从“通用”中找到刚保存的服务名称，选中该服务，右侧可以看到“添加快捷键”的按钮;
+3、点击“添加快捷键”按钮，在键盘上按下需要设置的快捷键。
+</code></pre>
+
+<p>我给自己自定义的快捷键是cmd+shift+1。以后要在Evernote中对选中的文字进行红色高亮时，按下cmd+shift+1就可以搞定。</p>
+
+<p>是不是很简单？
+这样，你就可以自定义一些自己常用的文本格式，绑定快捷键，然后就像Word中的样式表一样，一键就可以更换自己需要的格式。</p>
+
+<p>这只是一个简单的例子，相信实现其它的文本格式也不是难事，权当抛砖引玉，大家应该能做出更高级的功能。</p>
+
+<h2>一些额外的发现：</h2>
+
+<ul>
+<li>将文本转换成完整html源码的AppleScript脚本：</li>
+<li></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">set</span> <span class="nv">customHTML</span> <span class="k">to</span> <span class="s2">&quot;123&quot;</span>
+</span><span class='line'><span class="k">set</span> <span class="nv">theMsg</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;echo &quot;</span> <span class="o">&amp;</span> <span class="nb">quoted form</span> <span class="k">of</span> <span class="nv">customHTML</span> <span class="o">&amp;</span> <span class="no">space</span> <span class="o">&amp;</span> <span class="s2">&quot;| textutil -stdin -stdout -format html -convert html -encoding UTF-8&quot;</span>
+</span><span class='line'><span class="nb">set the clipboard to</span> <span class="nb">the</span> <span class="nv">theMsg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在terminal里用于查看刚刚复制的html内容的html源码的命令：</li>
+<li></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>osascript -e <span class="s1">&#39;the clipboard as &quot;HTML&quot;&#39;</span>|perl -ne <span class="s1">&#39;print chr foreach unpack(&quot;C*&quot;,pack(&quot;H*&quot;,substr($_,11,-3)))&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>通过 AppleScript 连接印象笔记  <br/>
+<a href="https://dev.yinxiang.com/doc/articles/applescript.php">https://dev.yinxiang.com/doc/articles/applescript.php</a></p></li>
+<li><p>查看Evernote api for AppleScript的方法：  <br/>
+在Evernote的菜单中，选择 &ldquo;文件 > 打开字典&hellip;&rdquo; 然后在显示的应用列表中选择Evernote。</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统]]></title>
@@ -1505,132 +1688,6 @@ push时调用navigationController: willShowViewController:方法来触发通知�
 
 <p>代码链接：<a href="https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar">https://github.com/wonderffee/idev-recipes/tree/master/CustomTabBar
 </a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS6下UITextField退格变清空问题的解决方法]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6/"/>
-    <updated>2013-08-07T19:39:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6</id>
-    <content type="html"><![CDATA[<p>自己的项目中一直有一个必现的UITextField退格变清空问题，测试发现只有iOS6下有，其它iOS版本都没有问题，基本上可以确定与iOS6有关。由于问题不是很大又忙就搁置了很久，今天实在不能忍受便花了点时间解决此问题，记录一下吧。</p>
-
-<p>这个问题是在某个有默认值的UITextField上是必现的，一旦用退格键删除最后一个字符或中间某个字符，整个UITextfield的内容被清空了，一直百思不得其解，google了一下发现有人遇到类似的问题，并给出了复现步骤(<a href="http://blog.csdn.net/kindazrael/article/details/8075245">链接</a>)，如下：</p>
-
-<!--more-->
-
-
-<p>有一个secureTextEntry为Yes的UITextField和 一个普通的UITextField，重现步骤：   <br/>
-1. 点击普通的UITextField输入类容，      <br/>
-2. 点击密码UITextField输入内容，  <br/>
-3. 点击普通的UITextField重新获得焦点，  <br/>
-4. 接着点击键盘上的退格键，  <br/>
-结果：这时会发现普通的UITextField被清空了。</p>
-
-<p>测试了一下，随便找一个有用户名与密码登录页面的应用，在iOS6下就会复现出这个问题，比如iPhone自带的邮件app。但这个重现步骤说得并不准确，第1步和第2步的前提是对应的UITextField已经有内容，虽然跟自己的复现方法有点不一样，不过总算知道这个问题是怎么回事了。怎么说呢，这应该是iOS6的UITextField的一个新特性引入的问题，原文把这个问题称之为“iOS 6 Secure密码UITextField造成非密码UITextField退格清空Bug”，但是iOS6.0就有这个问题，iOS6.1.3都没有解决，估计apple没把它当bug，坑爹啊。</p>
-
-<p>咱们拿apple没办法，那就只有想办法绕过去啊，初步的思路是截获退格键删除行为，每点一次退格键删除时只允许删除一个字符。这就要用到UITextFieldDelegate的一个textField:shouldChangeCharactersInRange:replacementString方法，这个方法是在UITextField的内容改变时调用，第二个参数表明内容改变的范围，第三个参数是替代的字符串。代码如下：</p>
-
-<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textField:</span><span class="p">(</span><span class="n">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span> <span class="nf">shouldChangeCharactersInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementString:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">range</span><span class="p">.</span><span class="n">location</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">range</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="nl">substringToIndex:</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>设置一下UITextField的delegate就可以调用到此方法，range.length == 1 &amp;&amp; string.length == 0就是删除一个字符时所满足的条件，如果条件满足，就只让textField的内容减少一个字符。初步测试，可以解决退格变清空的问题，但是又带来另一个问题：如果是在文字中间点退格键删除文字，就变成从文字的最后删除一个字符。这并不是我们想要的，怎么办呢，那就要找到删除的字符的位置，这个<a href="http://stackoverflow.com/questions/16765334/ios-6-uitextfield-secure-how-to-detect-backspace-clearing-all-characters">链接</a>里给了一个终极解决办法，代码如下：</p>
-
-<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">textField:</span><span class="p">(</span><span class="n">UITextField</span> <span class="o">*</span><span class="p">)</span><span class="nv">textField</span> <span class="nf">shouldChangeCharactersInRange:</span><span class="p">(</span><span class="n">NSRange</span><span class="p">)</span><span class="nv">range</span> <span class="nf">replacementString:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">range</span><span class="p">.</span><span class="n">location</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">range</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// Stores cursor position</span>
-</span><span class='line'>            <span class="n">UITextPosition</span> <span class="o">*</span><span class="n">beginning</span> <span class="o">=</span> <span class="n">textField</span><span class="p">.</span><span class="n">beginningOfDocument</span><span class="p">;</span>
-</span><span class='line'>            <span class="n">UITextPosition</span> <span class="o">*</span><span class="n">start</span> <span class="o">=</span> <span class="p">[</span><span class="n">textField</span> <span class="nl">positionFromPosition:</span><span class="n">beginning</span> <span class="nl">offset:</span><span class="n">range</span><span class="p">.</span><span class="n">location</span><span class="p">];</span>
-</span><span class='line'>            <span class="n">NSInteger</span> <span class="n">cursorOffset</span> <span class="o">=</span> <span class="p">[</span><span class="n">textField</span> <span class="nl">offsetFromPosition:</span><span class="n">beginning</span> <span class="nl">toPosition:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">string</span><span class="p">.</span><span class="n">length</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// Save the current text, in case iOS deletes the whole text</span>
-</span><span class='line'>            <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// Trigger deletion</span>
-</span><span class='line'>            <span class="p">[</span><span class="n">textField</span> <span class="n">deleteBackward</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>            <span class="c1">// iOS deleted the entire string</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="n">text</span><span class="p">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span> <span class="nl">stringByReplacingCharactersInRange:</span><span class="n">range</span> <span class="nl">withString:</span><span class="n">string</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="c1">// Update cursor position</span>
-</span><span class='line'>                <span class="n">UITextPosition</span> <span class="o">*</span><span class="n">newCursorPosition</span> <span class="o">=</span> <span class="p">[</span><span class="n">textField</span> <span class="nl">positionFromPosition:</span><span class="n">textField</span><span class="p">.</span><span class="n">beginningOfDocument</span> <span class="nl">offset:</span><span class="n">cursorOffset</span><span class="p">];</span>
-</span><span class='line'>                <span class="n">UITextRange</span> <span class="o">*</span><span class="n">newSelectedRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">textField</span> <span class="nl">textRangeFromPosition:</span><span class="n">newCursorPosition</span> <span class="nl">toPosition:</span><span class="n">newCursorPosition</span><span class="p">];</span>
-</span><span class='line'>                <span class="p">[</span><span class="n">textField</span> <span class="nl">setSelectedTextRange:</span><span class="n">newSelectedRange</span><span class="p">];</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">NO</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>思路是先取到光标位置，把文本内容暂存，清空原来UITextField的内容，然后将暂存的文本内容中光标左侧的文字replace掉重新赋给UITextField，并恢复光标位置，难点在于怎么获取光标位置与恢复光标位置。</p>
-
-<p>一般用到用户名与密码UITextField的地方用这个方法就能解决问题了，只是还有点小问题，即如果不是从中间删除一个字符，而是一次删除若干个字符还是有问题的，这是由if中的range.length == 1条件限制的，稍加改造下应该就能解决。另外一个问题是如果有中文字符或其它UTF8字符，估计得考虑一下是不是应该要用“text.length &ndash; 1”，不过能有多少应用的用户名或密码带中文呢</p>
-
-<h4>参考：</h4>
-
-<ul>
-<li><a href="http://blog.csdn.net/kindazrael/article/details/8075245">iOS 6 Secure密码UITextField造成非密码UITextField退格清空Bug</a></li>
-<li><a href="http://stackoverflow.com/questions/14400724/backspace-functionality-in-ios-6-ios-5-for-uitextfield-with-secure-attribute">Backspace functionality in iOS 6 &amp; iOS 5 for UITextfield with &lsquo;secure&rsquo; attribute</a></li>
-<li><a href="http://stackoverflow.com/questions/16765334/ios-6-uitextfield-secure-how-to-detect-backspace-clearing-all-characters">iOS 6 UITextField Secure &ndash; How to detect backspace clearing all characters?</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

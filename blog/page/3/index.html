@@ -9,7 +9,7 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="无意中看到有人推荐用weico看新浪微博，试用了一下就没回得头了，无论是UI、交互还是功能，weico都比新浪的官方微博客户端好太多了，也难怪weico这么流行。看到有人说weico火是因为遇到了猪一样的队友，这话也不过分啊，不过了解到新浪官方微博客户端和weico都是同一家公司做的，我只能说呵呵 &hellip;">
+  <meta name="description" content="自己的项目中一直有一个必现的UITextField退格变清空问题，测试发现只有iOS6下有，其它iOS版本都没有问题，基本上可以确定与iOS6有关。由于问题不是很大又忙就搁置了很久，今天实在不能忍受便花了点时间解决此问题，记录一下吧。 这个问题是在某个有默认值的UITextField上是必现的， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,7 +23,7 @@
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
@@ -65,6 +65,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6/">iOS6下UITextField退格变清空问题的解决方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-07T19:39:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>自己的项目中一直有一个必现的UITextField退格变清空问题，测试发现只有iOS6下有，其它iOS版本都没有问题，基本上可以确定与iOS6有关。由于问题不是很大又忙就搁置了很久，今天实在不能忍受便花了点时间解决此问题，记录一下吧。</p>
+
+<p>这个问题是在某个有默认值的UITextField上是必现的，一旦用退格键删除最后一个字符或中间某个字符，整个UITextfield的内容被清空了，一直百思不得其解，google了一下发现有人遇到类似的问题，并给出了复现步骤(<a href="http://blog.csdn.net/kindazrael/article/details/8075245">链接</a>)，如下：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/08/07/a-solution-to-problem-of-hitting-backspace-result-in-deleting-all-uitextfields-characters-under-ios6/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -306,6 +349,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/">用AppleScript增加Mac下Evernote的编辑能力</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/19/quincykit-and-kscrash/">利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统</a>
       </li>
     
@@ -341,10 +388,6 @@
         <a href="/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/">解决Octopress博客Build Failed问题</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/14/understand-anchorpoint-and-position-with-instance/">通过实例来理解position与anchorPoint</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -361,7 +404,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - wonderffee -
+  Copyright &copy; 2015 - wonderffee -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>用AppleScript增加Mac下Evernote的编辑能力 - Wonderffee's Blog</title>
+  <meta name="author" content="wonderffee">
+
+  
+  <meta name="description" content="由来 上午想在Evernote中对一篇文章的子标题进行加红操作，没有格式刷只能一遍又一遍地选中文字，再打开调色板，选中颜色，关闭调色板，真是无以吐槽。 搜索了一下相关增强Evernote编辑能力的文章，发现了知乎上的一篇分享，以及v2ex上的这个帖子， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wonderffee's Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wonderffee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">用AppleScript增加Mac下Evernote的编辑能力</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-04T23:30:00+08:00" pubdate data-updated="true">Jun 4<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>由来</h2>
+
+<p>上午想在Evernote中对一篇文章的子标题进行加红操作，没有格式刷只能一遍又一遍地选中文字，再打开调色板，选中颜色，关闭调色板，真是无以吐槽。</p>
+
+<p>搜索了一下相关增强Evernote编辑能力的文章，发现了知乎上的一篇<a href="http://www.zhihu.com/question/19926379/answer/28118317">分享</a>，以及v2ex上的这个<a href="http://www.v2ex.com/t/186506">帖子</a>，都是Windows下借助Autohotkey来实现增加Evernote编辑能力的。想起以前在Windows下用Autohotkey那可真是得心应手啊，可惜Mac下没有。</p>
+
+<!--more-->
+
+
+<p>想起了之前用AppleScript来实现一些快捷操作，在Mac下是否能用AppleScript脚本来简化上面繁琐的加红操作呢？</p>
+
+<p>简单看了一下上面的Autohotkey脚本代码，发现只需要把选中文字转换成html格式然后粘贴就行。然而AppleScript并没有像Autohotkey那样简单的SetHTML命令。</p>
+
+<h2>突破</h2>
+
+<p>几经折腾，终于折腾出了下面的可行代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">set</span> <span class="nv">appName</span> <span class="k">to</span> <span class="s2">&quot;Evernote&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">-- if application appName is running then</span>
+</span><span class='line'><span class="k">tell</span> <span class="nb">application</span> <span class="na">id</span> <span class="p">(</span><span class="na">id</span> <span class="k">of</span> <span class="nb">application</span> <span class="nv">appName</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">activate</span>
+</span><span class='line'>  <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>      <span class="nv">keystroke</span> <span class="s2">&quot;c&quot;</span> <span class="nv">using</span> <span class="nv">command</span> <span class="nv">down</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">selectedText</span> <span class="k">to</span> <span class="nb">the clipboard</span> <span class="k">as</span> «<span class="nb">class utf8</span>»
+</span><span class='line'>  <span class="c">-- the clipboard as &quot;HTML&quot;</span>
+</span><span class='line'>  <span class="nb">set the clipboard to</span> <span class="s2">&quot;&lt;span style=\&quot;color:red;\&quot;&gt;&quot;</span> <span class="o">&amp;</span> <span class="nv">selectedText</span> <span class="o">&amp;</span> <span class="s2">&quot;&lt;/span&gt;&quot;</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>      <span class="nb">beep</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>          <span class="nv">keystroke</span> <span class="s2">&quot;v&quot;</span> <span class="nv">using</span> <span class="p">{</span><span class="nv">command</span> <span class="nv">down</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'><span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'><span class="c">-- end if</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原理就是复制选中的文字，加上html颜色的标签，然后变成html格式内容，粘贴即可。</p>
+
+<p>比如选中的文字为“Hello”，上面的代码会先把它变成<code>&lt;span style="color:red;"&gt;Hello&lt;/span&gt;</code>，然后在Evernote中粘贴就变成了红色字体的&#8221;Hello&#8221;</p>
+
+<p>其中的难点在于把html源码变成剪贴板认可的html富文本格式内容，这个借助了shell中的hexdump命令以及用剪贴板作为中介。突破了这个难点之后，你就可以任意自定义html格式了。</p>
+
+<h2>Automator自动化</h2>
+
+<p>要与Evernote集成，就要借助于Automator工具了。
+Automator 是 Mac 自带的神奇小机器人，这次我们就要用它的 Workflow 功能来将脚本绑定到系统快捷键上。
+先来设置 Automator，Automator 可以在 Spotlight 里快速启动。</p>
+
+<pre><code>1、菜单里选”新建“，选取文稿类型“服务”;
+2、在出来的窗口右侧顶部设置“服务”收到选定的“文本”，位于”Evernote“，不要勾选”用输出内容替换选中文本“
+3、在左侧选取“运行AppleScript”，双击或直接拖到右侧区域内;
+4、在出现的 AppleScript 编辑窗口里输入代码，之后保存为你喜欢的名字;
+5、此时在系统左上角 Automator 的下拉菜单里“服务”一栏就已经有刚才你保存的服务啦！现在点击刚刚保存的服务的名称运行一次看看~~（一定要运行一次哦）
+</code></pre>
+
+<p>在Automator中的脚本可以更简单：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">on</span> <span class="nb">run</span> <span class="p">{</span><span class="nv">input</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">}</span>
+</span><span class='line'>  <span class="c">-- the clipboard as &quot;HTML&quot;</span>
+</span><span class='line'>  <span class="nb">set the clipboard to</span> <span class="s2">&quot;&lt;span style=\&quot;color:red;\&quot;&gt;&quot;</span> <span class="o">&amp;</span> <span class="nv">input</span> <span class="o">&amp;</span> <span class="s2">&quot;&lt;/span&gt;&quot;</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>      <span class="nb">beep</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="c">-- set input to the clipboard</span>
+</span><span class='line'>      <span class="k">tell</span> <span class="nb">application</span> <span class="s2">&quot;System Events&quot;</span>
+</span><span class='line'>          <span class="nv">keystroke</span> <span class="s2">&quot;v&quot;</span> <span class="nv">using</span> <span class="p">{</span><span class="nv">command</span> <span class="nv">down</span><span class="p">}</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">tell</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c">--display dialog (the clipboard)</span>
+</span><span class='line'>  <span class="c">-- return input</span>
+</span><span class='line'><span class="k">end</span> <span class="nb">run</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存的位置在/Users/yourusername/Library/Services/</p>
+
+<p>现在开始设置快捷键。</p>
+
+<pre><code>1、点击 Automator 下拉菜单中“服务-&gt;服务偏好设置”;
+2、在弹出的服务偏好设置窗口右侧，从“通用”中找到刚保存的服务名称，选中该服务，右侧可以看到“添加快捷键”的按钮;
+3、点击“添加快捷键”按钮，在键盘上按下需要设置的快捷键。
+</code></pre>
+
+<p>我给自己自定义的快捷键是cmd+shift+1。以后要在Evernote中对选中的文字进行红色高亮时，按下cmd+shift+1就可以搞定。</p>
+
+<p>是不是很简单？
+这样，你就可以自定义一些自己常用的文本格式，绑定快捷键，然后就像Word中的样式表一样，一键就可以更换自己需要的格式。</p>
+
+<p>这只是一个简单的例子，相信实现其它的文本格式也不是难事，权当抛砖引玉，大家应该能做出更高级的功能。</p>
+
+<h2>一些额外的发现：</h2>
+
+<ul>
+<li>将文本转换成完整html源码的AppleScript脚本：</li>
+<li></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">set</span> <span class="nv">customHTML</span> <span class="k">to</span> <span class="s2">&quot;123&quot;</span>
+</span><span class='line'><span class="k">set</span> <span class="nv">theMsg</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;echo &quot;</span> <span class="o">&amp;</span> <span class="nb">quoted form</span> <span class="k">of</span> <span class="nv">customHTML</span> <span class="o">&amp;</span> <span class="no">space</span> <span class="o">&amp;</span> <span class="s2">&quot;| textutil -stdin -stdout -format html -convert html -encoding UTF-8&quot;</span>
+</span><span class='line'><span class="nb">set the clipboard to</span> <span class="nb">the</span> <span class="nv">theMsg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在terminal里用于查看刚刚复制的html内容的html源码的命令：</li>
+<li></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>osascript -e <span class="s1">&#39;the clipboard as &quot;HTML&quot;&#39;</span>|perl -ne <span class="s1">&#39;print chr foreach unpack(&quot;C*&quot;,pack(&quot;H*&quot;,substr($_,11,-3)))&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>通过 AppleScript 连接印象笔记  <br/>
+<a href="https://dev.yinxiang.com/doc/articles/applescript.php">https://dev.yinxiang.com/doc/articles/applescript.php</a></p></li>
+<li><p>查看Evernote api for AppleScript的方法：  <br/>
+在Evernote的菜单中，选择 &ldquo;文件 > 打开字典&hellip;&rdquo; 然后在显示的应用列表中选择Evernote。</p></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wonderffee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-04T23:30:00+08:00" pubdate data-updated="true">Jun 4<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/applescript/'>AppleScript,</a>, <a class='category' href='/blog/categories/evernote/'>Evernote</a>
+  
+</span>
+
+
+    </p>
+    <p class="meta">
+      原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+     
+<style>
+    .flash-video{display:none;}
+</style>
+
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a class="jiathis_button_qzone">QQ空间</a>
+
+	<a href="http://www.jiathis.com/share?uid=1810566" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {
+	data_track_clickback:'true'
+	sm:"tsina,tqq,renren,douban,qzone",
+    summary:"",
+    hideMore:false
+};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354334309126428" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1810566" async=""></script>
+<!-- UY END -->
+ 
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/19/quincykit-and-kscrash/" title="Previous Post: 利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统">&laquo; 利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/">用AppleScript增加Mac下Evernote的编辑能力</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/19/quincykit-and-kscrash/">利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem/">Unrecognized Selector Sent to Instance问题之诱敌深入关门打狗解决办法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/16/hello-i-am-yoyowinwin/">如何让朋友在你的博客上发表文章</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/23/solve-ie-cannot-surf-internet-problem/">解决IE不能上网问题小记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/capturing-on-interface-rvi0-fails-after-upgrding-to-mavericks/">Capturing on Interface Rvi0 Fails After Upgrding to Mavericks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/update-cocoapods/">Update CocoaPods问题小记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">判断三维坐标系旋转正方向的简单方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/">解决Octopress博客Build Failed问题</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Sina Weibo</h1>
+    <ul id="weibo">
+            <li>
+            <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=0&speed=0&skin=1&isTitle=1&noborder=0&isWeibo=0&isFans=0&uid=1217310237&verifier=4452f105&dpc=1"></iframe>
+                      </li>
+                        </ul>
+                        </section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - wonderffee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
