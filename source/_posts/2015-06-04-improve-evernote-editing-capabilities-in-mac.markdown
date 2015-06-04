@@ -1,0 +1,126 @@
+---
+layout: post
+title: "用AppleScript增强Mac下Evernote的编辑能力"
+date: 2015-06-04 23:30
+comments: true
+categories: AppleScript, Evernote
+---
+
+
+##由来
+上午想在Evernote中对一篇文章的子标题进行加红操作，没有格式刷只能一遍又一遍地选中文字，再打开调色板，选中颜色，关闭调色板，真是无以吐槽。
+
+搜索了一下相关增强Evernote编辑能力的文章，发现了知乎上的一篇[分享](http://www.zhihu.com/question/19926379/answer/28118317)，以及v2ex上的这个[帖子](http://www.v2ex.com/t/186506)，都是Windows下借助Autohotkey来实现增加Evernote编辑能力的。想起以前在Windows下用Autohotkey那可真是得心应手啊，可惜Mac下没有。
+
+<!--more-->
+
+想起了之前用AppleScript来实现一些快捷操作，在Mac下是否能用AppleScript脚本来简化上面繁琐的加红操作呢？
+
+简单看了一下上面的Autohotkey脚本代码，发现只需要把选中文字转换成html格式然后粘贴就行。然而AppleScript并没有像Autohotkey那样简单的SetHTML命令。
+
+##突破
+几经折腾，终于折腾出了下面的可行代码：
+
+```applescript
+set appName to "Evernote"
+
+-- if application appName is running then
+tell application id (id of application appName)
+	activate
+	tell application "System Events"
+		keystroke "c" using command down
+	end tell
+	set selectedText to the clipboard as «class utf8»
+	-- the clipboard as "HTML"
+	set the clipboard to "<span style=\"color:red;\">" & selectedText & "</span>"
+	set theHEX to do shell script "LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve '1/1 \"%.2x\"'"
+	if theHEX is "" then
+		beep
+	else
+		run script "set the clipboard to «data HTML" & theHEX & "»"
+		tell application "System Events"
+			keystroke "v" using {command down}
+		end tell
+	end if
+end tell
+-- end if
+```
+
+原理就是复制选中的文字，加上html颜色的标签，然后变成html格式内容，粘贴即可。
+
+比如选中的文字为“Hello”，上面的代码会先把它变成```<span style="color:red;">Hello</span>```，然后在Evernote中粘贴就变成了红色字体的"Hello"
+
+其中的难点在于把html源码变成剪贴板认可的html富文本格式内容，这个借助了shell中的hexdump命令以及用剪贴板作为中介。突破了这个难点之后，你就可以任意自定义html格式了。
+
+##Automator自动化
+要与Evernote集成，就要借助于Automator工具了。
+Automator 是 Mac 自带的神奇小机器人，这次我们就要用它的 Workflow 功能来将脚本绑定到系统快捷键上。
+先来设置 Automator，Automator 可以在 Spotlight 里快速启动。
+
+    1、菜单里选”新建“，选取文稿类型“服务”;
+    2、在出来的窗口右侧顶部设置“服务”收到选定的“文本”，位于”Evernote“，不要勾选”用输出内容替换选中文本“
+    3、在左侧选取“运行AppleScript”，双击或直接拖到右侧区域内;
+    4、在出现的 AppleScript 编辑窗口里输入代码，之后保存为你喜欢的名字;
+    5、此时在系统左上角 Automator 的下拉菜单里“服务”一栏就已经有刚才你保存的服务啦！现在点击刚刚保存的服务的名称运行一次看看~~（一定要运行一次哦）
+
+在Automator中的脚本可以更简单：
+
+```applescript
+on run {input, parameters}
+	-- the clipboard as "HTML"
+	set the clipboard to "<span style=\"color:red;\">" & input & "</span>"
+	set theHEX to do shell script "LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve '1/1 \"%.2x\"'"
+	
+	if theHEX is "" then
+		beep
+	else
+		run script "set the clipboard to «data HTML" & theHEX & "»"
+		-- set input to the clipboard
+		tell application "System Events"
+			keystroke "v" using {command down}
+		end tell
+	end if
+	
+	--display dialog (the clipboard)
+	-- return input
+end run
+```
+
+保存的位置在/Users/yourusername/Library/Services/
+
+现在开始设置快捷键。
+
+    1、点击 Automator 下拉菜单中“服务->服务偏好设置”;
+    2、在弹出的服务偏好设置窗口右侧，从“通用”中找到刚保存的服务名称，选中该服务，右侧可以看到“添加快捷键”的按钮;
+    3、点击“添加快捷键”按钮，在键盘上按下需要设置的快捷键。
+
+我给自己自定义的快捷键是cmd+shift+1。以后要在Evernote中对选中的文字进行红色高亮时，按下cmd+shift+1就可以搞定。
+
+是不是很简单？
+这样，你就可以自定义一些自己常用的文本格式，绑定快捷键，然后就像Word中的样式表一样，一键就可以更换自己需要的格式。
+
+这只是一个简单的例子，相信实现其它的文本格式也不是难事，权当抛砖引玉，大家应该能做出更高级的功能。
+
+
+
+##一些额外的发现：
+
+* 将文本转换成完整html源码的AppleScript脚本：  
+*    
+```applescript
+set customHTML to "123"
+set theMsg to do shell script "echo " & quoted form of customHTML & space & "| textutil -stdin -stdout -format html -convert html -encoding UTF-8"
+set the clipboard to the theMsg
+```
+
+* 在terminal里用于查看刚刚复制的html内容的html源码的命令：  
+*     
+```bash
+osascript -e 'the clipboard as "HTML"'|perl -ne 'print chr foreach unpack("C*",pack("H*",substr($_,11,-3)))'
+```
+
+* 通过 AppleScript 连接印象笔记    
+[https://dev.yinxiang.com/doc/articles/applescript.php](https://dev.yinxiang.com/doc/articles/applescript.php)
+
+* 查看Evernote api for AppleScript的方法：    
+在Evernote的菜单中，选择 "文件 > 打开字典..." 然后在显示的应用列表中选择Evernote。
