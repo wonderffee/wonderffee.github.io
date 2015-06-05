@@ -3,7 +3,7 @@ layout: post
 title: "用AppleScript增强Mac下Evernote的编辑能力"
 date: 2015-06-04 23:30
 comments: true
-categories: AppleScript, Evernote
+categories: AppleScript, Evernote, MarkDown
 ---
 
 
@@ -48,7 +48,7 @@ end tell
 
 原理就是复制选中的文字，加上html颜色的标签，然后变成html格式内容，粘贴即可。
 
-比如选中的文字为“Hello”，上面的代码会先把它变成```<span style="color:red;">Hello</span>```，然后在Evernote中粘贴就变成了红色字体的"Hello"
+比如选中的文字为“Hello”，上面的代码会先把它变成```<span style="color:red;">Hello</span>```，然后在Evernote中粘贴就变成了红色字体的<span style="color:red;">"Hello"</span>
 
 其中的难点在于把html源码变成剪贴板认可的html富文本格式内容，这个借助了shell中的hexdump命令以及用剪贴板作为中介。突破了这个难点之后，你就可以任意自定义html格式了。
 
@@ -101,7 +101,22 @@ end run
 
 这只是一个简单的例子，相信实现其它的文本格式也不是难事，权当抛砖引玉，大家应该能做出更高级的功能。
 
+##延伸——增强MarkDown编辑能力
+写这篇文章时还发现另一个用途：增强MarkDown编辑能力。
 
+众所周知，MarkDown对颜色支持似乎不是很好，如果我要把一段内容变成红色字体，办法只能是写HTML代码，可这依然是一件麻烦的事情。受上面的启发，我们可以写一个AppleScript脚本对选定的文字进行HTML包装，然后自动粘贴。那么只用一个快捷键就可以搞定了。
+
+在Automator中只需要上面一半不到的代码就行了：
+
+```applescript
+on run {input, parameters}	-- the clipboard as "HTML"	set the clipboard to "<span style=\"color:red;\">" & input & "</span>"	tell application "System Events"		keystroke "v" using {command down}	end tell
+end run
+
+```
+
+下面就是效果了：
+
+<span style="color:red;">同样地，我们可以为了让自己方便写MarkDown而自定义一系列样式，用AppleScript实现，形成自己的MarkDown样式表，让自己的MarkDown文章更容易地玩出更多的花样。</span>
 
 ##一些额外的发现：
 
