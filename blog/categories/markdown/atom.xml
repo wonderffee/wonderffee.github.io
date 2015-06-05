@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MarkDown, | Wonderffee's Blog]]></title>
+  <link href="http://wonderffee.github.io/blog/categories/markdown/atom.xml" rel="self"/>
+  <link href="http://wonderffee.github.io/"/>
+  <updated>2015-06-05T09:37:56+08:00</updated>
+  <id>http://wonderffee.github.io/</id>
+  <author>
+    <name><![CDATA[wonderffee]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[解决MacDown显示空白问题]]></title>
+    <link href="http://wonderffee.github.io/blog/2015/06/05/solve-macdown-blank-problem/"/>
+    <updated>2015-06-05T09:34:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2015/06/05/solve-macdown-blank-problem</id>
+    <content type="html"><![CDATA[<p>最近开始用MacDown，喜欢其中的代码高亮功能，边写边预览的感觉很好，顿时觉得可以重新写MarkDown博客了。</p>
+
+<p>但是发现MacDown还是有些不稳定，右栏空白，左栏空白，双栏空白，设置空白的问题都碰到了，要重启多次可能才会好。在<a href="https://github.com/uranusjr/macdown/issues/341">这里</a>找到了解决方法。</p>
+
+<!--more-->
+
+
+<h2>How to fix this problem.</h2>
+
+<h3>Move the following files to trash:</h3>
+
+<p>```</p>
+
+<pre><code>/Users/&lt;your_name&gt;/Library/Preferences/com.uranusjr.macdown.LSSharedFileList.plist  
+/Users/&lt;your_name&gt;/Library/Preferences/com.uranusjr.macdown.plist  
+</code></pre>
+
+<p>```</p>
+
+<h3>Empty the trash.</h3>
+
+<p>If you receive a message that files are busy and cannot be deleted, reboot your OS. Then empty the trash again.</p>
+
+<h3>Consequences</h3>
+
+<p>Your preferences will be reset to default; recent files list erased. No other data should be lost (this needs confirmation from @uranusjr )</p>
+]]></content>
+  </entry>
+  
+</feed>

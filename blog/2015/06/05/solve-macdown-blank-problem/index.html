@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>推荐Git可视化比较工具P4Merge - Wonderffee's Blog</title>
+  <title>解决MacDown显示空白问题 - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="一向对命令行下的文本比较工具无爱，在MacOS下用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI比较工具P4Merge，免费的，支持中文，还不错，推荐一下 配置P4Merge时主要参考了这篇文章Git、P4merge 和 OS X，只是留的坑太多了，好不容易才让我搞定。 关于下载: &hellip;">
+  <meta name="description" content="最近开始用MacDown，喜欢其中的代码高亮功能，边写边预览的感觉很好，顿时觉得可以重新写MarkDown博客了。 但是发现MacDown还是有些不稳定，右栏空白，左栏空白，双栏空白，设置空白的问题都碰到了，要重启多次可能才会好。在这里找到了解决方法。 How to fix this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/10/06/recommend-a-visual-diff-tool-p4merge-for-git-in-macos">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2015/06/05/solve-macdown-blank-problem">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">推荐Git可视化比较工具P4Merge</h1>
+      <h1 class="entry-title">解决MacDown显示空白问题</h1>
     
     
       <p class="meta">
@@ -84,72 +84,37 @@
   
 
 
-<time datetime="2013-10-06T10:17:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
+<time datetime="2015-06-05T09:34:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>一向对命令行下的文本比较工具无爱，在MacOS下用Git也是这点比较麻烦，今天终于让我找到了一个Git的GUI比较工具P4Merge，免费的，支持中文，还不错，推荐一下</p>
+<div class="entry-content"><p>最近开始用MacDown，喜欢其中的代码高亮功能，边写边预览的感觉很好，顿时觉得可以重新写MarkDown博客了。</p>
 
-<p>配置P4Merge时主要参考了这篇文章<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>，只是留的坑太多了，好不容易才让我搞定。</p>
+<p>但是发现MacDown还是有些不稳定，右栏空白，左栏空白，双栏空白，设置空白的问题都碰到了，要重启多次可能才会好。在<a href="https://github.com/uranusjr/macdown/issues/341">这里</a>找到了解决方法。</p>
 
 <!--more-->
 
 
-<p>关于下载:    <br/>
-打开这个链接: <a href="http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools">perforce-visual-merge-and-diff-tools</a>，点左上角的“FREE DOWNLOAD P4Merge”, 找到Perforce Clients中的&#8221;P4Merge: Visual Merge Tool&#8221;项，在右边的第二行选择Mac OS 10.6+ (64bit），点下面橙色的“Accept and Download”，选择跳过Skip Registration，就会开始下载了。</p>
+<h2>How to fix this problem.</h2>
 
-<p>下载到P4V.dmg文件后，双击打开，拖动P4Merge到Application文件夹上就可以完成安装了。</p>
+<h3>Move the following files to trash:</h3>
 
-<p>下面开始配置，这个原文留下的坑就太多了：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config --global diff.tool p4merge
-</span><span class='line'>git config --global difftool.p4merge.cmd /Applications/p4merge.app/Contents/MacOS/p4merge
-</span><span class='line'>git config --global difftool.p4merge.cmd <span class="s2">&quot;/Applications/p4merge.app/Contents/Resources/launchp4merge \$LOCAL \$REMOTE&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/&lt;your_name&gt;/Library/Preferences/com.uranusjr.macdown.LSSharedFileList.plist  
+</span><span class='line'>/Users/&lt;your_name&gt;/Library/Preferences/com.uranusjr.macdown.plist  </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如果直接复制原文的代码，运行上面的代码时会提示：    <br/>
-error: key does not contain a section: -global    <br/>
-跟别人的命令比较一下，就会发现应该是&mdash;global（要两个短横连在一起的），原文的短横线有问题</p>
+<h3>Empty the trash.</h3>
 
-<p>现在敲git difftool命令执行时，会提示：</p>
+<p>If you receive a message that files are busy and cannot be deleted, reboot your OS. Then empty the trash again.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/libexec/git-core/mergetools/p4merge: line 2: p4merge: <span class="nb">command </span>not found
-</span></code></pre></td></tr></table></div></figure>
+<h3>Consequences</h3>
 
-
-<p>原因是路径还需要再配置一下，如下，蛋疼。。。</p>
-
-<figure class='code'><figcaption><span>ang:bash </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global difftool.p4merge.path "/Applications/p4merge.app/Contents/Resources/launchp4merge"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>自己还尝试过用软链接来解决这问题，如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s /Applications/p4merge.app/Contents/MacOS/p4merge /usr/local/bin/p4merge
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>结果报了一个error loading resource file问题，这个就不要使用了。</p>
-
-<p>以后想要比较Git中的代码时，敲git difftool filepath 就行了</p>
-
-<p>Linux、Windows下也都可以使用这个工具进行比较代码，只是需要另行配置了。P4Merge除了有比较功能，还有合并功能，怎么配置可以借鉴下面给出的参考链接。另外还有一个可视化比较工具meld，据说也不错，有时间试试</p>
-
-<p>主要参考：   <br/>
-<a href="http://techsingular.net/?p=922">Git、P4merge 和 OS X</a>   <br/>
-<a href="http://blog.csdn.net/ccf0703/article/details/7661789">Mac os x下git merge工具P4Merge的安装与配置</a>   <br/>
-<a href="http://nieyong.github.io/wiki_ny/git%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95.html">git用户信息</a>   <br/>
-<a href="https://gist.github.com/tony4d/3454372">Setup p4merge as a visual diff and merge tool for git</a></p>
+<p>Your preferences will be reset to default; recent files list erased. No other data should be lost (this needs confirmation from @uranusjr )</p>
 </div>
 
 
@@ -172,12 +137,12 @@ error: key does not contain a section: -global    <br/>
   
 
 
-<time datetime="2013-10-06T10:17:00+08:00" pubdate data-updated="true">Oct 6<span>th</span>, 2013</time>
+<time datetime="2015-06-05T09:34:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/categories/macdown/'>MacDown</a>, <a class='category' href='/blog/categories/markdown/'>MarkDown,</a>
   
 </span>
 
@@ -230,10 +195,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/10/06/recommend-a-beautiful-termimal-theme-in-macos-x/" title="Previous Post: 推荐MacOS下一款漂亮的终端主题">&laquo; 推荐MacOS下一款漂亮的终端主题</a>
+        <a class="basic-alignment left" href="/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/" title="Previous Post: 用AppleScript增强Mac下Evernote的编辑能力">&laquo; 用AppleScript增强Mac下Evernote的编辑能力</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/10/06/caputure-packets-with-rvictl-and-wireshark-after-updating-to-ios7/" title="Next Post: 升级iOS7后利用rvictl和wireshark抓包失效?">升级iOS7后利用rvictl和wireshark抓包失效? &raquo;</a>
       
     </p>
   </footer>
