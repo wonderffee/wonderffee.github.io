@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Evernote | Wonderffee's Blog]]></title>
+  <title><![CDATA[Category: Evernote, | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/evernote/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2015-06-05T10:22:18+08:00</updated>
+  <updated>2015-06-05T10:44:39+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -65,7 +65,7 @@ end if
 
 <p>原理就是复制选中的文字，加上html颜色的标签，然后变成html格式内容，粘贴即可。</p>
 
-<p>比如选中的文字为“Hello”，上面的代码会先把它变成<code>&lt;span style="color:red;"&gt;Hello&lt;/span&gt;</code>，然后在Evernote中粘贴就变成了红色字体的"Hello"</p>
+<p>比如选中的文字为“Hello”，上面的代码会先把它变成<code>&lt;span style="color:red;"&gt;Hello&lt;/span&gt;</code>，然后在Evernote中粘贴就变成了红色字体的<span style="color:red;">&ldquo;Hello&rdquo;</span></p>
 
 <p>其中的难点在于把html源码变成剪贴板认可的html富文本格式内容，这个借助了shell中的hexdump命令以及用剪贴板作为中介。突破了这个难点之后，你就可以任意自定义html格式了。</p>
 
@@ -123,6 +123,24 @@ end if
 这样，你就可以自定义一些自己常用的文本格式，绑定快捷键，然后就像Word中的样式表一样，一键就可以更换自己需要的格式。</p>
 
 <p>这只是一个简单的例子，相信实现其它的文本格式也不是难事，权当抛砖引玉，大家应该能做出更高级的功能。</p>
+
+<h2>延伸——增强MarkDown编辑能力</h2>
+
+<p>写这篇文章时还发现另一个用途：增强MarkDown编辑能力。</p>
+
+<p>众所周知，MarkDown对颜色支持似乎不是很好，如果我要把一段内容变成红色字体，办法只能是写HTML代码，可这依然是一件麻烦的事情。受上面的启发，我们可以写一个AppleScript脚本对选定的文字进行HTML包装，然后自动粘贴。那么只用一个快捷键就可以搞定了。</p>
+
+<p>在Automator中只需要上面一半不到的代码就行了：</p>
+
+<p>```applescript
+on run {input, parameters}  &mdash; the clipboard as &ldquo;HTML&rdquo;  set the clipboard to &ldquo;<span style=\"color:red;\">&rdquo; &amp; input &amp; &ldquo;</span>&rdquo;  tell application &ldquo;System Events&rdquo;        keystroke &ldquo;v&rdquo; using {command down}  end tell
+end run</p>
+
+<p>```</p>
+
+<p>下面就是效果了：</p>
+
+<p><span style="color:red;">同样地，我们可以为了让自己方便写MarkDown而自定义一系列样式，用AppleScript实现，形成自己的MarkDown样式表，让自己的MarkDown文章更容易地玩出更多的花样。</span></p>
 
 <h2>一些额外的发现：</h2>
 
