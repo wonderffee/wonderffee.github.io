@@ -9,7 +9,7 @@
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="在之前的一篇文章(链接)中我写到了没有用UITabbarController来实现一个自定义Tabbar，当然功能也简陋了点。注意到在Weico或微信中的自定义tabbar有一个这样的功能：push到下一个页面时tabbar会被自动隐藏，下面我就来说说如何使我前面做的自定义tabbar也能实现隐藏 &hellip;">
+  <meta name="description" content="上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下： ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/07/use-category-add-property-for-a-class/">Objective-c的category并非不能增加新属性</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-07T22:46:00+08:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/08/07/use-category-add-property-for-a-class/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -390,6 +431,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/06/05/generate-link-of-current-opened-web-page/">快速生成参考链接</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/05/solve-macdown-blank-problem/">使用MacDown的一些笔记</a>
       </li>
     
@@ -423,10 +468,6 @@
     
       <li class="post">
         <a href="/blog/2013/10/19/an-analysis-for-transform-samples-of-calayer/">iOS 3D UI——CALayer的transform扩展解析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/">判断三维坐标系旋转正方向的简单方法</a>
       </li>
     
   </ul>

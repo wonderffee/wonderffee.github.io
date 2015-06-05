@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MarkDown, | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2015-06-05T10:10:34+08:00</updated>
+  <updated>2015-06-05T10:22:18+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[快速生成参考链接]]></title>
+    <link href="http://wonderffee.github.io/blog/2015/06/05/generate-link-of-current-opened-web-page/"/>
+    <updated>2015-06-05T10:19:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2015/06/05/generate-link-of-current-opened-web-page</id>
+    <content type="html"><![CDATA[<h2>由来</h2>
+
+<p>秉承以前写论文加参考文献的习惯，写文章总觉得要加上参考链接比较好一些，所以现在写博客也是如此。</p>
+
+<p>但是加一个参考链接好像并不是一件很容易的事情，每次的操作好像是先要复制一个标题，粘贴，再复制url，粘贴，再整理。不觉得很麻烦吗？</p>
+
+<!--more-->
+
+
+<p>下面整理了一些加速这个过程的方法，由于我主要用Firefox，下面的方法都是适用于Firefox的：</p>
+
+<h2>生成MarkDown链接</h2>
+
+<p>这个很简单，安装一个Firefox插件就可以搞定了，安装这个插件就可以了：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/copy-as-markdown/?src=search">Copy as Markdown</a></p>
+
+<p>或者，用另外一个插件：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a> ——这个插件的功能更丰富一些</p>
+
+<p>延伸一下：有没有TX是不是每天在浏览器上打开了许多Tab，关电脑时要全部关闭这些Tab，而实际上想把这些Tab保存下来？这两个插件可以部分实现这个功能：都有生成所有Tab的MarkDown链接的功能。可以写一个简单的AppleScript脚本，每天关闭时，使用插件生成所有Tab的MarkDown链接，按快捷键写入到一个以当前时间命名的文件中。</p>
+
+<h2>生成HTML富文本链接</h2>
+
+<p>在某些情况下你可能需要富文本链接，比如在Evernote中使用。
+简要的转换过程是：以Google为例，根据标题“Google”和url &ldquo;<a href="https://www.google.com.hk/">https://www.google.com.hk/</a>"，得到<code>&lt;a href="https://www.google.com.hk/"&gt;Google&lt;/a&gt;</code>，再把这个HTML源码转换为HTML富文本放入剪贴板中，在Evernote中粘贴即得到<a href="https://www.google.com.hk/">Google</a>。</p>
+
+<p>起初我想完全用AppleScript实现，无奈发现Firefox对AppleScript似乎做了特别处理（Chrome, Safari没有此问题，可以参考这个<a href="https://gist.github.com/vitorgalvao/5392178">链接</a>），那么只能曲线实现了——先用Firefox插件得到当前网页超链接的HTML源码，再用AppleScript生成HTML富文本放入剪贴板中——后者要得益于之前增强Mac下Evernote编辑能力的文章中的突破。</p>
+
+<p>很幸运地找到了生成链接HTML源码的插件，也就是上面提到的<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a>。</p>
+
+<p>第一个问题解决了，然后就是用神奇的AppleScript解决第二个问题了：</p>
+
+<p><code>applescript
+on run {input, parameters}      -- 必须先在Firefox中打开的网页里点右键选择Fire Link -- Html，然后再执行此脚本  set selectedText to the clipboard   set prefix to "&lt;a href="    if selectedText begins with prefix then     set theHEX to do shell script "LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve '1/1 \"%.2x\"'"     if theHEX is "" then            beep        else            run script "set the clipboard to «data HTML" &amp; theHEX &amp; "»"       end if  else        display dialog "剪贴板中的内容不是以&lt;a href=开头，格式不合法" end if      return inputend run
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用MacDown的一些笔记]]></title>

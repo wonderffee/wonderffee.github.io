@@ -5,30 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>解决Octopress博客Build Failed问题 - Wonderffee's Blog</title>
+  <title>快速生成参考链接 - Wonderffee's Blog</title>
   <meta name="author" content="wonderffee">
 
   
-  <meta name="description" content="用了一段时间的Octopress博客，感觉良好，可这毕竟是for程序员的博客，折腾免不了，这不就遇到了一次Build Failed的问题: 执行rake preview命令预览时出现了下面的提示： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20 &hellip;">
+  <meta name="description" content="由来 秉承以前写论文加参考文献的习惯，写文章总觉得要加上参考链接比较好一些，所以现在写博客也是如此。 但是加一个参考链接好像并不是一件很容易的事情，每次的操作好像是先要复制一个标题，粘贴，再复制url，粘贴，再整理。不觉得很麻烦吗？ 下面整理了一些加速这个过程的方法，由于我主要用Firefox， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -37,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog">
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2015/06/05/generate-link-of-current-opened-web-page">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
@@ -87,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">解决Octopress博客Build Failed问题</h1>
+      <h1 class="entry-title">快速生成参考链接</h1>
     
     
       <p class="meta">
@@ -103,21 +84,44 @@
   
 
 
-<time datetime="2013-10-17T21:11:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+<time datetime="2015-06-05T10:19:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>用了一段时间的Octopress博客，感觉良好，可这毕竟是for程序员的博客，折腾免不了，这不就遇到了一次Build Failed的问题: 执行rake preview命令预览时出现了下面的提示：</p>
+<div class="entry-content"><h2>由来</h2>
+
+<p>秉承以前写论文加参考文献的习惯，写文章总觉得要加上参考链接比较好一些，所以现在写博客也是如此。</p>
+
+<p>但是加一个参考链接好像并不是一件很容易的事情，每次的操作好像是先要复制一个标题，粘贴，再复制url，粘贴，再整理。不觉得很麻烦吗？</p>
 
 <!--more-->
 
 
+<p>下面整理了一些加速这个过程的方法，由于我主要用Firefox，下面的方法都是适用于Firefox的：</p>
 
+<h2>生成MarkDown链接</h2>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>这个很简单，安装一个Firefox插件就可以搞定了，安装这个插件就可以了：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/copy-as-markdown/?src=search">Copy as Markdown</a></p>
+
+<p>或者，用另外一个插件：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a> ——这个插件的功能更丰富一些</p>
+
+<p>延伸一下：有没有TX是不是每天在浏览器上打开了许多Tab，关电脑时要全部关闭这些Tab，而实际上想把这些Tab保存下来？这两个插件可以部分实现这个功能：都有生成所有Tab的MarkDown链接的功能。可以写一个简单的AppleScript脚本，每天关闭时，使用插件生成所有Tab的MarkDown链接，按快捷键写入到一个以当前时间命名的文件中。</p>
+
+<h2>生成HTML富文本链接</h2>
+
+<p>在某些情况下你可能需要富文本链接，比如在Evernote中使用。
+简要的转换过程是：以Google为例，根据标题“Google”和url &ldquo;<a href="https://www.google.com.hk/">https://www.google.com.hk/</a>&#8220;，得到<code>&lt;a href="https://www.google.com.hk/"&gt;Google&lt;/a&gt;</code>，再把这个HTML源码转换为HTML富文本放入剪贴板中，在Evernote中粘贴即得到<a href="https://www.google.com.hk/">Google</a>。</p>
+
+<p>起初我想完全用AppleScript实现，无奈发现Firefox对AppleScript似乎做了特别处理（Chrome, Safari没有此问题，可以参考这个<a href="https://gist.github.com/vitorgalvao/5392178">链接</a>），那么只能曲线实现了——先用Firefox插件得到当前网页超链接的HTML源码，再用AppleScript生成HTML富文本放入剪贴板中——后者要得益于之前增强Mac下Evernote编辑能力的文章中的突破。</p>
+
+<p>很幸运地找到了生成链接HTML源码的插件，也就是上面提到的<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a>。</p>
+
+<p>第一个问题解决了，然后就是用神奇的AppleScript解决第二个问题了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -135,54 +139,26 @@
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>regeneration: 1 files changed
-</span><span class='line'>Liquid Exception: undefined method `[]&#39; for nil:NilClass in atom.xml
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/pygments_code.rb:14:in `highlight&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/code_block.rb:82:in `render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:94:in `block in render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in `collect&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in `render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:82:in `render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:124:in `render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:132:in `render!&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/convertible.rb:79:in `do_layout&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/post_filters.rb:167:in `do_layout&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/page.rb:100:in `render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:204:in `block in render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in `each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in `render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:41:in `process&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/bin/jekyll:253:in `block in &lt;top (required)&gt;&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in `call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in `block in notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in `each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in `notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:334:in `block in initialize&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in `call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in `notify&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:102:in `run_once&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:150:in `run_loop&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:45:in `block in start&#39;
-</span><span class='line'>Build Failed
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">on</span> <span class="nb">run</span> <span class="p">{</span><span class="nv">input</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">}</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c">-- 必须先在Firefox中打开的网页里点右键选择Fire Link -- Html，然后再执行此脚本</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">selectedText</span> <span class="k">to</span> <span class="nb">the clipboard</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">prefix</span> <span class="k">to</span> <span class="s2">&quot;&lt;a href=&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nv">selectedText</span> <span class="ow">begins with</span> <span class="nv">prefix</span> <span class="k">then</span>
+</span><span class='line'>      <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>          <span class="nb">beep</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>          <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">display dialog</span> <span class="s2">&quot;剪贴板中的内容不是以&lt;a href=开头，格式不合法&quot;</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="no">return</span> <span class="nv">input</span>
+</span><span class='line'><span class="k">end</span> <span class="nb">run</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p>好大一坨文字，看着就头疼，尝试rake generate也是这样的提示。。这段提示看上去像是ruby的出错堆栈信息，自己不懂ruby， 自然不知如何下手，习惯性地在google上搜索了一下，没找到答案，只好自力更生了。</p>
-
-<p>堆栈信息的第一行说明了问题出现在pygments_code.rb文件中，搜索了一下pygment发现是基于python的代码高亮插件，那就说明代码高亮出了问题，最近更新的一篇文章刚好使用了代码高亮，便有思路了。</p>
-
-<p>先用排除法，找到这篇文章，把其中的代码去掉，再执行rake preview预览，发现没有出现build failed问题，基本可以确定是代码导致的build failed问题。继续用排除法找到导致问题的代码，发现代码行的末尾出现了中文分号+空格，莫非是中文符号的问题？把中文分号+空格替换成英文分号，重试，问题解决！</p>
 </div>
 
 
@@ -205,12 +181,12 @@
   
 
 
-<time datetime="2013-10-17T21:11:00+08:00" pubdate data-updated="true">Oct 17<span>th</span>, 2013</time>
+<time datetime="2015-06-05T10:19:00+08:00" pubdate data-updated="true">Jun 5<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+    <a class='category' href='/blog/categories/applescript/'>AppleScript</a>, <a class='category' href='/blog/categories/firefox/'>Firefox,</a>, <a class='category' href='/blog/categories/markdown/'>MarkDown,</a>
   
 </span>
 
@@ -263,10 +239,8 @@ var jiathis_config = {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/10/14/understand-anchorpoint-and-position-with-instance/" title="Previous Post: 通过实例来理解position与anchorPoint">&laquo; 通过实例来理解position与anchorPoint</a>
+        <a class="basic-alignment left" href="/blog/2015/06/05/solve-macdown-blank-problem/" title="Previous Post: 使用MacDown的一些笔记">&laquo; 使用MacDown的一些笔记</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/10/17/a-simple-method-to-determine-positive-rotation-in-in-three-dimensional-space/" title="Next Post: 判断三维坐标系旋转正方向的简单方法">判断三维坐标系旋转正方向的简单方法 &raquo;</a>
       
     </p>
   </footer>

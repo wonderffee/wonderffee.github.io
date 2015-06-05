@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2015-06-05T10:10:34+08:00</updated>
+  <updated>2015-06-05T10:22:18+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[快速生成参考链接]]></title>
+    <link href="http://wonderffee.github.io/blog/2015/06/05/generate-link-of-current-opened-web-page/"/>
+    <updated>2015-06-05T10:19:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2015/06/05/generate-link-of-current-opened-web-page</id>
+    <content type="html"><![CDATA[<h2>由来</h2>
+
+<p>秉承以前写论文加参考文献的习惯，写文章总觉得要加上参考链接比较好一些，所以现在写博客也是如此。</p>
+
+<p>但是加一个参考链接好像并不是一件很容易的事情，每次的操作好像是先要复制一个标题，粘贴，再复制url，粘贴，再整理。不觉得很麻烦吗？</p>
+
+<!--more-->
+
+
+<p>下面整理了一些加速这个过程的方法，由于我主要用Firefox，下面的方法都是适用于Firefox的：</p>
+
+<h2>生成MarkDown链接</h2>
+
+<p>这个很简单，安装一个Firefox插件就可以搞定了，安装这个插件就可以了：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/copy-as-markdown/?src=search">Copy as Markdown</a></p>
+
+<p>或者，用另外一个插件：<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a> ——这个插件的功能更丰富一些</p>
+
+<p>延伸一下：有没有TX是不是每天在浏览器上打开了许多Tab，关电脑时要全部关闭这些Tab，而实际上想把这些Tab保存下来？这两个插件可以部分实现这个功能：都有生成所有Tab的MarkDown链接的功能。可以写一个简单的AppleScript脚本，每天关闭时，使用插件生成所有Tab的MarkDown链接，按快捷键写入到一个以当前时间命名的文件中。</p>
+
+<h2>生成HTML富文本链接</h2>
+
+<p>在某些情况下你可能需要富文本链接，比如在Evernote中使用。
+简要的转换过程是：以Google为例，根据标题“Google”和url &ldquo;<a href="https://www.google.com.hk/">https://www.google.com.hk/</a>&#8220;，得到<code>&lt;a href="https://www.google.com.hk/"&gt;Google&lt;/a&gt;</code>，再把这个HTML源码转换为HTML富文本放入剪贴板中，在Evernote中粘贴即得到<a href="https://www.google.com.hk/">Google</a>。</p>
+
+<p>起初我想完全用AppleScript实现，无奈发现Firefox对AppleScript似乎做了特别处理（Chrome, Safari没有此问题，可以参考这个<a href="https://gist.github.com/vitorgalvao/5392178">链接</a>），那么只能曲线实现了——先用Firefox插件得到当前网页超链接的HTML源码，再用AppleScript生成HTML富文本放入剪贴板中——后者要得益于之前增强Mac下Evernote编辑能力的文章中的突破。</p>
+
+<p>很幸运地找到了生成链接HTML源码的插件，也就是上面提到的<a href="https://addons.mozilla.org/zh-cn/firefox/addon/firelink/?src=search">FireLink</a>。</p>
+
+<p>第一个问题解决了，然后就是用神奇的AppleScript解决第二个问题了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='applescript'><span class='line'><span class="k">on</span> <span class="nb">run</span> <span class="p">{</span><span class="nv">input</span><span class="p">,</span> <span class="nv">parameters</span><span class="p">}</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c">-- 必须先在Firefox中打开的网页里点右键选择Fire Link -- Html，然后再执行此脚本</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">selectedText</span> <span class="k">to</span> <span class="nb">the clipboard</span>
+</span><span class='line'>  <span class="k">set</span> <span class="nv">prefix</span> <span class="k">to</span> <span class="s2">&quot;&lt;a href=&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nv">selectedText</span> <span class="ow">begins with</span> <span class="nv">prefix</span> <span class="k">then</span>
+</span><span class='line'>      <span class="k">set</span> <span class="nv">theHEX</span> <span class="k">to</span> <span class="nb">do shell script</span> <span class="s2">&quot;LC_ALL=en_US.UTF-8 pbpaste | hexdump -ve &#39;1/1 \&quot;%.2x\&quot;&#39;&quot;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nv">theHEX</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span> <span class="k">then</span>
+</span><span class='line'>          <span class="nb">beep</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>          <span class="nb">run script</span> <span class="s2">&quot;set the clipboard to «data HTML&quot;</span> <span class="o">&amp;</span> <span class="nv">theHEX</span> <span class="o">&amp;</span> <span class="s2">&quot;»&quot;</span>
+</span><span class='line'>      <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>      <span class="nb">display dialog</span> <span class="s2">&quot;剪贴板中的内容不是以&lt;a href=开头，格式不合法&quot;</span>
+</span><span class='line'>  <span class="k">end</span> <span class="k">if</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="no">return</span> <span class="nv">input</span>
+</span><span class='line'><span class="k">end</span> <span class="nb">run</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用MacDown的一些笔记]]></title>
@@ -1568,44 +1644,6 @@ dwarfdump &mdash;uuid YourApp.app.dSYM</p>
 <p>好处不仅仅是这一点。organizer还有一个import功能，借助这个功能，我们可以把其它Mac电脑上的crash log导入到自己电脑中的organizer，然后就可以自动解析。更好的是，用这个功能可以批量导入收集到的crash log，然后我们就可以批量解析所有的crash log。</p>
 
 <p>比起用symbolicatecrash，这种方法简便了许多，从现在起，你可以抛弃symbolicatecrash了。但其实这还不是最好的方法，目前先进的方法是用crash report管理系统来管理所有的crash，比如使用QuincyKit, Crashlytics, Flurry等来进行管理，有时间自己也研究研究。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[objective-c的category并非不能增加新属性]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class/"/>
-    <updated>2013-08-07T22:46:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/08/07/use-category-add-property-for-a-class</id>
-    <content type="html"><![CDATA[<p>上一篇文章中应用到了hidesBottomBarWhenPushed属性，关于这个属性，如果你够仔细就可以发现它是在UINavigationController.h文件中定义的，而不是在UIViewController中定义的。这是利用了objective-c的category特性，原代码如下：</p>
-
-<!--more-->
-
-
-
-
-<figure class='code'><figcaption><span>Here&#8217;s Code </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">UIViewController</span> <span class="nl">(UINavigationControllerItem)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationItem</span> <span class="o">*</span><span class="n">navigationItem</span><span class="p">;</span> <span class="c1">// Created on-demand so that a view controller may customize its navigation appearance.</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">hidesBottomBarWhenPushed</span><span class="p">;</span> <span class="c1">// If YES, then when this view controller is pushed into a controller hierarchy with a bottom bar (like a tab bar), the bottom bar will slide out. Default is NO.</span>
-</span><span class='line'><span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">readonly</span><span class="p">,</span><span class="n">retain</span><span class="p">)</span> <span class="n">UINavigationController</span> <span class="o">*</span><span class="n">navigationController</span><span class="p">;</span> <span class="c1">// If this view controller has been pushed onto a navigation controller, return it.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>category是一个很棒的objective-c特性，可以为已经存在的类增加方法，而不需要增加一个子类。不过你也许会模糊地记得category是不能给一个类增加属性的(除非借助associative)，是不是对这里的category能给一个类增加新的属性非常奇怪呢？</p>
-
-<p>其实不是这样的，objective-c中的category只是不能增加实例变量，这里添加的hidesBottomBarWhenPushed属性只是添加了setter和getter方法的声明，在对应的m文件中应该是实现了这两个方法并调用了其它的private变量或利用了runtime机制，相关讨论可以见这里：<a href="http://www.cocoachina.com/bbs/read.php?tid=132558">类别不是应该只能添加方法吗？类别现在能直接添加属性了？</a>。用category添加了属性如何实现对应的set、get方法可以参考这个：<a href="http://www.cnblogs.com/wupher/archive/2013/01/05/2845338.html">让Category支持添加属性与成员变量</a>。</p>
-
-<p>有一个很意思的问题，从xcode4.5开始只要声明了property就可以自动生成实例变量，但是如果是在一个类的category类别中添加新的property，会自动生成对应的实例变量吗，有兴趣的可以自己动手试试。</p>
 ]]></content>
   </entry>
   
