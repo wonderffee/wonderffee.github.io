@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: iOS, | Wonderffee's Blog]]></title>
-  <link href="http://wonderffee.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <title><![CDATA[Category: APNS | Wonderffee's Blog]]></title>
+  <link href="http://wonderffee.github.io/blog/categories/apns/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
   <updated>2015-08-25T16:22:32+08:00</updated>
   <id>http://wonderffee.github.io/</id>

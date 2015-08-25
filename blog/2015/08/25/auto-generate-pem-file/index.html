@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>自动化生成APNS PEM文件 - Wonderffee's Blog</title>
+  <meta name="author" content="wonderffee">
+
+  
+  <meta name="description" content="缘由 由于工作需要，我需要大量生成iOS推送服务端所用到的PEM文件，一个个手动生成那真是要烦死。梳理了一下PEM文件的生成过程，发现涉及到证书导出、生成与验证，这样的话我还真的只能一个个手动生成。不过仔细研究，还是可以提高生成自动化水平的，比如PEM文件后期生成过程的把P12文件转换成PEM文件 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2015/08/25/auto-generate-pem-file">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wonderffee's Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wonderffee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">自动化生成APNS PEM文件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-25T15:23:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>缘由</h3>
+
+<p>由于工作需要，我需要大量生成iOS推送服务端所用到的PEM文件，一个个手动生成那真是要烦死。梳理了一下PEM文件的生成过程，发现涉及到证书导出、生成与验证，这样的话我还真的只能一个个手动生成。不过仔细研究，还是可以提高生成自动化水平的，比如PEM文件后期生成过程的把P12文件转换成PEM文件。</p>
+
+<!--more-->
+
+
+<p>这个P12文件转换成PEM文件的自动化过程有一个难点，就是需要手动输入密码，换言之就是有交互的过程，如果写成脚本，如果让脚本自动交互呢？也就是把密码写死在脚本里，在脚本执行时自动输入密码。还真让我找到了解决这个问题的神器：expect和autoexpect。</p>
+
+<p>看看Expect的介绍：我们通过Shell可以实现简单的控制流功能，如：循环、判断等。但是对于需要交互的场合则必须通过人工来干预，有时候我们可能会需要实现和交互程序如telnet服务器等进行交互的功能。而expect就使用来实现这种功能的工具。</p>
+
+<p>那么autoexpect是什么呢？实际上写expect脚本仍然是挺烦的，autoexpect是用来录制生成expect脚本的，这样就更加自动化了。</p>
+
+<h3>实现</h3>
+
+<p>Mac本身带有expect工具，这可以通过expect -v看出来，但是却没有autoexpect。其实是因为Mac带的这个expect比较简单，用brew install expect就可以安装上带autoexpect的expect了。</p>
+
+<p>本文中PEM文件的生成主要参考了<a href="http://blog.csdn.net/think12/article/details/8863411">《IOS Push 证书的重新生成》</a> 一文，涉及到的自动化对应&#8221;把两个.p12文件转换成.pem文件&#8221;之后的过程.</p>
+
+<p>在Terminal下执行autoexpect -p -f autoGeneratePEM.exp就可以开始脚本的录制了，录制成功后，生成的autoGeneratePEM.exp就是你需要的脚本了，稍做修改，就可以使用了。</p>
+
+<p>下面是我录下来的脚本，由于是录制的，所以会有一些冗余代码。</p>
+
+<p>如何使用：</p>
+
+<pre><code>1. 确保cert.p12和key.p12在当前目录  
+2. 修改脚本中的custompassword为两个p12文件的导出密码（这里假设两个是一样的），以及修改customPemPassPhrase为你自己定义的字符串。   
+3. 执行脚本时需要bundleid参数，示例：./autoGeneratePEM.exp com.test.123456，或者./autoGeneratePEM.exp 123456
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/expect -f</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># This Expect script was generated by autoexpect on Tue Aug 25 14:39:57 2015</span>
+</span><span class='line'><span class="c"># Expect and autoexpect were both written by Don Libes, NIST.</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">set </span>force_conservative 0  ;<span class="c"># set to 1 to force conservative mode even if</span>
+</span><span class='line'>            ;<span class="c"># script wasn&#39;t run conservatively originally</span>
+</span><span class='line'><span class="k">if</span> <span class="o">{</span><span class="nv">$force_conservative</span><span class="o">}</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">set </span>send_slow <span class="o">{</span>1 .1<span class="o">}</span>
+</span><span class='line'>  proc send <span class="o">{</span>ignore arg<span class="o">}</span> <span class="o">{</span>
+</span><span class='line'>      sleep .1
+</span><span class='line'>      exp_send -s -- <span class="nv">$arg</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">set </span>timeout -1
+</span><span class='line'><span class="nb">set </span>bundleid <span class="o">[</span>lindex <span class="nv">$argv</span> 0<span class="o">]</span>
+</span><span class='line'>spawn <span class="nv">$env</span><span class="o">(</span>SHELL<span class="o">)</span>
+</span><span class='line'>match_max 100000
+</span><span class='line'>expect -exact <span class="s2">&quot;\[?1034hbash-3.2\$ &quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;openssl pkcs12 -clcerts -nokeys -out cert.pem -in cert.p12&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;openssl pkcs12 -clcerts -nokeys -out cert.pem -in cert.p12&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;Enter Import Password:&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;custompassword\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;bash-3.2\$ &quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;openssl pkcs12 -nocerts -out key.pem -in key.p12&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;openssl pkcs12 -nocerts -out key.pem -in key.p12&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;Enter Import Password:&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;custompassword\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;Enter PEM pass phrase:&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;customPemPassPhrase\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;Verifying - Enter PEM pass phrase:&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;customPemPassPhrase\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;bash-3.2\$ &quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;openssl rsa -in key.pem -out key.unencrypted.pem&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;openssl rsa -in key.pem -out key.unencrypted.pem&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;Enter pass phrase for key.pem:&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;customPemPassPhrase\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;bash-3.2\$ &quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;cat cert.pem key.unencrypted.pem &gt; $bundleid.pem&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;cat cert.pem key.unencrypted.pem &gt; $bundleid.pem&quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;\r&quot;</span>
+</span><span class='line'>expect -exact <span class="s2">&quot;bash-3.2\$ &quot;</span>
+</span><span class='line'>send -- <span class="s2">&quot;exit\r&quot;</span>
+</span><span class='line'>expect eof
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>参考：</h4>
+
+<ul>
+<li><a href="http://blog.csdn.net/think12/article/details/8863411">IOS Push 证书的重新生成 &ndash; think12的专栏 &ndash; 博客频道 &ndash; CSDN.NET</a></li>
+<li><a href="http://blog.chinaunix.net/uid-23123280-id-2546035.html">autoexpect让expect脚本更加简单！-lonelysoul011-ChinaUnix博客</a></li>
+<li><a href="http://apple.stackexchange.com/questions/103225/where-is-the-autoexpect-command-line-tool-on-osx-mountain-lion-10-8-5">Where is the autoexpect command line tool on OSX Mountain Lion (10.8.5) &ndash; Ask Different</a></li>
+<li><a href="http://www.raywenderlich.com/32960/apple-push-notification-services-in-ios-6-tutorial-part-1">Apple Push Notification Services in iOS 6 Tutorial: Part &frac12; &ndash; Ray Wenderlich</a></li>
+<li><a href="http://blog.csdn.net/leexide/article/details/17485451">Shell脚本学习之expect命令 &ndash; 专注于系统运维，系统架构方向 &ndash; 博客频道 &ndash; CSDN.NET</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wonderffee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-25T15:23:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/apns/'>APNS</a>, <a class='category' href='/blog/categories/ios/'>iOS,</a>
+  
+</span>
+
+
+    </p>
+    <p class="meta">
+      原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+     
+<style>
+    .flash-video{display:none;}
+</style>
+
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a class="jiathis_button_qzone">QQ空间</a>
+
+	<a href="http://www.jiathis.com/share?uid=1810566" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {
+	data_track_clickback:'true'
+	sm:"tsina,tqq,renren,douban,qzone",
+    summary:"",
+    hideMore:false
+};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354334309126428" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1810566" async=""></script>
+<!-- UY END -->
+ 
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/05/generate-link-of-current-opened-web-page/" title="Previous Post: 快速生成参考链接">&laquo; 快速生成参考链接</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/08/25/auto-generate-pem-file/">自动化生成APNS PEM文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/05/generate-link-of-current-opened-web-page/">快速生成参考链接</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/05/solve-macdown-blank-problem/">使用MacDown的一些笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/">用AppleScript增强Mac下Evernote的编辑能力</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/19/quincykit-and-kscrash/">利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem/">Unrecognized Selector Sent to Instance问题之诱敌深入关门打狗解决办法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/16/hello-i-am-yoyowinwin/">如何让朋友在你的博客上发表文章</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/23/solve-ie-cannot-surf-internet-problem/">解决IE不能上网问题小记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/capturing-on-interface-rvi0-fails-after-upgrding-to-mavericks/">Capturing on Interface Rvi0 Fails After Upgrding to Mavericks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/update-cocoapods/">Update CocoaPods问题小记</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Sina Weibo</h1>
+    <ul id="weibo">
+            <li>
+            <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=0&speed=0&skin=1&isTitle=1&noborder=0&isWeibo=0&isFans=0&uid=1217310237&verifier=4452f105&dpc=1"></iframe>
+                      </li>
+                        </ul>
+                        </section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - wonderffee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
