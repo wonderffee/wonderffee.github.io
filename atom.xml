@@ -4,7 +4,7 @@
   <title><![CDATA[Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2015-08-25T16:22:32+08:00</updated>
+  <updated>2015-09-24T17:46:49+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode自动生成版本号与根据版本号获取Git提交记录哈希值]]></title>
+    <link href="http://wonderffee.github.io/blog/2015/09/24/auto-build-number/"/>
+    <updated>2015-09-24T17:04:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2015/09/24/auto-build-number</id>
+    <content type="html"><![CDATA[<p>相信很多人都用Xcode自动生成版本号，可以省却很多麻烦。这里说的版本号是Build Number，对应plist文件中的CFBundleVersion字段。</p>
+
+<p>其实我最开始看到自动生成版本号的方法是每次自动加1，当时就觉得有一个费解的问题：每修改一次版本号就要改一次plist文件，然后还要提交，团队合作时不是很麻烦而且很容易造成代码提交冲突？</p>
+
+<!--more-->
+
+
+<p>直到最近我看到这篇文章，才发现了最终的解决方案：<a href="http://www.cnblogs.com/skyming/p/3978424.html">最好的 Xcode 自动生成版本号技术</a>——不会污染Git记录，也不会造成冲突。</p>
+
+<p>里面使用了下面的命令来获取Git提交次数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rev-list --all|wc -l
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>怎么使用就不多赘述了，看原文就是了，这里就说说原文没说到的一个问题：如何根据版本号得到对应的Git提交记录哈希值？也就是上面自动生成版本号的逆向过程。这适用于一种情况：某个版本出现了崩溃，现在想临时回退到那个崩溃版本的代码。</p>
+
+<p>有人说可以在每次打包的时候打tag，可我终究还是太懒。</p>
+
+<p>首先，在~/.gitconfig里加上下面的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
+</span><span class='line'>  show-rev-number <span class="o">=</span> !sh -c <span class="s1">&#39;git rev-list --reverse --all | nl | awk \&quot;{ if(\\$1 == &quot;$0&quot;) { print \\$2 }}\&quot;&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后你就可以用&#8221;git show-rev-number 版本号&#8221;命令来获取版本号对应的Git commit哈希值了。</p>
+
+<p>最后根据这个哈希值创建历史分支，你可以进行回退操作了：   <br/>
+1.git branch (自定义分支名称)　(版本号)　例如：git branch s105 668f074c62406  <br/>
+2.git checkout (分支)　例如：git checkout s105</p>
+
+<h3>参考：</h3>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/4120001/what-is-the-git-equivalent-for-revision-number">version control &ndash; what is the git equivalent for revision number? &ndash; Stack Overflow</a></li>
+<li><a href="http://www.cnblogs.com/skyming/p/3978424.html">最好的 Xcode 自动生成版本号技术 &ndash; skyming &ndash; 博客园</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[自动化生成APNS PEM文件]]></title>
@@ -1737,54 +1787,6 @@ error: key does not contain a section: -global    <br/>
 <p>参考：    <br/>
 <a href="http://noahfrederick.com/blog/2011/lion-terminal-theme-peppermint/">MAC OS X LION TERMINAL THEME: PEPPERMINT</a>   <br/>
 <a href="http://www.macobserver.com/tmo/article/setting_the_terminal_window_transparency">Setting the Terminal Window Transparency</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[解决终端输命令换行覆盖问题]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/08/15/solve-new-line-problem-in-terminal/"/>
-    <updated>2013-08-15T22:24:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/08/15/solve-new-line-problem-in-terminal</id>
-    <content type="html"><![CDATA[<p>发现终端输入比较长的命令时换行总是出问题，命令超出一行时会出现覆盖提示符的情况，烦不胜烦，今天终于找到问题所在了。
-之前为了让终端显示彩色字符，在.bash_profile里增加了这样一个设置：</p>
-
-<!--more-->
-
-
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \[\u@\h \W\]\$ \[\e[m\] &quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>正是这个设置导致命令换行出问题。</p>
-
-<p>对比了一下别人正确的设置，发现我的PS1里多了一对\[和\]，也就是中间的那一对\[和\]要删掉才行（貌似变成[和]也木有问题）。\[和\]是用于把非打印字符括起来的（颜色应该是非打印字符吧），别人出的换行问题都是没用\[和\]把非打印字符括起来的缘故，我这里却是把不该括的打印字符括了起来也有问题，真是多也不行少也不行。纠正的设置为：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;\[\e[0;31m\] \u@\h \W\$ \[\e[m\] &quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>顺便也再调整了一下终端的颜色显示，最终在.bash_probile里做的设置如下：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">COLOR_BOLD</span><span class="o">=</span><span class="s2">&quot;\[\e[1m\]&quot;</span>
-</span><span class='line'><span class="nv">COLOR_DEFAULT</span><span class="o">=</span><span class="s2">&quot;\[\e[0m\]&quot;</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">CLICOLOR</span><span class="o">=</span>1
-</span><span class='line'><span class="nb">export </span><span class="nv">GREP_OPTIONS</span><span class="o">=</span><span class="s2">&quot;--color=auto&quot;</span>
-</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;\[\e[01;33m\]\u@\h \W\$\[\e[m\] &#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>参考： <br/>
-<a href="http://lnote.blogbus.com/logs/106241420.html">终端提示符设置</a>  <br/>
-<a href="http://linux.fatduck.org/2012/03/bash.html">Bash长行换行问题</a></p>
 ]]></content>
   </entry>
   
