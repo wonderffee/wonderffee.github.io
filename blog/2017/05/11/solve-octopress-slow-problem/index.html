@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>解决Octopress博客访问太慢的问题 - Wonderffee's Blog</title>
+  <meta name="author" content="wonderffee">
+
+  
+  <meta name="description" content="博客好久没动了，也一直有一个问题没解决，就是打开博客太慢了。 这得从Octopress引用了Google的字体文件和jQuery文件说起，刚开始建博客就发现了这个问题。当时也解决了，使用了360推出的常用前端公共库CDN服务libs.useso.com，岂料后来360也关闭了这项服务，访问再次变慢 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wonderffee.github.io/blog/2017/05/11/solve-octopress-slow-problem">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Wonderffee's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Wonderffee's Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wonderffee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">解决Octopress博客访问太慢的问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-05-11T14:54:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>博客好久没动了，也一直有一个问题没解决，就是打开博客太慢了。</p>
+
+<p>这得从Octopress引用了Google的字体文件和jQuery文件说起，刚开始建博客就发现了这个问题。当时也解决了，使用了360推出的常用前端公共库CDN服务libs.useso.com，岂料后来360也关闭了这项服务，访问再次变慢，然后就一直没管。</p>
+
+<p>今天就来解决一下吧，综合各种搜索资料，有了以下的集大成版：</p>
+
+<!--more-->
+
+
+<h2>1.加速jQuery访问</h2>
+
+<p>办法就是把jquery的cdn服务改成microsoft的。</p>
+
+<p>编辑文件 source/_includes/head.html 找到下图注释掉的部分,替换成</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c">&lt;!--</span><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;--&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.加速font访问</h2>
+
+<p>办法就是把font改成使用本地的。</p>
+
+<p>新建一个目录 source/fonts，后面下载的字体就放在这个fonts文件夹中。访问<a href="https://github.com/google/fonts/tree/master/ofl/ptsans">PT_Sans</a>和<a href="https://github.com/google/fonts/tree/master/ofl/ptserif">PT_Serif</a>下载两字体对应的字体文件，分别存放于PT_Sans和PT_Serif文件夹中，各4个ttf字体。</p>
+
+<p>这里有一个问题，给的链接都是Github中repo库的子文件夹链接，怎么一次性下载子文件夹呢？还真有办法，打开<a href="http://kinolien.github.io/gitzip/">gitzip</a>,在右上角文本框中粘贴子文件夹网址点Download就可以下载了，so easy!</p>
+
+<p>如果不下载子文件夹，也可以安装<a href="https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc">OctoTree</a>这个Chrome插件一个一个安装，就是稍微麻烦一些。</p>
+
+<p>下载后的字体存放目录层级如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">.</span>
+</span><span class='line'><span class="err">├──</span> <span class="nx">PT_Sans</span>
+</span><span class='line'><span class="err">│</span>   <span class="err">├──</span> <span class="nx">OFL</span><span class="p">.</span><span class="nx">txt</span>
+</span><span class='line'><span class="err">│</span>   <span class="err">├──</span> <span class="nx">PT_Sans</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">BoldItalic</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'><span class="err">│</span>   <span class="err">├──</span> <span class="nx">PT_Sans</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Bold</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'><span class="err">│</span>   <span class="err">├──</span> <span class="nx">PT_Sans</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Italic</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'><span class="err">│</span>   <span class="err">└──</span> <span class="nx">PT_Sans</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Regular</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'><span class="err">└──</span> <span class="nx">PT_Serif</span>
+</span><span class='line'>    <span class="err">├──</span> <span class="nx">OFL</span><span class="p">.</span><span class="nx">txt</span>
+</span><span class='line'>    <span class="err">├──</span> <span class="nx">PT_Serif</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">BoldItalic</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'>    <span class="err">├──</span> <span class="nx">PT_Serif</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Bold</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'>    <span class="err">├──</span> <span class="nx">PT_Serif</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Italic</span><span class="p">.</span><span class="nx">ttf</span>
+</span><span class='line'>    <span class="err">└──</span> <span class="nx">PT_Serif</span><span class="o">-</span><span class="nx">Web</span><span class="o">-</span><span class="nx">Regular</span><span class="p">.</span><span class="nx">ttf</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着在 source/stylesheets 下新建pt_sans.css和pt_serif.css替代原先的google fonts代码。这两个文件的内容分别是：</p>
+
+<figure class='code'><figcaption><span>pt_sans.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Sans&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Sans&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSans-Regular&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Regular</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Sans&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Sans Bold&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSans-Bold&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Bold</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Sans&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Sans Italic&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSans-Italic&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Italic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Sans&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Sans Bold Italic&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSans-BoldItalic&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-BoldItalic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>pt_serif.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Serif&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Serif&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSerif-Regular&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Regular</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Serif&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Serif Bold&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSerif-Bold&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Bold</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Serif&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Serif Italic&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSerif-Italic&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Italic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="s1">&#39;PT Serif&#39;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PT Serif Bold Italic&#39;</span><span class="o">),</span> <span class="nt">local</span><span class="o">(</span><span class="s1">&#39;PTSerif-BoldItalic&#39;</span><span class="o">),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-BoldItalic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(</span><span class="s1">&#39;truetype&#39;</span><span class="o">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后修改source/_includes/custom/head.html</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--Fonts from Google&quot;s Web font directory at http://google.com/webfonts --&gt;</span>
+</span><span class='line'><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;/stylesheets/pt_serif.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;/stylesheets/pt_sans.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3.重新部署</h2>
+
+<p>重新部署自然就简单了，可以用preview先预览效果:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span><span class='line'>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度 &ndash; 冷雨之家</a></li>
+<li><a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du">加快octopress国内访问速度 &ndash; 颇忒脱’s Blog</a></li>
+<li><a href="http://www.jianshu.com/p/fe0e089a985c">个性化我们的Octopress博客 &ndash; 简书</a></li>
+<li><a href="https://old.jacky-sj.com/blog/2014/02/26/record2/">记录：Octopress配置修改之旅 &ndash; Jacky and MSC</a></li>
+<li><a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染 &ndash; IMXYLZ</a></li>
+<li><a href="http://geekgaoyang.herokuapp.com/blog/2015/02/28/octopress-speed-up/">Octopress 加速 &ndash; GeekGaoyang’s Blog</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wonderffee</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-05-11T14:54:00+08:00" pubdate data-updated="true">May 11<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    <p class="meta">
+      原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" id="">Creative Commons BY-NC-ND 3.0</a>
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+     
+<style>
+    .flash-video{display:none;}
+</style>
+
+<!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_tqq">腾讯微博</a>
+	<a class="jiathis_button_renren">人人网</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a class="jiathis_button_qzone">QQ空间</a>
+
+	<a href="http://www.jiathis.com/share?uid=1810566" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {
+	data_track_clickback:'true'
+	sm:"tsina,tqq,renren,douban,qzone",
+    summary:"",
+    hideMore:false
+};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1354334309126428" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1810566" async=""></script>
+<!-- UY END -->
+ 
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/24/auto-build-number/" title="Previous Post: Xcode自动生成版本号与根据版本号获取Git提交记录哈希值">&laquo; Xcode自动生成版本号与根据版本号获取Git提交记录哈希值</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/05/11/solve-octopress-slow-problem/">解决Octopress博客访问太慢的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/24/auto-build-number/">Xcode自动生成版本号与根据版本号获取Git提交记录哈希值</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/08/25/auto-generate-pem-file/">自动化生成APNS PEM文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/05/generate-link-of-current-opened-web-page/">快速生成参考链接</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/05/solve-macdown-blank-problem/">使用MacDown的一些笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/04/improve-evernote-editing-capabilities-in-mac/">用AppleScript增强Mac下Evernote的编辑能力</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/19/quincykit-and-kscrash/">利用QuincyKit + KSCrash构建自己的Crash Log收集与管理系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/solve-unrecognized-selector-sent-to-instance-problem/">Unrecognized Selector Sent to Instance问题之诱敌深入关门打狗解决办法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/16/hello-i-am-yoyowinwin/">如何让朋友在你的博客上发表文章</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/23/solve-ie-cannot-surf-internet-problem/">解决IE不能上网问题小记</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Sina Weibo</h1>
+    <ul id="weibo">
+            <li>
+            <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=0&speed=0&skin=1&isTitle=1&noborder=0&isWeibo=0&isFans=0&uid=1217310237&verifier=4452f105&dpc=1"></iframe>
+                      </li>
+                        </ul>
+                        </section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - wonderffee -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

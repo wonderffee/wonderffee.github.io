@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | Wonderffee's Blog]]></title>
+  <title><![CDATA[Category: octopress | Wonderffee's Blog]]></title>
   <link href="http://wonderffee.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://wonderffee.github.io/"/>
-  <updated>2017-05-11T11:17:46+08:00</updated>
+  <updated>2017-05-11T17:11:29+08:00</updated>
   <id>http://wonderffee.github.io/</id>
   <author>
     <name><![CDATA[wonderffee]]></name>
@@ -14,16 +14,68 @@
 
   
   <entry>
-    <title type="html"><![CDATA[解决Octopress博客Build Failed问题]]></title>
-    <link href="http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog/"/>
-    <updated>2013-10-17T21:11:00+08:00</updated>
-    <id>http://wonderffee.github.io/blog/2013/10/17/solve-building-failed-problem-of-octopress-blog</id>
-    <content type="html"><![CDATA[<p>用了一段时间的Octopress博客，感觉良好，可这毕竟是for程序员的博客，折腾免不了，这不就遇到了一次Build Failed的问题: 执行rake preview命令预览时出现了下面的提示：</p>
+    <title type="html"><![CDATA[解决Octopress博客访问太慢的问题]]></title>
+    <link href="http://wonderffee.github.io/blog/2017/05/11/solve-octopress-slow-problem/"/>
+    <updated>2017-05-11T14:54:00+08:00</updated>
+    <id>http://wonderffee.github.io/blog/2017/05/11/solve-octopress-slow-problem</id>
+    <content type="html"><![CDATA[<p>博客好久没动了，也一直有一个问题没解决，就是打开博客太慢了。</p>
+
+<p>这得从Octopress引用了Google的字体文件和jQuery文件说起，刚开始建博客就发现了这个问题。当时也解决了，使用了360推出的常用前端公共库CDN服务libs.useso.com，岂料后来360也关闭了这项服务，访问再次变慢，然后就一直没管。</p>
+
+<p>今天就来解决一下吧，综合各种搜索资料，有了以下的集大成版：</p>
 
 <!--more-->
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<h2>1.加速jQuery访问</h2>
+
+<p>办法就是把jquery的cdn服务改成microsoft的。</p>
+
+<p>编辑文件 source/_includes/head.html 找到下图注释掉的部分,替换成</p>
+
+<p>```javascript</p>
+
+<!--<script src="http://wonderffee.github.io//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+
+
+<p>  <script src="http://wonderffee.github.io//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>
+```</p>
+
+<h2>2.加速font访问</h2>
+
+<p>办法就是把font改成使用本地的。</p>
+
+<p>新建一个目录 source/fonts，后面下载的字体就放在这个fonts文件夹中。访问<a href="https://github.com/google/fonts/tree/master/ofl/ptsans">PT_Sans</a>和<a href="https://github.com/google/fonts/tree/master/ofl/ptserif">PT_Serif</a>下载两字体对应的字体文件，分别存放于PT_Sans和PT_Serif文件夹中，各4个ttf字体。</p>
+
+<p>这里有一个问题，给的链接都是Github中repo库的子文件夹链接，怎么一次性下载子文件夹呢？还真有办法，打开<a href="http://kinolien.github.io/gitzip/">gitzip</a>,在右上角文本框中粘贴子文件夹网址点Download就可以下载了，so easy!</p>
+
+<p>如果不下载子文件夹，也可以安装<a href="https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc">OctoTree</a>这个Chrome插件一个一个安装，就是稍微麻烦一些。</p>
+
+<p>下载后的字体存放目录层级如下：</p>
+
+<p>```
+.
+├── PT_Sans
+│   ├── OFL.txt
+│   ├── PT_Sans-Web-BoldItalic.ttf
+│   ├── PT_Sans-Web-Bold.ttf
+│   ├── PT_Sans-Web-Italic.ttf
+│   └── PT_Sans-Web-Regular.ttf
+└── PT_Serif</p>
+
+<pre><code>├── OFL.txt
+├── PT_Serif-Web-BoldItalic.ttf
+├── PT_Serif-Web-Bold.ttf
+├── PT_Serif-Web-Italic.ttf
+└── PT_Serif-Web-Regular.ttf
+</code></pre>
+
+<p>```</p>
+
+<p>接着在 source/stylesheets 下新建pt_sans.css和pt_serif.css替代原先的google fonts代码。这两个文件的内容分别是：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>pt_sans.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -47,47 +99,115 @@
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>regeneration: 1 files changed
-</span><span class='line'>Liquid Exception: undefined method &lt;code&gt;[]&#39; for nil:NilClass in atom.xml
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/pygments_code.rb:14:in&lt;/code&gt;highlight&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/code_block.rb:82:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:94:in&lt;/code&gt;block in render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in &lt;code&gt;collect&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:92:in&lt;/code&gt;render_all&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/block.rb:82:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:124:in&lt;/code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/liquid-2.3.0/lib/liquid/template.rb:132:in &lt;code&gt;render!&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/convertible.rb:79:in&lt;/code&gt;do_layout&#39;
-</span><span class='line'>/Users/admin/iOSCode/codeGitHub/octopress/plugins/post_filters.rb:167:in &lt;code&gt;do_layout&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/page.rb:100:in&lt;/code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:204:in &lt;code&gt;block in render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in&lt;/code&gt;each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:203:in &lt;code&gt;render&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/lib/jekyll/site.rb:41:in&lt;/code&gt;process&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/jekyll-0.12.0/bin/jekyll:253:in &lt;code&gt;block in &amp;lt;top (required)&amp;gt;&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in&lt;/code&gt;call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:580:in &lt;code&gt;block in notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in&lt;/code&gt;each&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:579:in &lt;code&gt;notify_observers&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher.rb:334:in&lt;/code&gt;block in initialize&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in &lt;code&gt;call&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:224:in&lt;/code&gt;notify&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:102:in &lt;code&gt;run_once&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:150:in&lt;/code&gt;run_loop&#39;
-</span><span class='line'>/Users/admin/.rvm/gems/ruby-1.9.3-p448/gems/directory_watcher-1.4.1/lib/directory_watcher/scanner.rb:45:in `block in start&#39;
-</span><span class='line'>Build Failed
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSans-Regular</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Regular</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span> <span class="nt">Bold</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSans-Bold</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Bold</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span> <span class="nt">Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSans-Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-Italic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Sans</span> <span class="nt">Bold</span> <span class="nt">Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSans-BoldItalic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Sans</span><span class="o">/</span><span class="nt">PT_Sans-Web-BoldItalic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>好大一坨文字，看着就头疼，尝试rake generate也是这样的提示。。这段提示看上去像是ruby的出错堆栈信息，自己不懂ruby， 自然不知如何下手，习惯性地在google上搜索了一下，没找到答案，只好自力更生了。</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>pt_serif.css </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSerif-Regular</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Regular</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">normal</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span> <span class="nt">Bold</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSerif-Bold</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Bold</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">400</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span> <span class="nt">Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSerif-Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-Italic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@font-face</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">font-family</span><span class="o">:</span> <span class="o">&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;;</span>
+</span><span class='line'>  <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">700</span><span class="o">;</span>
+</span><span class='line'>  <span class="nt">src</span><span class="o">:</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PT</span> <span class="nt">Serif</span> <span class="nt">Bold</span> <span class="nt">Italic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">local</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">PTSerif-BoldItalic</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;),</span> <span class="nt">url</span><span class="o">(/</span><span class="nt">fonts</span><span class="o">/</span><span class="nt">PT_Serif</span><span class="o">/</span><span class="nt">PT_Serif-Web-BoldItalic</span><span class="nc">.ttf</span><span class="o">)</span> <span class="nt">format</span><span class="o">(&amp;</span><span class="nt">lsquo</span><span class="o">;</span><span class="nt">truetype</span><span class="o">&amp;</span><span class="nt">rsquo</span><span class="o">;);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>堆栈信息的第一行说明了问题出现在pygments_code.rb文件中，搜索了一下pygment发现是基于python的代码高亮插件，那就说明代码高亮出了问题，最近更新的一篇文章刚好使用了代码高亮，便有思路了。</p>
+<p>然后修改source/_includes/custom/head.html</p>
 
-<p>先用排除法，找到这篇文章，把其中的代码去掉，再执行rake preview预览，发现没有出现build failed问题，基本可以确定是代码导致的build failed问题。继续用排除法找到导致问题的代码，发现代码行的末尾出现了中文分号+空格，莫非是中文符号的问题？把中文分号+空格替换成英文分号，重试，问题解决！</p>
+<p>```html</p>
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+<p><link href="http://wonderffee.github.io/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="http://wonderffee.github.io/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+```</p>
+
+<h2>3.重新部署</h2>
+
+<p>重新部署自然就简单了，可以用preview先预览效果:</p>
+
+<p><code>
+rake generate
+rake preview
+rake deploy
+</code></p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度 &ndash; 冷雨之家</a></li>
+<li><a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du">加快octopress国内访问速度 &ndash; 颇忒脱’s Blog</a></li>
+<li><a href="http://www.jianshu.com/p/fe0e089a985c">个性化我们的Octopress博客 &ndash; 简书</a></li>
+<li><a href="https://old.jacky-sj.com/blog/2014/02/26/record2/">记录：Octopress配置修改之旅 &ndash; Jacky and MSC</a></li>
+<li><a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染 &ndash; IMXYLZ</a></li>
+<li><a href="http://geekgaoyang.herokuapp.com/blog/2015/02/28/octopress-speed-up/">Octopress 加速 &ndash; GeekGaoyang’s Blog</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
